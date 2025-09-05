@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/C:\\bitcoin_trading\\claude_project_v1/**)",
+      "Bash(dir:*)",
+      "Bash(wmic:*)",
+      "Bash(cat:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd /c:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

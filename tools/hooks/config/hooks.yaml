@@ -1,0 +1,81 @@
+# Hook Configuration
+# Controls which hooks are enabled and their timeout settings
+
+# Global settings
+global:
+  default_timeout_blocking: 60  # seconds
+  default_timeout_nonblocking: 10  # seconds
+  lock_timeout: 300  # 5 minutes for registry locks
+  log_level: INFO
+
+# Minimal Core Hooks (A) - Essential for pipeline integrity
+core:
+  before_analyzer_run:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "Guard resources & preconditions"
+    
+  after_analyzer_run:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "Artifact sanity & integrity"
+    
+  before_evaluator:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "Ensure evaluator readiness, check red flags"
+    
+  after_evaluator:
+    enabled: true
+    blocking: true
+    priority: P1
+    timeout: 60
+    description: "Act on evaluator decision"
+    
+  before_registry_append:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "CSV/lock integrity"
+    
+  after_registry_append:
+    enabled: true
+    blocking: false
+    priority: P2
+    timeout: 10
+    description: "Observability and notifications"
+
+# Observability hooks
+observability:
+  on_plot_error:
+    enabled: true
+    blocking: false
+    priority: P2
+    timeout: 10
+    description: "Log plotting errors"
+    
+  on_anomaly_detected:
+    enabled: true
+    blocking: false
+    priority: P2
+    timeout: 10
+    description: "Track anomalies in registry"
+
+# Lock configuration
+locks:
+  registry_lock_path: "docs/runs/registry.lock"
+  lock_retry_interval: 1  # seconds
+  lock_max_retries: 300  # 5 minutes total
+
+# Logging configuration  
+logging:
+  hooks_log_path: "tools/hooks/logs"
+  create_hook_logs: true
+  log_payloads: false  # Set true for debugging

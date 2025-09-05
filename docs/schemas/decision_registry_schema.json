@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Decision Registry Schema", 
+  "description": "Schema for decision_registry.csv entries",
+  "type": "object",
+  "properties": {
+    "run_id": {"type": "string", "pattern": "^[a-zA-Z0-9_-]+$"},
+    "evaluated_at": {"type": "string", "format": "date-time"},
+    "decision": {"type": "string", "enum": ["pass", "rerun", "halt"]},
+    "mtc_method": {"type": "string", "enum": ["bonferroni", "fdr", "none"]},
+    "p_alpha": {"type": "number", "minimum": 0, "maximum": 1},
+    "baseline_id": {"type": ["string", "null"]},
+    "delta_sortino": {"type": ["number", "null"]},
+    "delta_maxdd": {"type": ["number", "null"]},
+    "rationale_path": {"type": ["string", "null"]},
+    "evaluator_version": {"type": "string"}
+  },
+  "required": ["run_id", "evaluated_at", "decision", "evaluator_version"]
+}

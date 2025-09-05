@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Anomaly Registry Schema",
+  "description": "Schema for anomaly_registry.csv entries", 
+  "type": "object",
+  "properties": {
+    "run_id": {"type": "string", "pattern": "^[a-zA-Z0-9_-]+$"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "severity": {"type": "string", "enum": ["P0", "P1", "P2"]},
+    "component": {"type": "string", "enum": ["analyzer", "evaluator", "orchestrator", "builder", "hook"]},
+    "code": {"type": "string", "description": "Error/anomaly code identifier"},
+    "message": {"type": "string", "maxLength": 500},
+    "path_hint": {"type": ["string", "null"], "description": "File path or location hint for debugging"}
+  },
+  "required": ["run_id", "timestamp", "severity", "component", "code", "message"]
+}

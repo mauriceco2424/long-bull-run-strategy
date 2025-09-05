@@ -1,0 +1,1 @@
+run_id,universe_id,date_start,date_end,config_path,config_hash,data_hash,engine_version,strat_version,seed,fees_model,parent_run_id,status,start_time_utc,end_time_utc,cagr,sortino,sharpe,max_dd,exposure,n_trades,win_rate,avg_gain,avg_loss,notes

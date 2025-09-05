@@ -1,0 +1,88 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Trading data and runtime files
+data/runs/*
+data/sandbox/*
+!data/runs/.gitkeep
+!data/sandbox/.gitkeep
+
+# Cloud state and working files
+cloud/state/*
+cloud/tasks/*
+!cloud/state/.gitkeep  
+!cloud/tasks/.gitkeep
+
+# Hook logs and runtime
+tools/hooks/logs/*
+!tools/hooks/logs/.gitkeep
+
+# Temporary and cache files
+*.tmp
+*.cache
+.cache/
+*.log
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Jupyter notebooks (if any get created during development)
+.ipynb_checkpoints/
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Sensitive files that might be added later
+*.key
+*.pem
+*.p12
+config.local.*
+secrets.*
+
+# Lock files (allow requirements.txt but ignore lock files)
+poetry.lock
+Pipfile.lock
