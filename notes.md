@@ -17,3 +17,5 @@ Feel free to write anything here - it won't interfere with the trading framework
 # start like this if you are crazy otherwise just --verbose
 claude --dangerously-skip-permissions --verbose
 
+
+
