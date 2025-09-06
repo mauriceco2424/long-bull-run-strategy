@@ -16,7 +16,9 @@
       "Bash(tar:*)",
       "Bash(miktexsetup_standalone.exe:*)",
       "Bash(powershell:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(claude agents list)",
+      "Bash(claude agents --help)"
     ],
     "deny": [],
     "ask": []
