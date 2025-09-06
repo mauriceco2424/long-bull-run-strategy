@@ -9,7 +9,13 @@
       "Bash(cmd /c:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(python:*)",
+      "Bash(pdflatex:*)",
+      "WebFetch(domain:miktex.org)",
+      "Bash(tar:*)",
+      "Bash(miktexsetup_standalone.exe:*)",
+      "Bash(powershell:*)"
     ],
     "deny": [],
     "ask": []

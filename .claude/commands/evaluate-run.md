@@ -78,7 +78,7 @@ I need to use the **trading-evaluator** agent to perform comprehensive performan
   - **Conclusions & Recommendations**: Strategic recommendations for next steps
 
 - **LaTeX Quality Standards**:
-  - Professional financial report formatting
+  - Professional financial report formatting (MiKTeX available ✓)
   - Proper figure integration from analyzer's visualizations
   - Scientific writing with clear methodology sections
   - Publication-ready typography and layout
