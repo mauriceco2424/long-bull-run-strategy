@@ -6,7 +6,7 @@ argument-hint: [run_id]
 model: claude-3-5-sonnet-20241022
 ---
 
-I need to use the **trading-analyzer** agent to process the backtest data into comprehensive analysis artifacts including metrics calculation and professional visualizations.
+I need to use the **trading-single-analyzer** agent to process the backtest data into comprehensive analysis artifacts including metrics calculation and professional visualizations.
 
 ## Run Analysis Parameters
 - **Run ID**: $ARGUMENTS (defaults to most recent run if not specified)
@@ -135,4 +135,4 @@ Create publication-quality figures in `/data/runs/{run_id}/figs/`:
 - No critical anomalies detected in analysis
 - All artifacts ready for evaluator consumption
 
-Please use the trading-analyzer agent to perform comprehensive data analysis with embedded validation and professional visualization generation.
+Please use the trading-single-analyzer agent to perform comprehensive data analysis with embedded validation and professional visualization generation.

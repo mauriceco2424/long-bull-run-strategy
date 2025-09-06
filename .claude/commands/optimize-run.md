@@ -6,7 +6,7 @@ argument-hint:
 model: claude-3-5-sonnet-20241022
 ---
 
-I need to use the **trading-optimizer** agent to execute a comprehensive parameter optimization study with walk-forward validation and overfitting prevention.
+I need to use the **trading-optimization-runner** agent to execute a comprehensive parameter optimization study with walk-forward validation and overfitting prevention.
 
 ## Optimization Study Parameters
 - **Configuration**: Reads `optimization_config.md` for parameter ranges and search strategy
@@ -149,4 +149,4 @@ Create comprehensive study outputs in `/data/optimization/{study_id}/`:
 - **Combination Tracking**: Progress through total parameter combinations
 - **ETA Integration**: Based on combination complexity and historical execution times
 
-Please use the trading-optimizer agent to execute comprehensive parameter optimization with walk-forward validation and overfitting prevention.
+Please use the trading-optimization-runner agent to execute comprehensive parameter optimization with walk-forward validation and overfitting prevention.

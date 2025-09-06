@@ -16,30 +16,62 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 ## Always do this
 
 * Start in **PLAN mode**; keep `cloud/tasks/<task>.md` with **goals, owners, deps, gates, milestones**
-* Prefer **slash commands**: `/validate-setup`, `/validate-strategy`, `/plan-strategy`, `/build-engine`, `/run`, `/analyze-run`, `/evaluate-run`
+* Prefer **slash commands**: `/validate-setup`, `/validate-strategy`, `/plan-strategy`, `/build-engine`, `/run`, `/analyze-run`, `/evaluate-run`, `/optimize-run`, `/analyze-optimization`, `/evaluate-optimization`
 * `/docs/**` is authoritative; changelogs are append-only
 * **Progress bar requirement**: All Python scripts MUST implement unified progress reporting with ETA
 
-## Workflow (streamlined 8-command flow)
+## Workflow (dual-path: single-run + optimization)
 
+**Common Setup & Planning (4 commands):**
 1. **Setup & Validation**: `/validate-setup` → `/validate-strategy` → `/plan-strategy`
-2. **Execution**: `/build-engine` (auto-generates parameter_config.md) → `/run` (uses parameter_config.md)
-3. **Analysis**: `/analyze-run` (data processing + visualization) → `/evaluate-run` (performance evaluation + strategic interpretation + PDF report)
-4. **Iteration**: Modify parameters or strategy → repeat from step 2
+2. **Engine Building**: `/build-engine` (auto-generates parameter_config.md)
+
+**Single-Run Path (3 commands):**
+3. **Single Execution**: `/run` (uses parameter_config.md) 
+4. **Single Analysis**: `/analyze-run` (data processing + visualization)
+5. **Single Evaluation**: `/evaluate-run` (performance evaluation + strategic interpretation + PDF report)
+
+**Optimization Path (3 commands):**
+3. **Parameter Optimization**: `/optimize-run` (uses optimization_config.md for parameter sweeps)
+4. **Optimization Analysis**: `/analyze-optimization` (parameter performance matrices + robustness analysis)
+5. **Optimization Evaluation**: `/evaluate-optimization` (parameter interpretation + optimization study PDF report)
 
 ## Roles
 
+**Common Agents:**
 * **Orchestrator**: plan/route; keep **EMR/SMR** authoritative; **ECL/SCL** append-only; block runs until docs fresh
 * **Builder**: implement/optimize engine; hardware-aware session initialization; unit/smoke/perf tests; emit **ECN** (+ benchmarks with hardware profile)
-* **Analyzer**: run backtests; emit **manifest, metrics, trades, events, series, figs**; sanity-check and flag anomalies
-* **Evaluator**: **evaluate performance** (assess metrics quality, compare to benchmarks); **strategic interpretation** (understand WHY strategy works/fails); **generate LaTeX PDF reports**; emit **SER**; if spec changed, **SDCN**
+
+**Single-Run Agents:**
+* **Single-Runner**: execute single backtests; read parameter_config.md; generate individual run artifacts
+* **Single-Analyzer**: process single run data; emit **manifest, metrics, trades, events, series, figs**; sanity-check and flag anomalies  
+* **Single-Evaluator**: **evaluate single-run performance** (assess metrics quality, compare to benchmarks); **strategic interpretation** (understand WHY strategy works/fails); **generate LaTeX PDF reports**; emit **SER**; if spec changed, **SDCN**
+
+**Optimization Agents:**
+* **Optimization-Runner**: execute parameter sweeps; read optimization_config.md; coordinate multiple backtests with walk-forward validation
+* **Optimization-Analyzer**: process optimization study data; create parameter performance matrices, robustness heatmaps, statistical validation
+* **Optimization-Evaluator**: **evaluate parameter optimization** (assess parameter significance, detect overfitting); **strategic parameter interpretation** (understand WHY parameters work); **generate optimization study PDF reports**
 
 ## Handoffs & gates
 
+**Common Handoffs:**
 * Builder → Orchestrator: **ECN + benchmarks** (with hardware profile) → Orchestrator updates **EMR** & appends **ECL**
-* Analyzer → Orchestrator: artifacts + run_registry row
-* Evaluator → Orchestrator: **SER** (and **SDCN** if spec changed) → Orchestrator updates **SMR** & appends **SCL**
+
+**Single-Run Handoffs:**
+* Single-Runner → Single-Analyzer: run artifacts in `/data/runs/{run_id}/`
+* Single-Analyzer → Orchestrator: processed artifacts + run_registry row
+* Single-Analyzer → Single-Evaluator: analysis artifacts ready for evaluation
+* Single-Evaluator → Orchestrator: **SER** (and **SDCN** if spec changed) → Orchestrator updates **SMR** & appends **SCL**
+
+**Optimization Handoffs:**
+* Optimization-Runner → Optimization-Analyzer: optimization study in `/data/optimization/{study_id}/`
+* Optimization-Analyzer → Optimization-Evaluator: parameter performance matrices + robustness analysis
+* Optimization-Evaluator → Orchestrator: **Optimization Evaluation Report** → Orchestrator updates documentation
+
+**Gates:**
 * **Gate**: no new runs until EMR/SMR in sync with latest changelogs
+* **Single-Run Gate**: single-analyzer must complete before single-evaluator
+* **Optimization Gate**: optimization-analyzer must complete before optimization-evaluator
 
 ## Data & ingestion
 
@@ -86,15 +118,31 @@ Source & cache declared in EMR; OHLCV in UTC; define missing-bar policy; fees/sl
 * **File Formats**: Generate both PDF and PNG, use PDF for LaTeX reports, PNG for HTML fallback
 * **Color Standards**: Colorblind-friendly palettes, professional typography, publication-ready quality
 
-## Parameter Configuration System
+## Configuration Systems
 
+**Single-Run Configuration:**
 * **Strategy Template**: Defines parameter schema (types, ranges, descriptions)
 * **Auto-generation**: `/build-engine` creates `parameter_config.md` template
-* **Execution**: `/run` reads all settings from `parameter_config.md` (no CLI arguments)
+* **Single Execution**: `/run` reads all settings from `parameter_config.md` (no CLI arguments)
 * **Version Control**: All parameter configs are version-controlled for reproducibility
 
-## Run registry & Git
+**Optimization Configuration:**
+* **Optimization Template**: Defines parameter sweep ranges, search method, validation approach
+* **Manual Creation**: User creates `optimization_config.json` with parameter ranges and search strategy
+* **Search Methods**: Grid search, random search, Bayesian optimization
+* **Walk-Forward Setup**: Training/validation windows, rolling periods, robustness testing
+* **Optimization Execution**: `/optimize-run` reads `optimization_config.json` for parameter sweep specification
 
-* Analyzer appends `/docs/runs/run_registry.csv` per run
-* On any `/docs/**` change (reports, changelogs, notices, registry) **auto-commit & push**
-* Do **not** commit `/data/**` by default
+## Registry & Git
+
+**Single-Run Registry:**
+* Single-Analyzer appends `/docs/runs/run_registry.csv` per individual run
+* Each row tracks single backtest execution with performance metrics
+
+**Optimization Registry:**
+* Optimization-Analyzer appends `/docs/optimization/optimization_registry.csv` per parameter study
+* Each row tracks optimization study with parameter sweep metadata and results
+
+**Git Integration:**
+* On any `/docs/**` change (reports, changelogs, notices, registries) **auto-commit & push**
+* Do **not** commit `/data/**` by default (individual runs and optimization studies)

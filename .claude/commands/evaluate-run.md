@@ -6,7 +6,7 @@ argument-hint: [run_id]
 model: claude-3-5-sonnet-20241022
 ---
 
-I need to use the **trading-evaluator** agent to perform comprehensive performance evaluation, strategic interpretation, and generate a professional LaTeX PDF report.
+I need to use the **trading-single-evaluator** agent to perform comprehensive performance evaluation, strategic interpretation, and generate a professional LaTeX PDF report.
 
 ## Run Evaluation Parameters
 - **Run ID**: $ARGUMENTS (defaults to most recent run if not specified)
@@ -131,4 +131,4 @@ I need to use the **trading-evaluator** agent to perform comprehensive performan
 - **Clear phases**: analysis → interpretation → research → report generation
 - **ETA integration**: Based on analysis complexity and report generation time
 
-Please use the trading-evaluator agent to perform comprehensive performance evaluation with strategic interpretation and generate a professional LaTeX PDF report.
+Please use the trading-single-evaluator agent to perform comprehensive performance evaluation with strategic interpretation and generate a professional LaTeX PDF report.

@@ -9,7 +9,7 @@ A production-ready framework for building, backtesting, and optimizing trading s
    git clone https://github.com/mauriceco2424/trading_bot_skeleton.git
    cd trading_bot_skeleton
    pip install -r requirements.txt
-   python validate_setup.py
+   python tools/validate_setup.py
    ```
 
 2. **Create Your Strategy**:
@@ -24,28 +24,45 @@ A production-ready framework for building, backtesting, and optimizing trading s
 
 ## 📋 What This Skeleton Provides
 
-### 🤖 **4 Specialized Agents**
+### 🤖 **7 Specialized Agents**
+
+**Common Agents:**
 - **trading-orchestrator**: Coordinates pipeline, manages quality gates, handles documentation
 - **trading-builder**: Implements backtest engines, optimizes performance, writes ECNs
-- **trading-analyzer**: Executes backtests, generates artifacts, validates results
-- **trading-evaluator**: Assesses performance, ranks strategies, makes decisions
 
-### ⚡ **12 Slash Commands**
+**Single-Run Agents:**
+- **trading-single-runner**: Executes individual backtests with specific parameters
+- **trading-single-analyzer**: Processes single run data, generates artifacts and visualizations
+- **trading-single-evaluator**: Evaluates single-run performance and generates PDF reports
+
+**Optimization Agents:**
+- **trading-optimization-runner**: Executes parameter sweeps with walk-forward analysis
+- **trading-optimization-analyzer**: Processes optimization studies into parameter performance matrices
+- **trading-optimization-evaluator**: Evaluates parameter optimization results and generates optimization reports
+
+### ⚡ **Streamlined Command System**
+
+**Setup & Planning (4 commands):**
 | Command | Purpose |
 |---------|---------|
-| `/kickoff` | Start new strategy development cycle |
-| `/build-run` | Build engine and execute backtest |
-| `/analyze-run` | Process data into canonical outputs |
-| `/evaluate` | Assess results and decide next steps |
-| `/status` | Check pipeline state and gates |
-| `/sync-docs` | Update documentation from notices |
-| `/validate-gates` | Verify prerequisites |
-| `/test-engine` | Run comprehensive test suite |
-| `/optimize-engine` | Profile and improve performance |
-| `/validate-run` | Check run integrity |
-| `/compare-runs` | Compare multiple strategies |
-| `/research` | Investigate topics |
-| `/visualize` | Generate professional charts |
+| `/validate-setup` | Validate framework setup and dependencies |
+| `/validate-strategy` | Validate strategy specification |
+| `/plan-strategy` | Plan strategy development approach |
+| `/build-engine` | Build trading engine and generate parameter template |
+
+**Single-Run Path (3 commands):**
+| Command | Purpose |
+|---------|---------|
+| `/run` | Execute single backtest with parameter_config.md |
+| `/analyze-run` | Process single run data into metrics and visualizations |
+| `/evaluate-run` | Evaluate single-run performance and generate PDF report |
+
+**Optimization Path (3 commands):**
+| Command | Purpose |
+|---------|---------|
+| `/optimize-run` | Execute parameter sweep with optimization_config.json |
+| `/analyze-optimization` | Process optimization study into parameter performance matrices |
+| `/evaluate-optimization` | Evaluate parameter optimization and generate optimization report |
 
 ### 🔧 **Production Hook System**
 - **6 core hooks** with P0/P1/P2 priorities
@@ -64,8 +81,8 @@ A production-ready framework for building, backtesting, and optimizing trading s
 ### **Directory Structure**
 ```
 ├── .claude/                    # Claude Code configuration
-│   ├── agents/                # 4 specialized agents
-│   └── commands/              # 12 slash commands
+│   ├── agents/                # 7 specialized agents
+│   └── commands/              # 10 streamlined commands
 ├── docs/                      # Authoritative documentation
 │   ├── runs/                  # Run registry and results
 │   └── schemas/               # JSON schemas
@@ -82,12 +99,19 @@ A production-ready framework for building, backtesting, and optimizing trading s
     └── sandbox/               # Development data
 ```
 
-### **Workflow**
-1. **Plan** (`/kickoff`) → Create comprehensive development plan
-2. **Build** (`/build-run`) → Implement engine and execute backtest  
-3. **Analyze** → Process results into canonical artifacts
-4. **Evaluate** → Assess performance and decide next steps
-5. **Iterate** → Optimize based on evaluation feedback
+### **Dual Workflow Paths**
+
+**Single-Run Workflow:**
+1. **Setup** → `/validate-setup` → `/validate-strategy` → `/plan-strategy` → `/build-engine`
+2. **Execute** → `/run` (uses parameter_config.md)
+3. **Analyze** → `/analyze-run` (process data + visualizations)
+4. **Evaluate** → `/evaluate-run` (performance evaluation + PDF report)
+
+**Parameter Optimization Workflow:**
+1. **Setup** → Same as single-run setup
+2. **Optimize** → `/optimize-run` (uses optimization_config.json for parameter sweeps)
+3. **Analyze** → `/analyze-optimization` (parameter performance matrices)
+4. **Evaluate** → `/evaluate-optimization` (parameter interpretation + optimization report)
 
 ### **Quality Gates**
 - **Docs Fresh Gate**: EMR/SMR in sync with latest changes
@@ -96,26 +120,27 @@ A production-ready framework for building, backtesting, and optimizing trading s
 
 ## 🎯 Usage Examples
 
-### **New Strategy Development**
+### **Single-Run Strategy Development**
 ```bash
-/kickoff "Momentum strategy with volatility filters for crypto majors"
-/validate-gates
-/build-run configs/momentum_v1.json crypto_top20 2022-01-01:2024-01-01
-/evaluate run_20241205_momentum_v1
+/validate-setup
+/validate-strategy
+/plan-strategy
+/build-engine
+/run
+/analyze-run
+/evaluate-run
 ```
 
-### **Strategy Optimization**
+### **Parameter Optimization Study**
 ```bash
-/optimize-engine caching
-/compare-runs baseline_run optimized_run_v1 optimized_run_v2
-/research "momentum indicator effectiveness in crypto markets"
-```
-
-### **Analysis and Visualization**
-```bash
-/analyze-run configs/strategy.json binance_usdt 2023-01-01:2023-12-31
-/visualize run_20241205_analysis all
-/validate-run run_20241205_analysis
+/validate-setup
+/validate-strategy  
+/plan-strategy
+/build-engine
+# Create optimization_config.json with parameter ranges
+/optimize-run
+/analyze-optimization
+/evaluate-optimization
 ```
 
 ## 🔒 Safety & Validation

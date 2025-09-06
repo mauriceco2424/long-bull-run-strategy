@@ -1,0 +1,179 @@
+{
+  "_comment": "Parameter Optimization Configuration Template",
+  "_description": "Configure parameter sweep ranges, search method, and validation approach for algorithmic parameter optimization",
+  
+  "study_metadata": {
+    "study_name": "momentum_rsi_optimization",
+    "description": "Parameter optimization for momentum strategy with RSI and moving average filters",
+    "optimization_metric": "sortino_ratio",
+    "secondary_metrics": ["cagr", "max_drawdown", "win_rate"]
+  },
+  
+  "search_configuration": {
+    "method": "bayesian",
+    "_method_options": ["grid", "random", "bayesian"],
+    "max_evaluations": 100,
+    "_comment_evaluations": "Maximum number of parameter combinations to test",
+    
+    "grid_search_options": {
+      "_description": "Exhaustive search across all parameter combinations",
+      "enabled": false,
+      "_warning": "Only use for small parameter spaces (<1000 combinations)"
+    },
+    
+    "random_search_options": {
+      "_description": "Random sampling from parameter space",
+      "enabled": false,
+      "seed": 42,
+      "sample_strategy": "uniform"
+    },
+    
+    "bayesian_options": {
+      "_description": "ML-guided search using prior results to find optimal regions",
+      "enabled": true,
+      "acquisition_function": "expected_improvement",
+      "initial_random_points": 10,
+      "exploration_factor": 0.1
+    }
+  },
+  
+  "parameters": {
+    "_comment": "Define parameter ranges for optimization sweep",
+    
+    "rsi_period": {
+      "type": "integer",
+      "min": 10,
+      "max": 30,
+      "step": 2,
+      "description": "RSI calculation period in bars"
+    },
+    
+    "rsi_oversold": {
+      "type": "integer", 
+      "min": 20,
+      "max": 40,
+      "step": 5,
+      "description": "RSI oversold threshold for buy signals"
+    },
+    
+    "rsi_overbought": {
+      "type": "integer",
+      "min": 60,
+      "max": 80, 
+      "step": 5,
+      "description": "RSI overbought threshold for sell signals"
+    },
+    
+    "ma_short_period": {
+      "type": "integer",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "description": "Short-term moving average period"
+    },
+    
+    "ma_long_period": {
+      "type": "integer", 
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "description": "Long-term moving average period"
+    }
+  },
+  
+  "parameter_constraints": {
+    "_comment": "Define relationships and constraints between parameters",
+    "ma_constraint": "ma_long_period > ma_short_period",
+    "rsi_constraint": "rsi_overbought > rsi_oversold + 10"
+  },
+  
+  "walk_forward_validation": {
+    "_description": "Time-based validation with rolling windows",
+    "enabled": true,
+    
+    "window_configuration": {
+      "training_months": 36,
+      "validation_months": 12,
+      "step_months": 6,
+      "_comment": "Standard 3:1 in-sample/out-of-sample ratio"
+    },
+    
+    "validation_requirements": {
+      "min_trades_per_window": 30,
+      "min_validation_windows": 3,
+      "max_performance_decay": 0.2,
+      "_comment_decay": "Maximum allowed performance reduction from training to validation"
+    }
+  },
+  
+  "overfitting_prevention": {
+    "_description": "Built-in safeguards against curve-fitting",
+    
+    "complexity_limits": {
+      "max_parameters": 5,
+      "_comment": "Research recommendation for parameter complexity limit",
+      "parameter_significance_threshold": 0.05
+    },
+    
+    "statistical_validation": {
+      "confidence_level": 0.95,
+      "multiple_testing_correction": "bonferroni",
+      "min_effect_size": 0.1
+    },
+    
+    "robustness_requirements": {
+      "parameter_stability_threshold": 0.8,
+      "consistency_across_windows": true,
+      "sensitivity_analysis": true
+    }
+  },
+  
+  "execution_settings": {
+    "parallel_execution": true,
+    "max_concurrent_runs": 4,
+    "timeout_per_combination": 1800,
+    "_comment_timeout": "30 minutes per parameter combination",
+    
+    "resource_limits": {
+      "max_memory_gb": 8,
+      "disk_space_gb": 10
+    },
+    
+    "error_handling": {
+      "max_failures_allowed": 0.1,
+      "_comment_failures": "Maximum 10% failure rate before stopping optimization",
+      "retry_failed_combinations": true,
+      "save_partial_results": true
+    }
+  },
+  
+  "output_configuration": {
+    "generate_3d_surfaces": true,
+    "create_robustness_heatmaps": true, 
+    "include_statistical_tests": true,
+    "export_parameter_configs": true,
+    
+    "report_sections": {
+      "executive_summary": true,
+      "methodology_review": true,
+      "parameter_analysis": true,
+      "robustness_assessment": true,
+      "implementation_guidelines": true
+    }
+  },
+  
+  "_example_usage": {
+    "_step1": "Copy this template to optimization_config.json",
+    "_step2": "Modify parameter ranges for your strategy",
+    "_step3": "Choose search method (grid/random/bayesian)",  
+    "_step4": "Configure walk-forward validation windows",
+    "_step5": "Run /optimize-run to execute parameter optimization"
+  },
+  
+  "_notes": {
+    "parameter_limits": "Maximum 5 parameters recommended to avoid overfitting",
+    "data_requirements": "Ensure sufficient data for walk-forward analysis",
+    "computation_time": "Bayesian optimization typically fastest for large parameter spaces",
+    "statistical_rigor": "All results undergo significance testing and overfitting checks"
+  }
+}

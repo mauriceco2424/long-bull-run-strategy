@@ -53,6 +53,13 @@ core:
     timeout: 60
     description: "Validate parameter_config.md completeness and resource availability"
     
+  before_optimize_run:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "Validate optimization_config.json completeness and parameter sweep configuration"
+    
   before_analyzer_run:
     enabled: true
     blocking: true
@@ -80,6 +87,34 @@ core:
     priority: P1
     timeout: 120
     description: "Validate LaTeX PDF generation and evaluation completion"
+    
+  before_optimization_analyzer:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "Validate optimization study completeness before analysis"
+    
+  after_optimization_analyzer:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "Validate parameter performance matrices and robustness analysis"
+    
+  before_optimization_evaluator:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "Ensure optimization analysis ready for evaluation"
+    
+  after_optimization_evaluator:
+    enabled: true
+    blocking: true
+    priority: P1
+    timeout: 120
+    description: "Validate optimization study PDF generation and evaluation completion"
     
   before_registry_append:
     enabled: true
@@ -128,6 +163,22 @@ auto_enforcement:
     timeout: 30
     description: "Validate parameter_config.md completeness"
     trigger: "before_run"
+    
+  optimization_config_validation:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 30
+    description: "Validate optimization_config.json completeness and parameter ranges"
+    trigger: "before_optimize_run"
+    
+  overfitting_prevention:
+    enabled: true
+    blocking: false
+    priority: P1
+    timeout: 60
+    description: "Apply overfitting prevention checks during optimization"
+    trigger: "during_optimization"
 
 # Observability hooks
 observability:
@@ -158,6 +209,20 @@ observability:
     priority: P1
     timeout: 10
     description: "Log parameter validation failures"
+    
+  on_optimization_failure:
+    enabled: true
+    blocking: false
+    priority: P1
+    timeout: 10
+    description: "Log optimization study failures and parameter combination errors"
+    
+  on_overfitting_detected:
+    enabled: true
+    blocking: false
+    priority: P1
+    timeout: 10
+    description: "Log overfitting warnings during parameter optimization"
 
 # Lock configuration
 locks:
