@@ -77,8 +77,8 @@ A production-ready framework for building, backtesting, and optimizing trading s
 ### **Directory Structure**
 ```
 ├── .claude/                    # Claude Code configuration
-│   ├── agents/                # 7 specialized agents
-│   └── commands/              # 12 streamlined commands (10 individual + 2 chained)
+│   ├── agents/                # 6 specialized agents
+│   └── commands/              # 9 streamlined commands
 ├── docs/                      # Authoritative documentation
 │   ├── runs/                  # Run registry and results
 │   └── schemas/               # JSON schemas
