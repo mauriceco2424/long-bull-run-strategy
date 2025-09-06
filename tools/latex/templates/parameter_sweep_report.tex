@@ -1,0 +1,314 @@
+% Comprehensive Parameter Sweep Analysis Report Template
+% Multi-page analysis for optimization studies and parameter sensitivity
+\documentclass[11pt,a4paper]{article}
+
+% Required packages for comprehensive analysis
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsfonts}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{pgfplots}
+
+% Page layout
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\lhead{{{strategy_name}} - Parameter Optimization Study}
+\cfoot{Generated {{generation_date}} | Study ID: {{study_id}}}
+
+% Colors for analysis
+\definecolor{profit}{RGB}{0,128,0}
+\definecolor{loss}{RGB}{220,20,60}
+\definecolor{neutral}{RGB}{70,130,180}
+\definecolor{warning}{RGB}{255,165,0}
+\definecolor{lightgray}{RGB}{245,245,245}
+
+% Title formatting
+\titleformat{\section}{\Large\bfseries\color{neutral}}{\thesection}{1em}{}[\vspace{2pt}\titlerule]
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+
+% Document metadata
+\title{\textbf{{{strategy_name}}}\\[0.5em]\Large Parameter Optimization Study}
+\author{{{author}}}
+\date{{{generation_date}}}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\vspace{1em}
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Study ID} & {{study_id}} \\
+\textbf{Optimization Period} & {{optimization_start}} to {{optimization_end}} \\
+\textbf{Out-of-Sample Period} & {{oos_start}} to {{oos_end}} \\
+\textbf{Universe} & {{universe}} \\
+\textbf{Parameters Swept} & {{parameters_swept_count}} \\
+\textbf{Total Combinations} & {{total_combinations}} \\
+\textbf{Optimization Metric} & {{optimization_metric}} \\
+\hline
+\end{tabular}
+\end{center}
+
+\newpage
+
+% =============================================================================
+% EXECUTIVE SUMMARY
+% =============================================================================
+\section{Executive Summary}
+
+\subsection{Study Overview}
+This parameter optimization study analyzes {{total_combinations}} parameter combinations across {{parameters_swept_count}} variables to identify robust parameter zones for the {{strategy_name}} strategy.
+
+\subsection{Key Findings}
+\textbf{Optimization Status:} {{optimization_status}}
+
+{{optimization_executive_summary}}
+
+\subsection{Critical Warnings}
+\begin{itemize}
+{{overfitting_warnings}}
+\end{itemize}
+
+% =============================================================================
+% METHODOLOGY
+% =============================================================================
+\section{Optimization Methodology}
+
+\subsection{Parameter Space Definition}
+\begin{table}[H]
+\centering
+\caption{Parameter Sweep Ranges}
+\begin{tabular}{lllll}
+\toprule
+\textbf{Parameter} & \textbf{Min} & \textbf{Max} & \textbf{Step} & \textbf{Values Tested} \\
+\midrule
+{{parameter_sweep_table}}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Walk-Forward Analysis}
+\textbf{Training Period:} {{training_period_length}} ({{training_percentage}}\% of data) \\
+\textbf{Testing Period:} {{testing_period_length}} ({{testing_percentage}}\% of data) \\
+\textbf{Optimization Metric:} {{optimization_metric_description}}
+
+\subsection{Robustness Criteria}
+\begin{itemize}
+\item \textbf{Performance Stability:} Parameter combinations showing <{{stability_threshold}}\% performance variation
+\item \textbf{Statistical Significance:} Minimum {{min_trades}} trades required for analysis
+\item \textbf{Out-of-Sample Validation:} Performance maintained within {{oos_tolerance}}\% of in-sample results
+\end{itemize}
+
+% =============================================================================
+% OPTIMIZATION RESULTS
+% =============================================================================
+\section{Optimization Results}
+
+\subsection{Performance Landscape}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{{{parameter_surface_3d_path}}}
+\caption{3D Parameter Performance Surface: Shows how strategy performance varies across parameter combinations. Robust zones appear as stable plateaus, while overfitted regions show sharp performance spikes.}
+\label{fig:3d_surface}
+\end{figure}
+
+\subsection{Top Performing Parameter Sets}
+\begin{table}[H]
+\centering
+\caption{Highest Performance Parameter Combinations (In-Sample)}
+\small
+\begin{tabular}{ccccccc}
+\toprule
+\textbf{Rank} & {{parameter_headers}} & \textbf{CAGR} & \textbf{Sortino} & \textbf{Max DD} & \textbf{Trades} \\
+\midrule
+{{top_parameter_combinations}}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Robust Parameter Zones}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{{{robustness_heatmap_path}}}
+\caption{Parameter Robustness Heatmap: Blue regions indicate stable performance across parameter variations. Red regions show high sensitivity and potential overfitting.}
+\end{figure}
+
+{{robustness_zone_analysis}}
+
+% =============================================================================
+% OUT-OF-SAMPLE VALIDATION
+% =============================================================================
+\section{Out-of-Sample Validation}
+
+\subsection{Performance Decay Analysis}
+\begin{table}[H]
+\centering
+\caption{In-Sample vs Out-of-Sample Performance Comparison}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Parameter Set} & \textbf{In-Sample CAGR} & \textbf{Out-of-Sample CAGR} & \textbf{Performance Decay} \\
+\midrule
+{{oos_performance_comparison}}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Walk-Forward Results}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{{{walkforward_equity_path}}}
+\caption{Walk-Forward Equity Curves: Shows performance of optimized parameters across different time periods, revealing consistency and regime sensitivity.}
+\end{figure}
+
+{{walkforward_analysis_text}}
+
+% =============================================================================
+% BIAS DETECTION & WARNINGS
+% =============================================================================
+\section{Bias Detection \& Statistical Validation}
+
+\subsection{Overfitting Assessment}
+\textbf{Data-Snooping Bias Score:} {{data_snooping_score}} / 10 \\
+\textbf{Curve-Fitting Risk:} {{curve_fitting_risk}}
+
+{{overfitting_assessment_details}}
+
+\subsection{Parameter Sensitivity Analysis}
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{{{sensitivity_param1_path}}}
+\caption{{{param1_name}} Sensitivity}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{{{sensitivity_param2_path}}}
+\caption{{{param2_name}} Sensitivity}
+\end{subfigure}
+\caption{Parameter Sensitivity Analysis: Shows how performance changes with individual parameter variations while others remain constant.}
+\end{figure}
+
+\subsection{Statistical Significance Tests}
+\begin{table}[H]
+\centering
+\caption{Statistical Validation Results}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Test} & \textbf{Statistic} & \textbf{p-value} \\
+\midrule
+Sharpe Ratio Significance & {{sharpe_tstat}} & {{sharpe_pvalue}} \\
+Performance vs Random & {{performance_tstat}} & {{performance_pvalue}} \\
+Parameter Stability & {{stability_fstat}} & {{stability_pvalue}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =============================================================================
+% RECOMMENDED PARAMETERS
+% =============================================================================
+\section{Recommended Parameter Configuration}
+
+\subsection{Optimal Parameter Set}
+Based on robustness analysis and out-of-sample validation:
+
+\begin{table}[H]
+\centering
+\caption{Recommended Parameter Configuration}
+\begin{tabular}{lll}
+\toprule
+\textbf{Parameter} & \textbf{Recommended Value} & \textbf{Robustness Ranking} \\
+\midrule
+{{recommended_parameters_table}}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Selection Rationale:} {{parameter_selection_rationale}}
+
+\subsection{Alternative Configurations}
+For different risk profiles:
+
+\begin{itemize}
+\item \textbf{Conservative:} {{conservative_params}} - Lower volatility, more stable returns
+\item \textbf{Aggressive:} {{aggressive_params}} - Higher potential returns, increased risk
+\item \textbf{Balanced:} {{balanced_params}} - Recommended default configuration
+\end{itemize}
+
+% =============================================================================
+% IMPLEMENTATION GUIDELINES
+% =============================================================================
+\section{Implementation Guidelines}
+
+\subsection{Parameter Deployment Strategy}
+{{deployment_strategy}}
+
+\subsection{Monitoring Requirements}
+\begin{itemize}
+\item \textbf{Performance Monitoring:} Track {{monitoring_metrics}} monthly
+\item \textbf{Regime Detection:} Monitor {{regime_indicators}} for parameter adjustment signals
+\item \textbf{Re-optimization Schedule:} Re-run parameter study every {{reoptimization_frequency}}
+\end{itemize}
+
+\subsection{Risk Management}
+{{parameter_risk_management}}
+
+% =============================================================================
+% CONCLUSIONS & WARNINGS
+% =============================================================================
+\section{Conclusions \& Warnings}
+
+\subsection{Study Conclusions}
+{{study_conclusions}}
+
+\subsection{Critical Warnings}
+\begin{itemize}
+\item \textcolor{warning}{\textbf{Overfitting Risk:}} {{overfitting_risk_statement}}
+\item \textcolor{warning}{\textbf{Regime Dependency:}} {{regime_dependency_warning}}  
+\item \textcolor{warning}{\textbf{Sample Size:}} {{sample_size_limitations}}
+\item \textcolor{warning}{\textbf{Market Conditions:}} {{market_condition_dependencies}}
+\end{itemize}
+
+\subsection{Next Steps}
+\begin{enumerate}
+\item {{next_step_1}}
+\item {{next_step_2}}
+\item {{next_step_3}}
+\end{enumerate}
+
+% =============================================================================
+% APPENDIX
+% =============================================================================
+\section{Appendix}
+
+\subsection{Complete Parameter Results}
+\begin{longtable}{cccccc}
+\toprule
+{{parameter_headers}} & \textbf{CAGR} & \textbf{Sortino} & \textbf{Max DD} & \textbf{Trades} \\
+\midrule
+{{complete_results_table}}
+\bottomrule
+\caption{Complete Parameter Optimization Results}
+\end{longtable}
+
+\subsection{Risk Disclaimer}
+\textcolor{loss}{\textbf{Important:}} This parameter optimization study is based on historical data and may not predict future performance. Optimized parameters are subject to overfitting bias and regime dependency. Always validate with out-of-sample data and implement proper risk management. Consider starting with paper trading before live deployment.
+
+\end{document}

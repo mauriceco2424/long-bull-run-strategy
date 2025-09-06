@@ -73,7 +73,7 @@ class LaTeXReportGenerator:
         """Generate the complete PDF report."""
         
         if output_path is None:
-            output_path = f"{self.run_id}_strategy_report.pdf"
+            output_path = f"docs/notices/SER/{self.run_id}_strategy_report.pdf"
         
         print(f"Generating PDF report for run {self.run_id}...")
         

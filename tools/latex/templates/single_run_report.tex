@@ -1,0 +1,131 @@
+% Concise Single-Run Trading Strategy Report Template  
+% Target: 1 page, focused on performance validation and robustness
+\documentclass[11pt,a4paper]{article}
+
+% Minimal packages for concise report
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{multicol}
+
+% Compact page layout
+\geometry{margin=0.7in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+% Colors
+\definecolor{profit}{RGB}{0,128,0}
+\definecolor{loss}{RGB}{220,20,60}
+\definecolor{neutral}{RGB}{70,130,180}
+
+% Compact title
+\title{\textbf{{{strategy_name}}} \\[0.2em] \large Single-Run Analysis}
+\author{{{author}}}
+\date{{{generation_date}}}
+
+\begin{document}
+
+\maketitle
+\vspace{-0.5em}
+
+% =============================================================================
+% HEADER INFORMATION (Compact)
+% =============================================================================
+\begin{center}
+\small
+\begin{tabular}{llll}
+\textbf{Run:} {{run_id}} & \textbf{Period:} {{start_date}} to {{end_date}} & \textbf{Universe:} {{universe}} & \textbf{Timeframe:} {{timeframe}} \\
+\end{tabular}
+\end{center}
+
+\vspace{-0.3em}
+\hrule
+\vspace{0.3em}
+
+% =============================================================================
+% TWO-COLUMN LAYOUT FOR COMPACTNESS
+% =============================================================================
+\begin{multicols}{2}
+
+% LEFT COLUMN: Strategy & Parameters
+\subsection*{Strategy Overview}
+\small
+{{strategy_description_short}}
+
+\textbf{Key Parameters:}
+\begin{itemize}
+\setlength\itemsep{0em}
+{{parameter_list_compact}}
+\end{itemize}
+
+% RIGHT COLUMN: Performance Metrics
+\subsection*{Performance Summary}
+\small
+\begin{tabular}{lr}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+CAGR & {{cagr}}\% \\
+Sortino Ratio & {{sortino}} \\
+Max Drawdown & {{max_dd}}\% \\
+Win Rate & {{win_rate}}\% \\
+Trades & {{total_trades}} \\
+Profit Factor & {{profit_factor}} \\
+\bottomrule
+\end{tabular}
+
+\end{multicols}
+
+% =============================================================================
+% MAIN VISUALIZATION
+% =============================================================================
+\subsection*{Performance Analysis}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{{{main_strategy_chart_path}}}
+\end{center}
+
+% =============================================================================
+% COMPACT ANALYSIS SECTIONS
+% =============================================================================
+\subsection*{Key Findings}
+\small
+\textbf{Performance Rating:} {{performance_rating}}
+
+{{key_findings_summary}}
+
+\subsection*{Risk Assessment}
+\small
+\textbf{Maximum Drawdown Period:} {{max_dd_period}} \\
+\textbf{Recovery Characteristics:} {{recovery_analysis_short}} \\
+\textbf{Volatility Profile:} {{volatility_assessment_short}}
+
+% =============================================================================
+% VALIDATION & RECOMMENDATIONS  
+% =============================================================================
+\subsection*{Validation Results}
+\small
+\begin{tabular}{p{0.4\textwidth}p{0.4\textwidth}}
+Lookahead Bias: {{lookahead_status}} & Execution Realism: {{execution_status}} \\
+Accounting Integrity: {{accounting_status}} & Statistical Significance: {{significance_status}} \\
+\end{tabular}
+
+\subsection*{Next Steps}
+\small
+{{single_run_recommendations}}
+
+% =============================================================================
+% FOOTER
+% =============================================================================
+\vfill
+\hrule
+\vspace{0.2em}
+\begin{center}
+\scriptsize
+\textbf{Single-Run Analysis} | Generated {{generation_date}} | Config: \texttt{{{config_hash}}} \\
+\textit{Note: Single parameter set analysis. For parameter sensitivity, run optimization study.}
+\end{center}
+
+\end{document}

@@ -1,0 +1,55 @@
+% Simple Single-Run Trading Strategy Report Template  
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{xcolor}
+
+\geometry{margin=0.7in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+\definecolor{profit}{RGB}{0,128,0}
+\definecolor{loss}{RGB}{220,20,60}
+
+\title{\textbf{{{strategy_name}}} Trading Strategy Report}
+\author{Generated {{generation_date}}}
+\date{Run ID: {{run_id}}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Strategy Overview}
+{{strategy_description}}
+
+\section*{Performance Summary}
+\begin{table}[h]
+\centering
+\begin{tabular}{lr}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+CAGR & {{cagr}}\% \\
+Sortino Ratio & {{sortino}} \\
+Max Drawdown & {{max_dd}}\% \\
+Win Rate & {{win_rate}}\% \\
+Total Trades & {{total_trades}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{Performance Visualization}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{{{main_strategy_chart_path}}}
+\end{center}
+
+\section*{Key Findings}
+{{key_findings_summary}}
+
+\section*{Next Steps}
+{{single_run_recommendations}}
+
+\end{document}

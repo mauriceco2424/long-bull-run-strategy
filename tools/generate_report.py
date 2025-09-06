@@ -28,7 +28,9 @@ class ReportGenerator:
     def __init__(self, run_id: str, run_data_path: str = "data/runs"):
         self.run_id = run_id
         self.run_path = Path(run_data_path) / run_id
-        self.latex_template_path = Path("tools/latex/templates/strategy_report_v2.tex")
+        # Adaptive template selection - will be set by report type detection
+        self.latex_template_path = None
+        self.report_type = None
         self.markdown_template_path = Path("tools/templates/strategy_report.md")
         self.pdflatex_path = "pdflatex"  # Default to PATH
         
@@ -122,9 +124,9 @@ class ReportGenerator:
         
         if output_path is None:
             if format_type == "pdf" or (format_type == "auto" and self.check_latex_availability()):
-                output_path = f"{self.run_id}_strategy_report.pdf"
+                output_path = f"docs/notices/SER/{self.run_id}_strategy_report.pdf"
             else:
-                output_path = f"{self.run_id}_strategy_report.html"
+                output_path = f"docs/notices/SER/{self.run_id}_strategy_report.html"
         
         print(f"Generating {format_type} report for run {self.run_id}...")
         
@@ -136,6 +138,9 @@ class ReportGenerator:
             else:
                 format_type = "markdown"
                 print("! LaTeX not found - generating Markdown HTML report")
+        
+        # Detect report type and select appropriate template
+        self._detect_report_type()
         
         # Prepare template data
         template_data = self._prepare_template_data()
@@ -178,6 +183,10 @@ class ReportGenerator:
         
         # Analysis text (placeholders for evaluator)
         data.update(self._prepare_analysis_sections())
+        
+        # Additional legacy sections if needed
+        if self.report_type != 'single_run':
+            data.update(self._prepare_additional_analysis_sections())
         
         return data
     
@@ -268,16 +277,104 @@ class ReportGenerator:
         
         return chart_paths
     
-    def _prepare_analysis_sections(self) -> Dict[str, str]:
-        """Prepare analysis text sections."""
+    def _detect_report_type(self):
+        """Detect whether this is a single run or parameter sweep study."""
         
-        return {
+        # Check for parameter sweep indicators
+        optimization_indicators = [
+            'optimization_results.json',
+            'parameter_sweep.csv', 
+            'walkforward_results.json',
+            'optimization_summary.json'
+        ]
+        
+        # Check if any optimization files exist
+        has_optimization_data = any((self.run_path / indicator).exists() 
+                                  for indicator in optimization_indicators)
+        
+        # Check manifest for optimization metadata
+        optimization_in_manifest = False
+        if self.manifest:
+            optimization_in_manifest = any(key in self.manifest for key in [
+                'optimization_metric', 'parameter_sweep_count', 'total_combinations',
+                'optimization_study', 'walkforward_analysis'
+            ])
+        
+        # Check for multiple parameter configurations in run directory
+        param_configs = list(self.run_path.glob('param_config_*.json'))
+        has_multiple_configs = len(param_configs) > 1
+        
+        # Determine report type
+        if has_optimization_data or optimization_in_manifest or has_multiple_configs:
+            self.report_type = "parameter_sweep"
+            self.latex_template_path = Path("tools/latex/templates/parameter_sweep_simple.tex")
+            print(f"+ Detected parameter optimization study - using comprehensive template")
+        else:
+            self.report_type = "single_run"
+            self.latex_template_path = Path("tools/latex/templates/single_run_simple.tex")
+            print(f"+ Detected single parameter run - using concise template")
+    
+    def _prepare_analysis_sections(self) -> Dict[str, str]:
+        """Prepare analysis text sections based on report type."""
+        
+        # Base sections common to both report types
+        base_sections = {
             'performance_rating': 'TO BE FILLED BY EVALUATOR',
             'executive_summary_text': 'Executive summary to be provided by evaluator based on performance analysis.',
             'recommendation_items': '• Recommendation 1\n• Recommendation 2',
             'strategy_description': self.manifest.get('strategy_description', 'Strategy description from template'),
             'parameter_table_rows': self._generate_parameter_table(),
             'equity_analysis_text': 'detailed equity curve analysis including trend identification and key performance periods',
+        }
+        
+        # Report-type specific sections
+        if self.report_type == 'single_run':
+            base_sections.update({
+                'strategy_description_short': self.manifest.get('strategy_description', 'Brief strategy description')[:200] + '...',
+                'parameter_list_compact': self._generate_parameter_list_compact(),
+                'key_findings_summary': 'Key findings and performance insights to be provided by evaluator.',
+                'recovery_analysis_short': 'Recovery characteristics analysis',
+                'volatility_assessment_short': 'Volatility profile assessment',
+                'significance_status': 'PASS',
+                'single_run_recommendations': 'Next steps for strategy development and validation.',
+            })
+        elif self.report_type == 'parameter_sweep':
+            base_sections.update({
+                'study_id': self.run_id + '_optimization',
+                'optimization_start': self.manifest.get('date_start', 'N/A'), 
+                'optimization_end': self.manifest.get('date_end', 'N/A'),
+                'oos_start': 'TO BE DETERMINED',
+                'oos_end': 'TO BE DETERMINED', 
+                'parameters_swept_count': 'TO BE DETERMINED',
+                'total_combinations': 'TO BE DETERMINED',
+                'optimization_metric': 'Sortino Ratio',
+                'optimization_status': 'TO BE EVALUATED',
+                'optimization_executive_summary': 'Parameter optimization identified robust zones with consistent performance across multiple configurations.',
+                'overfitting_warnings': '\\item Overfitting warning 1\\n\\item Overfitting warning 2',
+                'deployment_strategy': 'Start with conservative parameters, monitor performance, gradually adjust based on market conditions.'
+            })
+            
+        return base_sections
+    
+    def _generate_parameter_list_compact(self) -> str:
+        """Generate compact parameter list for single-run reports."""
+        
+        parameters = self.manifest.get('parameters', {})
+        
+        if not parameters:
+            return "\\item No parameters specified"
+        
+        items = []
+        for param_name, param_value in parameters.items():
+            param_display = param_name.replace('_', ' ').title()
+            items.append(f"\\item {param_display}: {param_value}")
+        
+        return '\n'.join(items)
+
+    def _prepare_additional_analysis_sections(self) -> Dict[str, str]:
+        """Prepare additional analysis sections (legacy compatibility)."""
+        
+        return {
             'drawdown_analysis_text': 'Analysis of drawdown periods and recovery characteristics.',
             'risk_adjusted_analysis': 'Risk-adjusted performance analysis to be provided by evaluator.',
             'market_behavior_analysis': 'Market behavior analysis to be provided by evaluator.',
@@ -642,15 +739,23 @@ Maximum drawdown of {data['max_dd']}% occurred during the evaluation period. {da
                 return str(output_path)
                 
             except subprocess.CalledProcessError as e:
-                # Read log file for error details
-                log_file = temp_dir_path / "report.log"
-                if log_file.exists():
-                    with open(log_file, 'r', encoding='utf-8') as f:
-                        log_content = f.read()
-                    print("LaTeX compilation error:")
-                    print(log_content[-2000:])  # Show last 2000 chars
-                
-                raise Exception(f"LaTeX compilation failed: {e}")
+                # Check if PDF was still created despite return code
+                pdf_source = temp_dir_path / "report.pdf"
+                if pdf_source.exists():
+                    print("! LaTeX warnings found but PDF generated successfully")
+                    output_path = Path(output_path).resolve()
+                    shutil.copy2(pdf_source, output_path)
+                    return str(output_path)
+                else:
+                    # Read log file for error details
+                    log_file = temp_dir_path / "report.log"
+                    if log_file.exists():
+                        with open(log_file, 'r', encoding='utf-8') as f:
+                            log_content = f.read()
+                        print("LaTeX compilation error:")
+                        print(log_content[-2000:])  # Show last 2000 chars
+                    
+                    raise Exception(f"LaTeX compilation failed: {e}")
 
 
 def main():

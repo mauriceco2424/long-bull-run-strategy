@@ -1,0 +1,74 @@
+% Simple Parameter Sweep Analysis Report Template
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{xcolor}
+
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\definecolor{warning}{RGB}{255,165,0}
+\definecolor{profit}{RGB}{0,128,0}
+
+\title{\textbf{{{strategy_name}}} Parameter Optimization Study}
+\author{Generated {{generation_date}}}
+\date{Study ID: {{study_id}}}
+
+\begin{document}
+
+\maketitle
+
+\section{Executive Summary}
+\textbf{Study Overview:} Parameter optimization across {{parameters_swept_count}} variables with {{total_combinations}} combinations.
+
+\textbf{Optimization Status:} {{optimization_status}}
+
+\textcolor{warning}{\textbf{Warning:}} Parameter optimization studies may suffer from overfitting bias. Always validate with out-of-sample data.
+
+\section{Methodology}
+\textbf{Optimization Metric:} {{optimization_metric}}
+
+\textbf{Analysis Period:} {{optimization_start}} to {{optimization_end}}
+
+\section{Key Results}
+{{optimization_executive_summary}}
+
+\section{Performance Visualization}
+\begin{center}
+\includegraphics[width=0.9\textwidth]{{{main_strategy_chart_path}}}
+\end{center}
+
+\section{Recommended Parameters}
+Based on robustness analysis and validation testing:
+
+\begin{itemize}
+\item \textbf{Conservative Configuration:} Focus on stability and risk management
+\item \textbf{Balanced Configuration:} Recommended for most implementations  
+\item \textbf{Aggressive Configuration:} Higher risk/reward profile
+\end{itemize}
+
+\section{Implementation Guidelines}
+\textbf{Deployment Strategy:} {{deployment_strategy}}
+
+\textbf{Risk Management:} Always implement proper position sizing and risk controls.
+
+\section{Critical Warnings}
+\begin{itemize}
+\item \textcolor{warning}{\textbf{Overfitting Risk:}} Optimized parameters may not perform as expected in live trading
+\item \textcolor{warning}{\textbf{Market Regime Changes:}} Strategy may be sensitive to changing market conditions
+\item \textcolor{warning}{\textbf{Statistical Significance:}} Ensure adequate sample size for reliable conclusions
+\end{itemize}
+
+\section{Next Steps}
+\begin{enumerate}
+\item Validate results with out-of-sample testing
+\item Implement paper trading with recommended parameters
+\item Monitor performance and adjust as needed
+\item Consider regime-dependent parameter adjustment
+\end{enumerate}
+
+\end{document}
