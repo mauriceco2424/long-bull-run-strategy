@@ -16,8 +16,7 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 ## Always do this
 
 * Start in **PLAN mode**; keep `cloud/tasks/<task>.md` with **goals, owners, deps, gates, milestones**
-* Prefer **slash commands**: `/validate-setup`, `/validate-strategy`, `/plan-strategy`, `/build-engine`, `/run`, `/analyze-run`, `/evaluate-run`, `/optimize-run`, `/analyze-optimization`, `/evaluate-optimization`
-* **Convenience commands**: `/run-single` (chains run→analyze-run→evaluate-run), `/run-optimization` (chains optimize-run→analyze-optimization→evaluate-optimization)
+* Prefer **slash commands**: `/validate-setup`, `/validate-strategy`, `/plan-strategy`, `/build-engine`, `/run`, `/analyze-single-run`, `/evaluate-single-run`, `/run-optimization`, `/evaluate-optimization`
 * `/docs/**` is authoritative; changelogs are append-only
 * **Progress bar requirement**: All Python scripts MUST implement unified progress reporting with ETA
 
@@ -27,13 +26,11 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 1. **Setup & Validation**: `/validate-setup` → `/validate-strategy` → `/plan-strategy`
 2. **Engine Building**: `/build-engine` (auto-generates parameter_config.md)
 
-**Single-Run Path (3 individual + 1 chained):**
-3. **Individual Steps**: `/run` → `/analyze-run` → `/evaluate-run`
-4. **Chained Execution**: `/run-single` (automatic pipeline)
+**Single-Run Path:**
+3. **Individual Steps**: `/run` → `/analyze-single-run` → `/evaluate-single-run`
 
-**Optimization Path (3 individual + 1 chained):**
-3. **Individual Steps**: `/optimize-run` → `/analyze-optimization` → `/evaluate-optimization` 
-4. **Chained Execution**: `/run-optimization` (automatic pipeline)
+**Optimization Path:**
+4. **Individual Steps**: `/run-optimization` → `/evaluate-optimization`
 
 ## Roles
 
@@ -42,13 +39,11 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 * **Builder**: implement/optimize engine; hardware-aware session initialization; unit/smoke/perf tests; emit **ECN** (+ benchmarks with hardware profile)
 
 **Single-Run Agents:**
-* **Single-Runner**: execute single backtests; read parameter_config.md; generate individual run artifacts
-* **Single-Analyzer**: process single run data; emit **manifest, metrics, trades, events, series, figs**; sanity-check and flag anomalies  
+* **Single-Analyzer**: execute single backtests AND process run data; read parameter_config.md; emit **manifest, metrics, trades, events, series, figs**; sanity-check and flag anomalies  
 * **Single-Evaluator**: **evaluate single-run performance** (assess metrics quality, compare to benchmarks); **strategic interpretation** (understand WHY strategy works/fails); **generate LaTeX PDF reports**; emit **SER**; if spec changed, **SDCN**
 
 **Optimization Agents:**
-* **Optimization-Runner**: execute parameter sweeps; read optimization_config.md; coordinate multiple backtests with walk-forward validation
-* **Optimization-Analyzer**: process optimization study data; create parameter performance matrices, robustness heatmaps, statistical validation
+* **Optimizer**: execute parameter sweeps AND process optimization data; read optimization_config.md; coordinate multiple backtests with walk-forward validation; create parameter performance matrices, robustness heatmaps, statistical validation
 * **Optimization-Evaluator**: **evaluate parameter optimization** (assess parameter significance, detect overfitting); **strategic parameter interpretation** (understand WHY parameters work); **generate optimization study PDF reports**
 
 ## Handoffs & gates
@@ -57,20 +52,18 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 * Builder → Orchestrator: **ECN + benchmarks** (with hardware profile) → Orchestrator updates **EMR** & appends **ECL**
 
 **Single-Run Handoffs:**
-* Single-Runner → Single-Analyzer: run artifacts in `/data/runs/{run_id}/`
 * Single-Analyzer → Orchestrator: processed artifacts + run_registry row
 * Single-Analyzer → Single-Evaluator: analysis artifacts ready for evaluation
 * Single-Evaluator → Orchestrator: **SER** (and **SDCN** if spec changed) → Orchestrator updates **SMR** & appends **SCL**
 
 **Optimization Handoffs:**
-* Optimization-Runner → Optimization-Analyzer: optimization study in `/data/optimization/{study_id}/`
-* Optimization-Analyzer → Optimization-Evaluator: parameter performance matrices + robustness analysis
+* Optimizer → Optimization-Evaluator: parameter performance matrices + robustness analysis
 * Optimization-Evaluator → Orchestrator: **Optimization Evaluation Report** → Orchestrator updates documentation
 
 **Gates:**
 * **Gate**: no new runs until EMR/SMR in sync with latest changelogs
 * **Single-Run Gate**: single-analyzer must complete before single-evaluator
-* **Optimization Gate**: optimization-analyzer must complete before optimization-evaluator
+* **Optimization Gate**: optimizer must complete before optimization-evaluator
 
 ## Data & ingestion
 
@@ -130,7 +123,7 @@ Source & cache declared in EMR; OHLCV in UTC; define missing-bar policy; fees/sl
 * **Manual Creation**: User creates `optimization_config.json` with parameter ranges and search strategy
 * **Search Methods**: Grid search, random search, Bayesian optimization
 * **Walk-Forward Setup**: Training/validation windows, rolling periods, robustness testing
-* **Optimization Execution**: `/optimize-run` reads `optimization_config.json` for parameter sweep specification
+* **Optimization Execution**: `/run-optimization` reads `optimization_config.json` for parameter sweep specification
 
 ## Registry & Git
 
@@ -139,7 +132,7 @@ Source & cache declared in EMR; OHLCV in UTC; define missing-bar policy; fees/sl
 * Each row tracks single backtest execution with performance metrics
 
 **Optimization Registry:**
-* Optimization-Analyzer appends `/docs/optimization/optimization_registry.csv` per parameter study
+* Optimizer appends `/docs/optimization/optimization_registry.csv` per parameter study
 * Each row tracks optimization study with parameter sweep metadata and results
 
 **Git Integration:**

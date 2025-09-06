@@ -6,7 +6,7 @@ argument-hint:
 model: claude-3-5-sonnet-20241022
 ---
 
-I need to use the **trading-single-runner** agent to execute the trading strategy backtest using the configured parameters from `parameter_config.md`.
+I need to use the **trading-single-analyzer** agent to execute the trading strategy backtest using the configured parameters from `parameter_config.md`.
 
 ## Backtest Execution Tasks
 
@@ -90,7 +90,7 @@ end_date: 2023-12-31
 - Updated run registry with new entry
 - Validation report confirming data integrity
 - Performance summary with key metrics
-- Ready for analysis phase with `/analyze-run`
+- Ready for analysis phase with `/analyze-single-run`
 
 ## Success Criteria
 - Backtest completes without critical errors
@@ -105,4 +105,4 @@ end_date: 2023-12-31
 - **P2 failures**: Log warnings, continue execution
 - **Resource failures**: Clean up partial artifacts, report system state
 
-Please use the trading-single-runner agent to execute the backtest with unified progress reporting and comprehensive validation.
+Please use the trading-single-analyzer agent to execute the backtest with unified progress reporting and comprehensive validation.

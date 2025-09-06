@@ -152,12 +152,10 @@ class FrameworkValidator:
         
         required_agents = [
             'trading-orchestrator.md',
-            'trading-builder.md', 
-            'trading-single-runner.md',
+            'trading-builder.md',
             'trading-single-analyzer.md',
             'trading-single-evaluator.md',
-            'trading-optimization-runner.md',
-            'trading-optimization-analyzer.md',
+            'trading-optimizer.md',
             'trading-optimization-evaluator.md'
         ]
         
@@ -182,9 +180,8 @@ class FrameworkValidator:
         
         required_commands = [
             'validate-setup.md', 'validate-strategy.md', 'plan-strategy.md', 
-            'build-engine.md', 'run.md', 'analyze-run.md', 'evaluate-run.md',
-            'optimize-run.md', 'analyze-optimization.md', 'evaluate-optimization.md',
-            'run-single.md', 'run-optimization.md'
+            'build-engine.md', 'run.md', 'analyze-single-run.md', 'evaluate-single-run.md',
+            'run-optimization.md', 'evaluate-optimization.md'
         ]
         
         missing_commands = []

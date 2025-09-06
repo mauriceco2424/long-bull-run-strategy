@@ -1,20 +1,31 @@
-# Trading Strategy Command User Guide (New 8-Command Workflow)
+# Trading Strategy Command User Guide (9-Command Dual-Path Workflow)
 
-This guide explains the streamlined 8-command workflow for trading strategy development, evaluation, and reporting.
+This guide explains the streamlined 9-command workflow for trading strategy development, evaluation, and optimization.
 
 ## Overview
 
-The trading strategy framework now provides **8 focused commands** that follow a clear, linear workflow:
+The trading strategy framework provides **9 focused commands** that follow two clear, parallel paths:
+
+### **Dual-Path Architecture**
 
 ```
-/validate-setup → /validate-strategy → /plan-strategy → /build-engine → /run → /analyze-run → /evaluate-run → (iterate)
+Setup Path (4 commands - shared by both paths):
+/validate-setup → /validate-strategy → /plan-strategy → /build-engine
+
+Single-Run Path (3 commands):
+/run → /analyze-single-run → /evaluate-single-run
+
+Optimization Path (2 commands):  
+/run-optimization → /evaluate-optimization
 ```
 
 Each command has a single, clear purpose with automatic quality enforcement and professional outputs.
 
 ---
 
-## The 8 Commands
+## The 9 Commands
+
+### **Setup Commands (Shared by Both Paths)**
 
 ### 1. 🔧 `/validate-setup` - System Validation
 
@@ -102,6 +113,8 @@ Each command has a single, clear purpose with automatic quality enforcement and 
 
 ---
 
+### **Single-Run Path Commands**
+
 ### 5. 🚀 `/run` - Backtest Execution  
 
 **Purpose**: Execute backtest using the configured parameters from `parameter_config.md`.
@@ -124,7 +137,7 @@ Each command has a single, clear purpose with automatic quality enforcement and 
 
 ---
 
-### 6. 📈 `/analyze-run` - Data Analysis & Visualization
+### 6. 📈 `/analyze-single-run` - Data Analysis & Visualization
 
 **Purpose**: Process backtest data into comprehensive metrics and professional visualizations.
 
@@ -147,7 +160,7 @@ Each command has a single, clear purpose with automatic quality enforcement and 
 
 ---
 
-### 7. 🎯 `/evaluate-run` - Performance Evaluation & Strategic Analysis
+### 7. 🎯 `/evaluate-single-run` - Performance Evaluation & Strategic Analysis
 
 **Purpose**: Evaluate performance, interpret strategy behavior, and generate professional PDF report.
 
@@ -170,99 +183,154 @@ Each command has a single, clear purpose with automatic quality enforcement and 
 
 ---
 
-### 8. 📄 `/create-report` - Report Generation (Alias)
+### **Optimization Path Commands**
 
-**Purpose**: Alias for `/evaluate-run` with emphasis on PDF report generation.
+### 8. 🔬 `/run-optimization` - Parameter Optimization & Analysis
+
+**Purpose**: Execute parameter sweeps with walk-forward analysis AND process results into optimization matrices.
 
 **When to use:**
-- When primary goal is generating professional documentation
-- For stakeholder presentations and business reviews
-- When emphasis is on report output vs. evaluation process
+- After engine is built and you want to optimize parameters
+- To validate parameter robustness across market conditions
+- When seeking optimal parameter configurations
+- For systematic parameter space exploration
 
-**What it does**: Identical to `/evaluate-run` - provides semantic clarity about report generation focus.
+**What it does:**
+- Reads `optimization_config.json` with parameter ranges and search configuration
+- **Executes parameter sweeps** with multiple backtest combinations
+- **Processes optimization data** into performance matrices and robustness heatmaps
+- Applies **walk-forward validation** with rolling optimization windows
+- **Prevents overfitting** through statistical validation and complexity limits
+- Generates optimization study artifacts ready for evaluation
+
+**Key requirement**: `optimization_config.json` must be created with parameter ranges and search method.
+
+**Key outputs**: Parameter performance matrices, robustness analysis, 3D parameter surfaces.
+
+**Success criteria**: Parameter optimization completes with comprehensive analysis artifacts.
 
 ---
 
-## Complete Workflow Example
+### 9. 🏆 `/evaluate-optimization` - Optimization Study Evaluation
 
-### First-Time Strategy Development
+**Purpose**: Evaluate parameter optimization results and generate optimization study PDF report.
+
+**When to use:**
+- After optimization study completes with analysis artifacts
+- To assess parameter significance and robustness
+- When need strategic parameter recommendations
+- To generate optimization study reports for stakeholders
+
+**What it does:**
+- **Evaluates parameter optimization**: Assesses parameter significance and optimal zones
+- **Strategic parameter interpretation**: Understands WHY certain parameters work better
+- **Detects overfitting**: Statistical validation and bias prevention
+- **Generates optimization study PDF**: Professional multi-page report with parameter recommendations
+- **Provides parameter recommendations**: Actionable guidance for parameter deployment
+
+**Key outputs**: Parameter recommendations, optimization study PDF report, robustness assessment.
+
+**Success criteria**: Comprehensive optimization evaluation with professional report and actionable parameter recommendations.
+
+---
+
+## Complete Workflow Examples
+
+### Single-Run Strategy Development
 
 ```bash
-# 1. Validate system is ready
+# Setup phase (required for both paths)
 /validate-setup
-
-# 2. Complete STRAT_TEMPLATE.md, then validate it
-/validate-strategy  
-
-# 3. Create development plan
+/validate-strategy  # After completing STRAT_TEMPLATE.md
 /plan-strategy "Develop RSI-based crypto momentum strategy"
+/build-engine      # Auto-generates parameter_config.md template
 
-# 4. Build engine and auto-generate parameter template
+# Single-run execution (fill parameter_config.md first)
+/run                    # Execute backtest with configured parameters
+/analyze-single-run     # Process data into metrics and visualizations  
+/evaluate-single-run    # Generate performance evaluation and PDF report
+```
+
+### Parameter Optimization Study
+
+```bash
+# Setup phase (same as single-run)
+/validate-setup
+/validate-strategy
+/plan-strategy "Optimize RSI strategy parameters"
 /build-engine
 
-# 5. Edit parameter_config.md (fill in all [REQUIRED] values), then run
-/run
-
-# 6. Process data and create professional visualizations  
-/analyze-run
-
-# 7. Evaluate performance and generate PDF report
-/evaluate-run
+# Optimization execution (create optimization_config.json first)
+/run-optimization      # Execute parameter sweep AND analyze results
+/evaluate-optimization # Evaluate optimization and generate study report
 ```
 
 ### Iterative Development
 
 ```bash
-# Update parameters and test
-/run           # Uses updated parameter_config.md
-/analyze-run   # Process new results
-/evaluate-run  # Compare against previous runs
+# After initial setup, iterate on single runs
+/run                   # Test new parameter values
+/analyze-single-run    # Process updated results
+/evaluate-single-run   # Compare against previous runs
 
-# Major strategy changes
-/validate-strategy  # After updating STRAT_TEMPLATE.md
-/build-engine      # Rebuild with new logic
-/run              # Test new implementation
-/analyze-run      # Analyze new results  
-/evaluate-run     # Evaluate changes
+# Or run optimization studies
+/run-optimization      # Test parameter robustness
+/evaluate-optimization # Get parameter recommendations
+
+# Major strategy changes require rebuild
+/validate-strategy     # After updating STRAT_TEMPLATE.md
+/build-engine         # Rebuild with new logic
+# Then proceed with run or optimization path
 ```
 
 ## Key Features
 
-### Automatic Quality Enforcement
+### **Dual-Path Architecture Benefits**
+- **Single-Run Path**: Fast iteration and testing of specific parameter sets
+- **Optimization Path**: Systematic parameter exploration with overfitting prevention
+- **Shared Setup**: Common foundation ensures consistency across both paths
+- **Independent Execution**: Choose the appropriate path for your current need
+
+### **Simplified Agent Responsibilities**
+- **trading-single-analyzer**: Executes backtests AND processes single-run data
+- **trading-optimizer**: Executes parameter sweeps AND analyzes optimization results  
+- **Evaluators**: Focus purely on strategic interpretation and professional reporting
+- **No Redundancy**: Each agent has clear, non-overlapping responsibilities
+
+### **Automatic Quality Enforcement**
 - **Hooks system**: Prevents progression without meeting quality gates
 - **Parameter validation**: Ensures completeness before execution
 - **Progress reporting**: Unified progress bars with ETA across all phases
 - **Auto-sync**: Documentation updates automatically via git hooks
 
-### Professional Outputs
+### **Professional Outputs**
 - **Publication-quality visualizations**: High-resolution charts ready for reports
 - **LaTeX PDF reports**: Scientific-quality documents for stakeholders
 - **Comprehensive metrics**: Statistical analysis with confidence intervals
 - **Strategic insights**: Performance evaluation with actionable recommendations
 
-### Parameter Management System
+### **Parameter Management System**
 - **Auto-generation**: `parameter_config.md` created automatically by `/build-engine`
 - **Version control**: All configurations tracked for reproducibility
 - **Validation**: Completeness checking before execution
 - **No CLI arguments**: All settings in configuration files
 
-### Clear Separation of Concerns
-- **Analyzer**: Data processing and visualization (WHAT happened)
-- **Evaluator**: Performance evaluation and strategic interpretation (WHAT it MEANS)
-- **No overlap**: Each agent has focused, specific responsibilities
+## Command Dependencies & Flow
 
-## Command Dependencies
-
-Each command has clear prerequisites:
-
+### **Setup Phase (Linear - Required for Both Paths)**
 1. **`/validate-setup`**: No dependencies (entry point)
 2. **`/validate-strategy`**: Requires completed STRAT_TEMPLATE.md
 3. **`/plan-strategy`**: Requires strategy validation to pass
 4. **`/build-engine`**: Requires development plan and valid strategy template
+
+### **Single-Run Path (Linear)**
 5. **`/run`**: Requires built engine and completed parameter_config.md  
-6. **`/analyze-run`**: Requires successful backtest execution
-7. **`/evaluate-run`**: Requires analysis artifacts and visualizations
-8. **`/create-report`**: Same as evaluate-run (alias)
+6. **`/analyze-single-run`**: Requires successful backtest execution
+7. **`/evaluate-single-run`**: Requires analysis artifacts and visualizations
+
+### **Optimization Path (Linear)**
+5. **`/run-optimization`**: Requires built engine and completed optimization_config.json
+6. **`/evaluate-optimization`**: Requires optimization analysis artifacts
 
 ## Success Indicators
 
@@ -282,22 +350,35 @@ Each command has clear prerequisites:
 
 ## Best Practices
 
-### Strategy Development
+### **Path Selection Strategy**
+1. **Use Single-Run Path when**:
+   - Testing specific parameter combinations
+   - Debugging strategy logic
+   - Quick iterations and refinements
+   - Initial strategy validation
+
+2. **Use Optimization Path when**:
+   - Seeking robust parameter configurations
+   - Validating parameter stability across market conditions
+   - Systematic parameter space exploration
+   - Final parameter selection for deployment
+
+### **Strategy Development**
 1. **Complete templates fully**: No placeholders in STRAT_TEMPLATE.md
 2. **Validate early**: Run validation commands before lengthy operations
-3. **Parameter discipline**: Fill all required parameters before `/run`
-4. **Iterative approach**: Use workflow for systematic improvements
+3. **Parameter discipline**: Fill all required parameters before execution
+4. **Choose appropriate path**: Single-run for testing, optimization for robustness
 
-### Quality Assurance
+### **Quality Assurance**
 1. **Check visualizations**: Ensure charts are professional quality
 2. **Review reports**: Verify PDF output meets stakeholder needs
 3. **Validate insights**: Confirm strategic analysis is actionable
 4. **Test reproducibility**: Ensure configurations are version-controlled
 
-### Performance Optimization
+### **Performance Optimization**
 1. **System resources**: Ensure adequate RAM and disk space
 2. **Progress monitoring**: Use ETA estimates for planning
 3. **Parameter ranges**: Stay within validated parameter bounds
 4. **Batch processing**: Complete full workflow cycles efficiently
 
-This streamlined 8-command workflow transforms strategy development from scattered operations into a coherent, professional process with publication-quality outputs and strategic insights at every step.
+This streamlined 9-command dual-path workflow transforms strategy development from scattered operations into two coherent, professional processes: fast single-run iteration and systematic parameter optimization, both producing publication-quality outputs and strategic insights.

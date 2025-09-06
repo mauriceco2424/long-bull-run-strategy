@@ -7,7 +7,7 @@ This system generates professional PDF reports from trading strategy evaluation 
 The LaTeX report system consists of:
 - **Template**: `templates/strategy_report.tex` - Professional report template
 - **Generator**: `generate_report.py` - Python script to compile reports
-- **Integration**: Used by the trading-evaluator agent for `/evaluate-run` command
+- **Integration**: Used by the trading-single-evaluator agent for `/evaluate-single-run` command
 
 ## Features
 
@@ -47,7 +47,7 @@ python tools/latex/generate_report.py --check-latex
 ```
 
 ### Integration with Evaluator
-The trading-evaluator agent automatically uses this system during `/evaluate-run`:
+The trading-single-evaluator agent automatically uses this system during `/evaluate-single-run`:
 
 1. **Data Collection**: Loads metrics, trades, and figures from analyzer
 2. **Template Population**: Fills in performance data and configuration

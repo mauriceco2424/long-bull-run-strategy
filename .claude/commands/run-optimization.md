@@ -1,121 +1,152 @@
-# Execute Complete Optimization Workflow
+# Optimize Trading Strategy Parameters
 
 ---
-description: Execute full optimization pipeline: optimize-run → analyze-optimization → evaluate-optimization with PDF report
+description: Execute parameter sweep with walk-forward analysis and overfitting prevention
 argument-hint: 
 model: claude-3-5-sonnet-20241022
 ---
 
-I need to execute the complete parameter optimization workflow by chaining the three optimization commands in sequence: `/optimize-run` → `/analyze-optimization` → `/evaluate-optimization`.
+I need to use the **trading-optimizer** agent to execute a comprehensive parameter optimization study with walk-forward validation and overfitting prevention.
 
-## Complete Optimization Pipeline
+## Optimization Study Parameters
+- **Configuration**: Reads `optimization_config.md` for parameter ranges and search strategy
+- **Study ID**: Auto-generated unique identifier for this optimization study
 
-This command executes the full parameter optimization workflow automatically:
+## Parameter Optimization Tasks
 
-1. **`/optimize-run`** - Execute parameter sweep using optimization_config.json
-2. **`/analyze-optimization`** - Process optimization study into parameter performance matrices
-3. **`/evaluate-optimization`** - Evaluate parameter optimization and generate optimization study PDF report
+### 1. **Configuration Validation & Setup**
+- Read and validate `optimization_config.md` completeness
+- Verify all parameter ranges are properly defined with min/max/step values
+- Check search strategy selection (grid/random/Bayesian)
+- Validate walk-forward configuration (training/validation periods)
+- Confirm optimization metric and constraints are specified
+- Generate unique study ID and create optimization directory structure
 
-## Prerequisites
-- **Engine Built**: `/build-engine` must have been completed successfully
-- **Optimization Configuration**: `optimization_config.json` must exist with complete parameter ranges and search specification
-- **System Resources**: Sufficient memory and disk space for parameter sweep and analysis
-- **Time Allocation**: Optimization studies can take significant time (hours for large parameter spaces)
+### 2. **Parameter Space Generation**
+- **Grid Search**: Generate all combinations within defined parameter ranges
+- **Random Search**: Generate specified number of random parameter combinations
+- **Bayesian Search**: Initialize Bayesian optimization framework
+- **Combination Validation**: Ensure all parameter combinations are feasible
+- **Estimation**: Calculate total combinations and provide time/resource estimates
 
-## Workflow Execution
+### 3. **Walk-Forward Analysis Setup**
+- **Data Division**: Split historical data into training/validation windows
+- **Window Configuration**: Implement 3:1 in-sample/out-of-sample standard ratio
+- **Rolling Schedule**: Define rolling window advancement schedule
+- **Period Validation**: Ensure sufficient data for each validation window
+- **Regime Detection**: Identify market regime changes across periods
 
-### Phase 1: Parameter Optimization Execution
-- Execute `/optimize-run` command with optimization_config.json
-- Run parameter sweep with chosen search method (grid/random/bayesian)
-- Apply walk-forward validation and overfitting prevention
-- Generate optimization study in `/data/optimization/{study_id}/`
-- Create individual run directories for each parameter combination
+### 4. **Parameter Sweep Execution**
+- **Batch Processing**: Execute parameter combinations in efficient batches
+- **Engine Coordination**: Interface with trading engine for each parameter set
+- **Progress Tracking**: Unified progress bar across all combinations
+- **Resource Management**: Monitor memory usage and computational resources
+- **Error Handling**: Robust recovery from individual parameter combination failures
+- **Intermediate Results**: Save partial results for recovery and monitoring
 
-### Phase 2: Optimization Analysis
-- Execute `/analyze-optimization` on the completed optimization study
-- Process all parameter combinations into comprehensive performance matrices
-- Generate parameter robustness analysis and stability assessments
-- Create professional optimization visualizations (3D surfaces, heatmaps)
-- Apply statistical validation and significance testing
+### 5. **Walk-Forward Validation**
+- **Training Phase**: Optimize parameters on in-sample data for each window
+- **Validation Phase**: Test optimized parameters on out-of-sample data
+- **Rolling Forward**: Advance time windows and repeat optimization
+- **Performance Tracking**: Monitor performance consistency across periods
+- **Regime Adaptation**: Assess parameter stability across market conditions
 
-### Phase 3: Optimization Evaluation
-- Execute `/evaluate-optimization` on the analyzed optimization study
-- Evaluate parameter significance and detect overfitting
-- Generate strategic parameter interpretation and insights
-- Create professional LaTeX PDF optimization study report
-- Provide specific parameter recommendations for different risk profiles
+### 6. **Overfitting Prevention & Statistical Validation**
+- **Parameter Complexity Limits**: Enforce maximum 5 optimizable parameters
+- **Trade Count Validation**: Ensure ≥30 trades per parameter combination
+- **Statistical Significance Testing**: Calculate p-values for performance metrics
+- **Out-of-Sample Performance Monitoring**: Track in-sample vs out-of-sample decay
+- **Data-Snooping Bias Detection**: Flag suspicious parameter combinations
+- **Robustness Testing**: Assess parameter sensitivity to small changes
 
-## Progress Reporting
-- **Unified Pipeline Progress**: `Optimization workflow... ████████░░░░ 40% (Phase 1/3)`
-- **Phase Indicators**: Clear indication of current workflow phase with detailed sub-progress
-- **Parameter Sweep Progress**: Real-time tracking of parameter combinations completed
-- **Overall ETA**: Combined time estimate for complete optimization workflow
-- **Resource Monitoring**: Memory and disk usage tracking throughout
+### 7. **Optimization Artifacts Generation**
+Create comprehensive study outputs in `/data/optimization/{study_id}/`:
+
+- **`optimization_summary.json`**: 
+  - Best parameter configurations (conservative/balanced/aggressive)
+  - Overall study performance and robustness metrics
+  - Optimization methodology and validation results
+  - Statistical significance assessments
+
+- **`parameter_sweep.csv`**: 
+  - Complete matrix of all parameter combinations tested
+  - Performance metrics for each combination
+  - Validation window results and consistency scores
+  - Overfitting risk assessments
+
+- **`walkforward_results.json`**: 
+  - Time-series validation performance across all periods
+  - Parameter stability across market regimes
+  - Regime adaptation and sensitivity analysis
+  - Rolling optimization results
+
+- **`robustness_analysis.json`**: 
+  - Parameter sensitivity heat maps
+  - Stability metrics and robustness scores
+  - Performance landscape analysis
+  - Optimal parameter zone identification
+
+- **`validation_tests.json`**: 
+  - Statistical significance test results
+  - Overfitting risk scores and warnings
+  - Confidence intervals for key metrics
+  - Data-snooping bias assessments
+
+- **`parameter_surfaces/`**: 
+  - 3D parameter performance surface data
+  - Robustness heat map data for visualization
+  - Performance contour data
+  - Optimal zone boundary definitions
+
+### 8. **Individual Run Integration**
+- **Run Directory Creation**: Generate individual `/data/runs/{run_id}/` for each parameter combination
+- **Manifest Enhancement**: Add optimization study metadata to individual run manifests
+- **Cross-Referencing**: Link individual runs to parent optimization study
+- **Analysis Integration**: Coordinate with analyzer for individual run processing
+- **Visualization Generation**: Create individual run visualizations using enhanced system
+
+### 9. **Statistical Analysis & Reporting**
+- **Performance Distribution Analysis**: Analyze distribution of results across parameter space
+- **Regime Performance Analysis**: Assess performance across different market conditions
+- **Stability Assessment**: Measure parameter performance consistency
+- **Risk-Adjusted Analysis**: Calculate Sharpe, Sortino, and other risk-adjusted metrics
+- **Benchmark Comparison**: Compare optimization results against simple benchmarks
+
+### 10. **Quality Gates & Validation**
+- **Minimum Trade Requirements**: Enforce statistical significance thresholds
+- **Out-of-Sample Validation**: Confirm results hold in validation periods
+- **Overfitting Detection**: Flag and warn about potential curve-fitting
+- **Parameter Stability**: Verify consistent performance across time windows
+- **Statistical Significance**: Validate performance metrics are statistically significant
 
 ## Expected Outputs
-**Complete Optimization Study Results:**
-- **Optimization Directory**: `/data/optimization/{study_id}/` with all artifacts
-  - Parameter performance matrices with statistical validation
-  - Robustness analysis and stability assessments
-  - Professional parameter landscape visualizations
-  - Walk-forward validation results across time periods
-- **Individual Runs**: Each parameter combination creates `/data/runs/{run_id}/`
-- **PDF Optimization Report**: Professional parameter optimization study report
-- **Parameter Recommendations**: Specific configurations for conservative/balanced/aggressive profiles
-- **Registry Entry**: Study recorded in `/docs/optimization/optimization_registry.csv`
 
-## Advanced Features
-**Overfitting Prevention:**
-- Statistical significance testing across all parameter combinations
-- Walk-forward validation with multiple out-of-sample periods
-- Parameter complexity limits and robustness requirements
-- Data-snooping bias detection and warnings
-
-**Search Method Support:**
-- **Grid Search**: Exhaustive testing of all parameter combinations
-- **Random Search**: Efficient sampling for large parameter spaces
-- **Bayesian Optimization**: ML-guided search for optimal parameter regions
-
-**Professional Reporting:**
-- Parameter performance landscapes with optimal zones
-- Statistical validation charts with confidence intervals
-- Strategic parameter insights and market behavior analysis
-- Implementation guidelines for parameter deployment
-
-## Error Handling & Recovery
-- **Phase Failure Recovery**: Detailed error reporting with specific optimization failure points
-- **Partial Results**: Preserve completed parameter combinations if optimization study fails
-- **Automatic Cleanup**: Clean up incomplete optimization artifacts on critical failures
-- **Resume Capability**: Ability to resume interrupted optimization studies
-- **Resource Exhaustion Handling**: Graceful handling of memory/disk space limitations
+- **Optimization Study Directory**: Complete optimization artifacts ready for evaluator analysis
+- **Individual Parameter Runs**: Enhanced run directories with optimization metadata
+- **Performance Rankings**: Ranked parameter configurations with robustness scores
+- **Statistical Validation Results**: Comprehensive statistical analysis of optimization study
+- **Overfitting Assessments**: Clear warnings and risk scores for parameter combinations
+- **Implementation Guidance**: Specific recommendations for parameter deployment
 
 ## Success Criteria
-- Parameter optimization completes with sufficient successful combinations
-- Statistical validation confirms parameter significance and rules out overfitting
-- Professional optimization study PDF report generated successfully
-- Parameter recommendations are actionable and risk-profile appropriate
-- Optimization study properly registered with complete metadata
+- Parameter sweep executed successfully across all defined combinations
+- Walk-forward validation completed with multiple out-of-sample periods
+- Statistical significance confirmed for recommended parameter configurations
+- Overfitting prevention measures applied and documented
+- Comprehensive optimization artifacts generated ready for evaluator consumption
+- Clear recommendations provided for parameter implementation
 
-## Use Cases
-**Perfect for:**
-- **Complete Parameter Validation**: Full end-to-end parameter optimization study
-- **Production Optimization**: Robust parameter selection for live trading
-- **Research Studies**: Comprehensive analysis of parameter effectiveness
-- **Automated Optimization**: Single command for complete parameter analysis
+## Overfitting Prevention Standards
+- **Maximum Parameters**: Limit optimization to ≤5 parameters simultaneously
+- **Minimum Data Requirements**: ≥30 trades per parameter combination for validity
+- **Out-of-Sample Validation**: Performance must maintain within 20% of in-sample results
+- **Statistical Significance**: p-values <0.05 for key performance metrics
+- **Stability Requirements**: Parameters must show consistent performance across validation windows
 
-**When to Use Individual Commands Instead:**
-- **Debugging Optimization**: When troubleshooting parameter sweep issues
-- **Custom Analysis**: When you need specialized optimization analysis
-- **Incremental Studies**: When building optimization studies incrementally
-- **Performance Testing**: When testing optimization methodology changes
+## Progress Reporting
+- **Unified Progress Bar**: `Optimizing parameters... ████████░░░░ 60% (~45 min remaining)`
+- **Phase Breakdown**: Configuration → Generation → Execution → Validation → Analysis
+- **Combination Tracking**: Progress through total parameter combinations
+- **ETA Integration**: Based on combination complexity and historical execution times
 
-## Resource Requirements
-- **Computation**: High CPU usage for parameter sweep execution
-- **Memory**: Significant RAM for multiple concurrent parameter combinations
-- **Storage**: Large disk space for optimization study artifacts
-- **Time**: Can range from minutes to hours depending on parameter space size
-
-## Command Execution
-Execute the complete parameter optimization workflow chain with automatic error handling, overfitting prevention, and comprehensive progress reporting across all three phases.
-
-Please execute the full optimization pipeline: `/optimize-run` → `/analyze-optimization` → `/evaluate-optimization`
+Please use the trading-optimizer agent to execute comprehensive parameter optimization with walk-forward validation and overfitting prevention.

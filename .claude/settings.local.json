@@ -18,7 +18,8 @@
       "Bash(powershell:*)",
       "WebSearch",
       "Bash(claude agents list)",
-      "Bash(claude agents --help)"
+      "Bash(claude agents --help)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

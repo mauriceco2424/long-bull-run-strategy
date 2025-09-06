@@ -167,7 +167,7 @@
     "_step2": "Modify parameter ranges for your strategy",
     "_step3": "Choose search method (grid/random/bayesian)",  
     "_step4": "Configure walk-forward validation windows",
-    "_step5": "Run /optimize-run to execute parameter optimization"
+    "_step5": "Run /run-optimization to execute parameter optimization"
   },
   
   "_notes": {

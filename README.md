@@ -24,20 +24,18 @@ A production-ready framework for building, backtesting, and optimizing trading s
 
 ## 📋 What This Skeleton Provides
 
-### 🤖 **7 Specialized Agents**
+### 🤖 **6 Specialized Agents**
 
 **Common Agents:**
 - **trading-orchestrator**: Coordinates pipeline, manages quality gates, handles documentation
 - **trading-builder**: Implements backtest engines, optimizes performance, writes ECNs
 
 **Single-Run Agents:**
-- **trading-single-runner**: Executes individual backtests with specific parameters
-- **trading-single-analyzer**: Processes single run data, generates artifacts and visualizations
+- **trading-single-analyzer**: Executes backtests AND processes single run data, generates artifacts and visualizations
 - **trading-single-evaluator**: Evaluates single-run performance and generates PDF reports
 
 **Optimization Agents:**
-- **trading-optimization-runner**: Executes parameter sweeps with walk-forward analysis
-- **trading-optimization-analyzer**: Processes optimization studies into parameter performance matrices
+- **trading-optimizer**: Executes parameter sweeps AND processes optimization studies into parameter performance matrices with walk-forward analysis
 - **trading-optimization-evaluator**: Evaluates parameter optimization results and generates optimization reports
 
 ### ⚡ **Streamlined Command System**
@@ -50,21 +48,18 @@ A production-ready framework for building, backtesting, and optimizing trading s
 | `/plan-strategy` | Plan strategy development approach |
 | `/build-engine` | Build trading engine and generate parameter template |
 
-**Single-Run Path (3 individual + 1 chained):**
+**Single-Run Path (3 commands):**
 | Command | Purpose |
 |---------|---------|
 | `/run` | Execute single backtest with parameter_config.md |
-| `/analyze-run` | Process single run data into metrics and visualizations |
-| `/evaluate-run` | Evaluate single-run performance and generate PDF report |
-| **`/run-single`** | **Chain all 3 single-run commands automatically** |
+| `/analyze-single-run` | Process single run data into metrics and visualizations |
+| `/evaluate-single-run` | Evaluate single-run performance and generate PDF report |
 
-**Optimization Path (3 individual + 1 chained):**
+**Optimization Path (2 commands):**
 | Command | Purpose |
 |---------|---------|
-| `/optimize-run` | Execute parameter sweep with optimization_config.json |
-| `/analyze-optimization` | Process optimization study into parameter performance matrices |
+| `/run-optimization` | Execute parameter sweep AND process optimization study into parameter performance matrices |
 | `/evaluate-optimization` | Evaluate parameter optimization and generate optimization report |
-| **`/run-optimization`** | **Chain all 3 optimization commands automatically** |
 
 ### 🔧 **Production Hook System**
 - **6 core hooks** with P0/P1/P2 priorities
@@ -105,13 +100,11 @@ A production-ready framework for building, backtesting, and optimizing trading s
 
 **Single-Run Workflow:**
 1. **Setup** → `/validate-setup` → `/validate-strategy` → `/plan-strategy` → `/build-engine`
-2. **Option A - Individual Steps** → `/run` → `/analyze-run` → `/evaluate-run`
-3. **Option B - Chained Execution** → `/run-single` (automatic pipeline)
+2. **Execute** → `/run` → `/analyze-single-run` → `/evaluate-single-run`
 
 **Parameter Optimization Workflow:**
 1. **Setup** → Same as single-run setup (+ create optimization_config.json)
-2. **Option A - Individual Steps** → `/optimize-run` → `/analyze-optimization` → `/evaluate-optimization`
-3. **Option B - Chained Execution** → `/run-optimization` (automatic pipeline)
+2. **Execute** → `/run-optimization` → `/evaluate-optimization`
 
 ### **Quality Gates**
 - **Docs Fresh Gate**: EMR/SMR in sync with latest changes
@@ -122,32 +115,17 @@ A production-ready framework for building, backtesting, and optimizing trading s
 
 ### **Single-Run Strategy Development**
 
-**Option A - Individual Steps (for debugging/custom control):**
 ```bash
 /validate-setup && /validate-strategy && /plan-strategy && /build-engine
-/run && /analyze-run && /evaluate-run
-```
-
-**Option B - Automatic Pipeline (recommended for production):**
-```bash
-/validate-setup && /validate-strategy && /plan-strategy && /build-engine
-/run-single  # Automatically chains: run → analyze-run → evaluate-run
+/run && /analyze-single-run && /evaluate-single-run
 ```
 
 ### **Parameter Optimization Study**
 
-**Option A - Individual Steps (for debugging/custom control):**
 ```bash
 /validate-setup && /validate-strategy && /plan-strategy && /build-engine
 # Create optimization_config.json with parameter ranges
-/optimize-run && /analyze-optimization && /evaluate-optimization
-```
-
-**Option B - Automatic Pipeline (recommended for production):**
-```bash
-/validate-setup && /validate-strategy && /plan-strategy && /build-engine
-# Create optimization_config.json with parameter ranges  
-/run-optimization  # Automatically chains: optimize-run → analyze-optimization → evaluate-optimization
+/run-optimization && /evaluate-optimization
 ```
 
 ## 🔒 Safety & Validation

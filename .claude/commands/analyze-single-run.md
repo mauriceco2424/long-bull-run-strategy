@@ -126,7 +126,7 @@ Create publication-quality figures in `/data/runs/{run_id}/figs/`:
 - **Validation report** confirming data integrity and realism
 - **Anomaly detection report** with any concerns flagged
 - **Analysis summary** highlighting key findings and insights
-- **Ready for evaluation** with `/evaluate-run`
+- **Ready for evaluation** with `/evaluate-single-run`
 
 ## Success Criteria
 - All validation checks pass without critical errors
