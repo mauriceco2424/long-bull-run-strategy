@@ -17,9 +17,8 @@ A production-ready framework for building, backtesting, and optimizing trading s
 
 3. **Build and Test**:
    ```bash
-   /kickoff "Your strategy description"
-   /build-run configs/your_config.json your_universe 2021-01-01:2023-12-31
-   /evaluate your_run_id
+   /validate-setup && /validate-strategy && /plan-strategy && /build-engine
+   /run && /analyze-single-run && /evaluate-single-run
    ```
 
 ## 📋 What This Skeleton Provides
@@ -150,8 +149,8 @@ Each backtest run produces:
 
 ### **Adding New Strategies**
 1. Create strategy specification (.md)
-2. Use `/kickoff` to plan implementation
-3. Framework builds everything automatically
+2. Use `/validate-setup` → `/validate-strategy` → `/plan-strategy` to plan implementation
+3. Framework builds everything automatically with `/build-engine`
 
 ### **Extending Hooks**
 Add custom hooks in `tools/hooks/extended/` with proper priority and error handling.
@@ -182,4 +181,4 @@ MIT License - Use freely for your trading strategy development.
 
 **Ready to build your next profitable strategy?** 
 
-Run `python validate_setup.py` to verify your setup, then start with `/kickoff "Your strategy idea"`!
+Run `python validate_setup.py` to verify your setup, then start with `/validate-setup` to begin your strategy development!

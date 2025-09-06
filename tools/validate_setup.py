@@ -310,7 +310,7 @@ class FrameworkValidator:
             self.success(f"{Colors.BOLD}All validations passed! Framework is ready for use.{Colors.END}")
             self.log("\nNext steps:")
             self.log("1. Create your strategy specification (.md file)")
-            self.log("2. Run: /kickoff \"Your strategy description\"")
+            self.log("2. Run: /validate-setup to begin strategy development")
             self.log("3. Follow the build -> run -> analyze -> evaluate workflow")
         else:
             self.error(f"{Colors.BOLD}Some validations failed. Please fix the issues above.{Colors.END}")

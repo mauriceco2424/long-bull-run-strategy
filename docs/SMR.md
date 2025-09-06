@@ -5,7 +5,7 @@
 > **Status**: Template - No active strategy defined yet
 > 
 > **To define a new strategy**: Use `STRAT_TEMPLATE.md` as your guide, then update this SMR
-> **To build and run**: Use `/kickoff "strategy description"` command
+> **To build and run**: Use `/validate-setup` → `/validate-strategy` → `/plan-strategy` → `/build-engine` workflow
 
 ---
 
