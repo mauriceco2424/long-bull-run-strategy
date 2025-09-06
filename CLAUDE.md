@@ -76,6 +76,16 @@ Source & cache declared in EMR; OHLCV in UTC; define missing-bar policy; fees/sl
 * **Integration**: Python scripts report to shared progress tracking system
 * **Claude Level**: Display umbrella progress for command coordination phases
 
+## Visualization Standards
+
+* **Research-Based Design**: No dual-axis charts, prioritize visual clarity over metric cramming
+* **3-Panel Default**: Equity curve (70%) + Drawdown (20%) + Activity (10%) stacked layout
+* **Professional Quality**: PDF vector graphics for LaTeX, PNG 300+ DPI for HTML
+* **Smart Time Axis**: Auto-detect optimal spacing (<90d: daily, <365d: weekly, <1095d: monthly, 3y+: quarterly)
+* **Template Configuration**: Basic/Enhanced/Advanced levels with benchmark and per-symbol options
+* **File Formats**: Generate both PDF and PNG, use PDF for LaTeX reports, PNG for HTML fallback
+* **Color Standards**: Colorblind-friendly palettes, professional typography, publication-ready quality
+
 ## Parameter Configuration System
 
 * **Strategy Template**: Defines parameter schema (types, ranges, descriptions)

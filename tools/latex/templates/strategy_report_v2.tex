@@ -1,0 +1,280 @@
+% Professional Trading Strategy Evaluation Report Template
+% Research-based structure for quantitative finance reports
+\documentclass[11pt,a4paper]{article}
+
+% Required packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{siunitx}
+
+% Page layout
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\lhead{{{strategy_name}} - Evaluation Report}
+\cfoot{Generated {{generation_date}} | Run ID: {{run_id}}}
+
+% Colors for financial data
+\definecolor{profit}{RGB}{0,128,0}
+\definecolor{loss}{RGB}{220,20,60}
+\definecolor{neutral}{RGB}{70,130,180}
+\definecolor{lightgray}{RGB}{245,245,245}
+
+% Professional title formatting
+\titleformat{\section}{\Large\bfseries\color{neutral}}{\thesection}{1em}{}[\vspace{2pt}\titlerule]
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+
+% Document metadata
+\title{\textbf{{{strategy_name}}}\\[0.5em]\Large Strategy Evaluation Report}
+\author{{{author}}}
+\date{{{generation_date}}}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\vspace{1em}
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Run ID} & {{run_id}} \\
+\textbf{Analysis Period} & {{start_date}} to {{end_date}} \\
+\textbf{Universe} & {{universe}} \\
+\textbf{Timeframe} & {{timeframe}} \\
+\textbf{Engine Version} & {{engine_version}} \\
+\textbf{Config Hash} & \texttt{{{config_hash}}} \\
+\hline
+\end{tabular}
+\end{center}
+
+\newpage
+
+% =============================================================================
+% EXECUTIVE SUMMARY
+% =============================================================================
+\section{Executive Summary}
+
+\subsection{Performance Rating: {{performance_rating}}}
+
+{{executive_summary_text}}
+
+\subsection{Key Findings}
+\begin{itemize}
+{{recommendation_items}}
+\end{itemize}
+
+% =============================================================================
+% STRATEGY METHODOLOGY
+% =============================================================================
+\section{Strategy Methodology}
+
+\subsection{Strategy Description}
+{{strategy_description}}
+
+\subsection{Configuration Parameters}
+\begin{table}[H]
+\centering
+\caption{Strategy Configuration Parameters}
+\begin{tabular}{lll}
+\toprule
+\textbf{Parameter} & \textbf{Value} & \textbf{Description} \\
+\midrule
+{{parameter_table_rows}}
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =============================================================================
+% PERFORMANCE ANALYSIS
+% =============================================================================
+\section{Performance Analysis}
+
+\subsection{Key Performance Metrics}
+\begin{table}[H]
+\centering
+\caption{Summary Performance Metrics}
+\begin{tabular}{lrr}
+\toprule
+\textbf{Metric} & \textbf{Value} & \textbf{Assessment} \\
+\midrule
+Compound Annual Growth Rate (CAGR) & {{cagr}}\% & \textcolor{profit}{Strong} \\
+Sortino Ratio & {{sortino}} & \textcolor{profit}{Excellent} \\
+Sharpe Ratio & {{sharpe}} & \textcolor{neutral}{Good} \\
+Maximum Drawdown & {{max_dd}}\% & \textcolor{loss}{Acceptable} \\
+Win Rate & {{win_rate}}\% & \textcolor{profit}{High} \\
+Profit Factor & {{profit_factor}} & \textcolor{profit}{Strong} \\
+Total Trades & {{total_trades}} & Statistical Significance \\
+Average Trade Duration & {{avg_trade_duration}} days & Position Efficiency \\
+Volatility & {{volatility}}\% & Risk Profile \\
+Market Exposure & {{exposure}}\% & Capital Efficiency \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Equity Curve Analysis}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{{{main_strategy_chart_path}}}
+\caption{Strategy Performance Overview: Three-panel analysis showing equity curve evolution, drawdown periods, and trade activity. The main panel displays strategy equity against benchmark with smart time axis scaling. Drawdown analysis highlights maximum loss periods and recovery characteristics. Trade activity summary shows frequency patterns over the analysis period.}
+\label{fig:main_performance}
+\end{figure}
+
+{{equity_analysis_text}}
+
+\subsection{Risk Analysis}
+{{risk_adjusted_analysis}}
+
+\subsubsection{Drawdown Analysis}
+{{drawdown_analysis_text}}
+
+Maximum drawdown occurred during {{max_dd_period}}, demonstrating {{overall_assessment}}.
+
+% =============================================================================
+% STRATEGIC INSIGHTS
+% =============================================================================
+\section{Strategic Insights}
+
+\subsection{Market Behavior Analysis}
+{{market_behavior_analysis}}
+
+\subsection{Strategy Effectiveness}
+{{strategy_effectiveness_analysis}}
+
+\subsection{Parameter Sensitivity}
+{{parameter_sensitivity_analysis}}
+
+\subsection{Market Regime Performance}
+\begin{table}[H]
+\centering
+\caption{Performance Across Market Regimes}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Period Type} & \textbf{Return} & \textbf{Volatility} & \textbf{Sharpe} & \textbf{Max DD} \\
+\midrule
+{{regime_performance_rows}}
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =============================================================================
+% STATISTICAL VALIDATION
+% =============================================================================
+\section{Statistical Validation}
+
+\subsection{Statistical Significance}
+{{statistical_significance_text}}
+
+\subsection{Confidence Intervals (95\%)}
+\begin{table}[H]
+\centering
+\caption{Performance Metric Confidence Intervals}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Metric} & \textbf{Point Estimate} & \textbf{Lower Bound} & \textbf{Upper Bound} \\
+\midrule
+CAGR & {{cagr}}\% & {{cagr_ci_lower}}\% & {{cagr_ci_upper}}\% \\
+Sortino Ratio & {{sortino}} & {{sortino_ci_lower}} & {{sortino_ci_upper}} \\
+Win Rate & {{win_rate}}\% & {{winrate_ci_lower}}\% & {{winrate_ci_upper}}\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Realism Assessment}
+\begin{table}[H]
+\centering
+\caption{Quality Validation Results}
+\begin{tabular}{ll}
+\toprule
+\textbf{Validation Check} & \textbf{Status} \\
+\midrule
+Lookahead Bias Detection & {{lookahead_status}} \\
+Liquidity Constraints & {{liquidity_status}} \\
+Execution Realism & {{execution_status}} \\
+Accounting Integrity & {{accounting_status}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Risk Metrics}
+\begin{itemize}
+\item \textbf{Value at Risk (95\%)}: {{var_95}}
+\item \textbf{Expected Shortfall}: {{expected_shortfall}}
+\item \textbf{Maximum Consecutive Losses}: {{max_consecutive_losses}}
+\end{itemize}
+
+% =============================================================================
+% PER-SYMBOL ANALYSIS (if enhanced visualization enabled)
+% =============================================================================
+\section{Per-Symbol Analysis}
+
+{{per_symbol_analysis_section}}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{{{symbol_chart_1_path}}}
+\caption{{{symbol_1_name}} Trading Analysis}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+\includegraphics[width=\textwidth]{{{symbol_chart_2_path}}}
+\caption{{{symbol_2_name}} Trading Analysis}
+\end{subfigure}
+\caption{Per-symbol OHLCV analysis with trade entry/exit markers and event overlays. Charts show candlestick price action with volume bars and colored event markers indicating strategy decisions and executions.}
+\end{figure}
+
+% =============================================================================
+% CONCLUSIONS & RECOMMENDATIONS
+% =============================================================================
+\section{Conclusions \& Recommendations}
+
+\subsection{Overall Assessment}
+{{overall_assessment}}
+
+\subsection{Optimization Recommendations}
+\begin{itemize}
+{{optimization_recommendations}}
+\end{itemize}
+
+\subsection{Implementation Considerations}
+{{implementation_considerations}}
+
+\subsection{Next Steps}
+{{next_steps_recommendations}}
+
+% =============================================================================
+% APPENDIX
+% =============================================================================
+\section{Appendix}
+
+\subsection{Methodology Notes}
+{{methodology_notes}}
+
+\subsection{Data Sources}
+\textbf{Primary Data Source}: {{data_source}}
+
+\textbf{Analysis Date}: {{analysis_date}}
+
+\subsection{Risk Disclaimer}
+This analysis is based on historical data and backtesting methodology. Past performance does not guarantee future results. The strategy should be thoroughly tested in paper trading or with minimal capital before live deployment. Market conditions, slippage, and execution costs may significantly impact real-world performance.
+
+\end{document}

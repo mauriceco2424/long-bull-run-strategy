@@ -46,28 +46,38 @@ Create canonical outputs in `/data/runs/{run_id}/`:
   - Daily equity, monitored_count, open_trades_count
   - Optional cash, gross_exposure
 
-### 3. Visualization Generation
-Create figures in `/data/runs/{run_id}/figs/`:
+### 3. Professional Visualization Generation (Research-Based Best Practices)
+Create publication-quality figures in `/data/runs/{run_id}/figs/`:
 
-- **Main Equity Plot**:
-  - Equity curve with trade bars grouped by symbol
-  - Color coding: blues/greens for gains, reds/oranges for losses
-  - Intensity encodes number of trades in batch
-  - Side panel with config hash and headline stats
+**Default 3-Panel Layout** (always generated):
+- **Panel 1 - Main Equity Chart (70% height)**:
+  - Primary equity curve (thick line, prominent styling)
+  - Benchmark comparison curve (thin line, muted color)
+  - Smart time axis with auto-detected optimal spacing:
+    - <90 days: daily ticks, <365 days: weekly ticks
+    - <1095 days: monthly ticks, 3+ years: quarterly ticks
+  - Subtle background shading for winning/losing periods
+  - Professional typography, no cramming of metrics
 
-- **Monitoring Subplot**:
-  - monitored_count and open_trades_count lines
-  - Daily dots or continuous lines
+- **Panel 2 - Drawdown Analysis (20% height)**:
+  - Inverted area chart showing % drawdown from peaks
+  - Red fill going down from 0% baseline
+  - Maximum drawdown period highlighting with annotations
+  - Same time axis as equity panel for perfect alignment
 
-- **Per-Symbol Charts**:
-  - Candlestick + volume charts
-  - Vertical event lines with color coding:
-    - Grey: filter pass
-    - Black: buy signal
-    - Blue: TP signal, Green: TP sell
-    - Orange: SL signal, Red: SL sell
-  - Shaded spans for open trades
-  - Monthly event bar with ticks and labels
+- **Panel 3 - Trade Activity Summary (10% height)**:
+  - Daily/weekly trade frequency or win rate aggregation
+  - Clean bar chart design avoiding visual clutter
+  - Consistent styling with main chart theme
+
+**Enhanced Visualization** (template-configurable):
+- **Per-Symbol OHLCV Charts**: Candlestick + volume with event overlays
+- **Event Marker System**: 
+  - Grey: filter pass, Black: buy signal
+  - Blue: TP signal, Green: TP sell
+  - Orange: SL signal, Red: SL sell
+- **Trade Period Visualization**: Shaded spans for open positions
+- **Professional Quality**: 300+ DPI, colorblind-friendly, SVG + PNG formats
 
 ### 4. **Embedded Validation & Quality Checks**
 - **No Lookahead Validation**: Verify all features use data ≤ t for actions at t+1

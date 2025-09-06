@@ -78,11 +78,29 @@ Example structure:
 
 ---
 
-## 7) Optional Strat-Specific Extras
-*(leave empty if not needed; skeleton applies defaults)*  
-- **Visualization Preferences**: `<e.g., highlight trades, plot equity per sector>`  
-- **Analysis Preferences**: `<e.g., track median hold time distribution>`  
-- **Other Notes**: `<any strat-specific but optional details>`  
+## 7) Visualization Configuration (Optional)
+*(leave empty to use professional defaults)*
+
+### 7.1 Visualization Level (choose one)
+1. **Basic** — Default 3-panel layout: equity curve + drawdown + activity summary  
+2. **Enhanced** — Basic + per-symbol candlestick charts with event overlays  
+3. **Advanced** — Enhanced + custom strategy-specific visualizations  
+
+### 7.2 Display Options
+- **Benchmark Symbol**: `<SPY | QQQ | BTC | custom symbol>` *(default: SPY)*  
+- **Per-Symbol Analysis**: `<yes | no>` *(default: no, enables enhanced visualization)*  
+- **Trade Markers**: `<all | major | none>` *(default: major - only significant trades shown)*  
+- **Time Period Shading**: `<yes | no>` *(default: yes - subtle winning/losing period backgrounds)*  
+
+### 7.3 Custom Analysis Preferences  
+- **Strategy-Specific Metrics**: `<e.g., sector rotation analysis, momentum persistence>`  
+- **Additional Overlays**: `<e.g., volatility bands, custom indicators>`  
+- **Report Sections**: `<any additional analysis sections for LaTeX report>`  
+
+### 7.4 Other Strategy Notes
+- **Implementation Notes**: `<any strategy-specific execution details>`  
+- **Risk Considerations**: `<known limitations or edge cases>`  
+- **Optimization Priorities**: `<areas for future enhancement>`  
 
 ---
 

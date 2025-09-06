@@ -28,7 +28,7 @@ class ReportGenerator:
     def __init__(self, run_id: str, run_data_path: str = "data/runs"):
         self.run_id = run_id
         self.run_path = Path(run_data_path) / run_id
-        self.latex_template_path = Path("tools/latex/templates/strategy_report.tex")
+        self.latex_template_path = Path("tools/latex/templates/strategy_report_v2.tex")
         self.markdown_template_path = Path("tools/templates/strategy_report.md")
         self.pdflatex_path = "pdflatex"  # Default to PATH
         
@@ -208,15 +208,21 @@ class ReportGenerator:
         }
     
     def _prepare_chart_paths(self) -> Dict[str, str]:
-        """Prepare paths to chart files."""
+        """Prepare paths to chart files (updated for new visualization system)."""
         
         figs_path = self.run_path / "figs"
         
+        # Updated for new 3-panel visualization system with format selection
+        # Use PDF for LaTeX reports, PNG for HTML reports
+        image_ext = '.pdf' if self.check_latex_availability() else '.png'
+        
         chart_files = {
-            'equity_chart_path': 'equity_curve.png',
-            'trade_analysis_chart_path': 'trade_analysis.png',
-            'symbol_chart_1_path': 'symbol_1.png',
-            'symbol_chart_2_path': 'symbol_2.png',
+            'main_strategy_chart_path': f'strategy_performance{image_ext}',    # New 3-panel default chart
+            'equity_chart_path': f'strategy_performance{image_ext}',          # Legacy compatibility  
+            'symbol_btc_chart_path': f'symbol_btc_usdt{image_ext}',          # Per-symbol charts
+            'symbol_eth_chart_path': f'symbol_eth_usdt{image_ext}',
+            'symbol_chart_1_path': f'symbol_btc_usdt{image_ext}',            # Legacy fallback
+            'symbol_chart_2_path': f'symbol_eth_usdt{image_ext}',            # Legacy fallback
         }
         
         chart_paths = {}
@@ -225,15 +231,40 @@ class ReportGenerator:
             if chart_path.exists():
                 chart_paths[key] = str(chart_path.absolute())
             else:
-                # Fallback to first available chart
+                # Enhanced fallback logic for new system
                 if figs_path.exists():
-                    available_charts = list(figs_path.glob("*.png"))
-                    if available_charts:
-                        chart_paths[key] = str(available_charts[0].absolute())
+                    if 'main_strategy' in key or 'equity' in key:
+                        # Look for any strategy performance chart
+                        strategy_charts = list(figs_path.glob(f"strategy_*{image_ext}"))
+                        if not strategy_charts and image_ext == '.pdf':
+                            # Fallback to PNG if PDF not available
+                            strategy_charts = list(figs_path.glob("strategy_*.png"))
+                        if strategy_charts:
+                            chart_paths[key] = str(strategy_charts[0].absolute())
+                        else:
+                            chart_paths[key] = f"strategy_chart_not_found{image_ext}"
+                    elif 'symbol' in key:
+                        # Look for any symbol chart
+                        symbol_charts = list(figs_path.glob(f"symbol_*{image_ext}"))
+                        if not symbol_charts and image_ext == '.pdf':
+                            # Fallback to PNG if PDF not available
+                            symbol_charts = list(figs_path.glob("symbol_*.png"))
+                        if symbol_charts:
+                            chart_paths[key] = str(symbol_charts[0].absolute())
+                        else:
+                            chart_paths[key] = f"symbol_chart_not_found{image_ext}"
                     else:
-                        chart_paths[key] = "chart_not_found.png"
+                        # Generic fallback
+                        available_charts = list(figs_path.glob(f"*{image_ext}"))
+                        if not available_charts and image_ext == '.pdf':
+                            # Fallback to PNG if PDF not available
+                            available_charts = list(figs_path.glob("*.png"))
+                        if available_charts:
+                            chart_paths[key] = str(available_charts[0].absolute())
+                        else:
+                            chart_paths[key] = f"chart_not_found{image_ext}"
                 else:
-                    chart_paths[key] = "chart_not_found.png"
+                    chart_paths[key] = f"chart_not_found{image_ext}"
         
         return chart_paths
     

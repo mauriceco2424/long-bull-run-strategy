@@ -41,22 +41,37 @@ You are the **Trading Data Analyzer** — you process raw trading data into comp
 - **Figure Captions**: Auto-generated descriptive captions for each visualization
 - **PDF-Ready**: Proper sizing and quality for LaTeX report inclusion
 
-**Main Equity Chart Requirements**:
-- Equity curve with trade entry/exit markers
-- Trade bars grouped by symbol (color-coded: blues/greens gains, reds/oranges losses)
-- Side panel with configuration hash and headline statistics
-- Professional typography and clean layout
+**Default Visualization Architecture (Research-Based Best Practices)**:
+*Stacked panel approach - no dual-axis confusion, clean visual hierarchy*
 
-**Position Monitoring Subplot**:
-- monitored_count and open_trades_count over time
-- Clear timeline with appropriate time markers
-- Consistent styling with main chart
+**Panel 1 - Main Equity Chart (70% height)**:
+- Primary equity curve (thick line, prominent color)
+- Benchmark comparison curve (thin line, muted color) 
+- Background shading for winning/losing periods (subtle, non-distracting)
+- Smart time axis with auto-detected optimal spacing:
+  - <90 days: daily ticks ("%m-%d")
+  - <365 days: weekly ticks ("%m-%d") 
+  - <1095 days: monthly ticks ("%Y-%m")
+  - 3+ years: quarterly ticks ("%Y-%m")
+- Professional typography, no cramming of metrics (metrics go in LaTeX report)
 
-**Per-Symbol Analysis Charts**:
-- OHLCV candlestick charts with volume bars
-- Event overlay system: grey(filter pass), black(buy), blue(tp signal), green(tp sell), orange(sl signal), red(sl sell)
-- Shaded spans for open trade periods with proper opacity handling
-- Monthly event timeline with clear labels and ticks
+**Panel 2 - Drawdown Analysis (20% height)**:
+- Inverted area chart showing % drawdown from peaks
+- Red fill going down from 0% baseline
+- Maximum drawdown period highlighting
+- Recovery period visualization
+- Same time axis as equity panel for alignment
+
+**Panel 3 - Trade Activity Summary (10% height)**:
+- Trade frequency or win rate bars (monthly/weekly aggregation)
+- Clean, minimal design - avoid visual clutter
+- Consistent with main chart styling
+
+**Enhanced Visualization (Template-Configurable)**:
+- **Per-Symbol Charts**: OHLCV candlestick + volume with event overlays
+- **Trade Markers**: Entry/exit as vertical lines with position spans
+- **Event System**: Grey(filter), black(buy), blue(TP signal), green(TP sell), orange(SL signal), red(SL sell)
+- **Symbol Analysis**: Separate charts per symbol with trade period shading
 
 **Validators (block on fail)**
 1. **No lookahead:** features use data ≤ *t*; actions at next-bar open.
