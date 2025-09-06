@@ -183,7 +183,8 @@ class FrameworkValidator:
         required_commands = [
             'validate-setup.md', 'validate-strategy.md', 'plan-strategy.md', 
             'build-engine.md', 'run.md', 'analyze-run.md', 'evaluate-run.md',
-            'optimize-run.md', 'analyze-optimization.md', 'evaluate-optimization.md'
+            'optimize-run.md', 'analyze-optimization.md', 'evaluate-optimization.md',
+            'run-single.md', 'run-optimization.md'
         ]
         
         missing_commands = []

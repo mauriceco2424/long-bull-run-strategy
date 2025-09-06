@@ -17,6 +17,7 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 
 * Start in **PLAN mode**; keep `cloud/tasks/<task>.md` with **goals, owners, deps, gates, milestones**
 * Prefer **slash commands**: `/validate-setup`, `/validate-strategy`, `/plan-strategy`, `/build-engine`, `/run`, `/analyze-run`, `/evaluate-run`, `/optimize-run`, `/analyze-optimization`, `/evaluate-optimization`
+* **Convenience commands**: `/run-single` (chains run→analyze-run→evaluate-run), `/run-optimization` (chains optimize-run→analyze-optimization→evaluate-optimization)
 * `/docs/**` is authoritative; changelogs are append-only
 * **Progress bar requirement**: All Python scripts MUST implement unified progress reporting with ETA
 
@@ -26,15 +27,13 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 1. **Setup & Validation**: `/validate-setup` → `/validate-strategy` → `/plan-strategy`
 2. **Engine Building**: `/build-engine` (auto-generates parameter_config.md)
 
-**Single-Run Path (3 commands):**
-3. **Single Execution**: `/run` (uses parameter_config.md) 
-4. **Single Analysis**: `/analyze-run` (data processing + visualization)
-5. **Single Evaluation**: `/evaluate-run` (performance evaluation + strategic interpretation + PDF report)
+**Single-Run Path (3 individual + 1 chained):**
+3. **Individual Steps**: `/run` → `/analyze-run` → `/evaluate-run`
+4. **Chained Execution**: `/run-single` (automatic pipeline)
 
-**Optimization Path (3 commands):**
-3. **Parameter Optimization**: `/optimize-run` (uses optimization_config.md for parameter sweeps)
-4. **Optimization Analysis**: `/analyze-optimization` (parameter performance matrices + robustness analysis)
-5. **Optimization Evaluation**: `/evaluate-optimization` (parameter interpretation + optimization study PDF report)
+**Optimization Path (3 individual + 1 chained):**
+3. **Individual Steps**: `/optimize-run` → `/analyze-optimization` → `/evaluate-optimization` 
+4. **Chained Execution**: `/run-optimization` (automatic pipeline)
 
 ## Roles
 
