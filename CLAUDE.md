@@ -16,19 +16,23 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 ## Always do this
 
 * Start in **PLAN mode**; keep `cloud/tasks/<task>.md` with **goals, owners, deps, gates, milestones**
-* Prefer **slash commands**: `/kickoff`, `/build-run`, `/analyze-run`, `/evaluate`
+* Prefer **slash commands**: `/validate-setup`, `/validate-strategy`, `/plan-strategy`, `/build-engine`, `/run`, `/analyze-run`, `/evaluate-run`
 * `/docs/**` is authoritative; changelogs are append-only
+* **Progress bar requirement**: All Python scripts MUST implement unified progress reporting with ETA
 
-## Workflow (loop)
+## Workflow (streamlined 8-command flow)
 
-1. Build engine per SMR → 2) Create data (run) → 3) Analyze data → 4) Evaluate performance & realism; **rank impact of each feature/mechanism** → 5) Suggest parameter/mechanism changes → 6) Implement changes → **repeat**
+1. **Setup & Validation**: `/validate-setup` → `/validate-strategy` → `/plan-strategy`
+2. **Execution**: `/build-engine` (auto-generates parameter_config.md) → `/run` (uses parameter_config.md)
+3. **Analysis**: `/analyze-run` (data processing + visualization) → `/evaluate-run` (performance evaluation + strategic interpretation + PDF report)
+4. **Iteration**: Modify parameters or strategy → repeat from step 2
 
 ## Roles
 
 * **Orchestrator**: plan/route; keep **EMR/SMR** authoritative; **ECL/SCL** append-only; block runs until docs fresh
 * **Builder**: implement/optimize engine; hardware-aware session initialization; unit/smoke/perf tests; emit **ECN** (+ benchmarks with hardware profile)
 * **Analyzer**: run backtests; emit **manifest, metrics, trades, events, series, figs**; sanity-check and flag anomalies
-* **Evaluator**: interpret results (profitability + realism); **rank feature/mech impact**; emit **SER**; if spec changed, **SDCN**
+* **Evaluator**: **evaluate performance** (assess metrics quality, compare to benchmarks); **strategic interpretation** (understand WHY strategy works/fails); **generate LaTeX PDF reports**; emit **SER**; if spec changed, **SDCN**
 
 ## Handoffs & gates
 
@@ -63,6 +67,21 @@ Source & cache declared in EMR; OHLCV in UTC; define missing-bar policy; fees/sl
 * Fees/slippage + minNotional rounding; flag impossible fills
 * Accounting: `Equity_{t+1} = Equity_t + realizedPnL − fees`
 * Determinism; sanity flags (e.g., extreme Sortino, zero DD)
+
+## Progress Bar Standards
+
+* **Python Scripts**: All must use unified progress libraries (tqdm, rich, progressbar2) with ETA
+* **Format**: `Task description... ████████░░░░ 75% (~2 min remaining)`
+* **One progress bar per major task** - no micro-task progress spam
+* **Integration**: Python scripts report to shared progress tracking system
+* **Claude Level**: Display umbrella progress for command coordination phases
+
+## Parameter Configuration System
+
+* **Strategy Template**: Defines parameter schema (types, ranges, descriptions)
+* **Auto-generation**: `/build-engine` creates `parameter_config.md` template
+* **Execution**: `/run` reads all settings from `parameter_config.md` (no CLI arguments)
+* **Version Control**: All parameter configs are version-controlled for reproducibility
 
 ## Run registry & Git
 

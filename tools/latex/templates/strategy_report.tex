@@ -1,0 +1,267 @@
+% Trading Strategy Evaluation Report Template
+% Auto-generated LaTeX template for professional strategy reports
+\documentclass[11pt,a4paper]{article}
+
+% Required packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{subcaption}
+\usepackage{listings}
+
+% Page layout
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+
+% Header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\lhead{{{strategy_name}} - Strategy Evaluation Report}
+\cfoot{Generated on {{generation_date}}}
+
+% Colors for financial data
+\definecolor{profit}{RGB}{0,128,0}
+\definecolor{loss}{RGB}{220,20,60}
+\definecolor{neutral}{RGB}{70,130,180}
+
+% Title formatting
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+
+% Document metadata
+\title{{{strategy_name}}\\Strategy Evaluation Report}
+\author{{{author}}}
+\date{{{generation_date}}}
+
+\begin{document}
+
+\maketitle
+
+% Executive Summary
+\section{Executive Summary}
+
+\subsection{Performance Rating}
+\textbf{Overall Rating:} {{performance_rating}}
+
+\subsection{Key Findings}
+{{executive_summary_text}}
+
+\subsection{Strategic Recommendations}
+\begin{itemize}
+{{recommendation_items}}
+\end{itemize}
+
+% Strategy Methodology
+\section{Strategy Methodology}
+
+\subsection{Strategy Description}
+{{strategy_description}}
+
+\subsection{Parameters Used}
+\begin{table}[H]
+\centering
+\caption{Strategy Parameters}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Parameter & Value & Description \\
+\midrule
+{{parameter_table_rows}}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Market Configuration}
+\begin{itemize}
+    \item \textbf{Universe:} {{universe}}
+    \item \textbf{Timeframe:} {{timeframe}}
+    \item \textbf{Date Range:} {{start_date}} to {{end_date}}
+    \item \textbf{Total Bars:} {{total_bars}}
+\end{itemize}
+
+% Performance Analysis
+\section{Performance Analysis}
+
+\subsection{Key Metrics}
+\begin{table}[H]
+\centering
+\caption{Performance Metrics Summary}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Metric & Value \\
+\midrule
+CAGR & {{cagr}}\% \\
+Sortino Ratio & {{sortino}} \\
+Sharpe Ratio & {{sharpe}} \\
+Maximum Drawdown & {{max_dd}}\% \\
+Win Rate & {{win_rate}}\% \\
+Profit Factor & {{profit_factor}} \\
+Total Trades & {{total_trades}} \\
+Average Trade Duration & {{avg_trade_duration}} days \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Performance Visualization}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{{{equity_chart_path}}}
+    \caption{Equity Curve with Trade Markers}
+    \label{fig:equity_curve}
+\end{figure}
+
+The equity curve in Figure \ref{fig:equity_curve} shows {{equity_analysis_text}}.
+
+\subsection{Trade Analysis}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{{{trade_analysis_chart_path}}}
+    \caption{Trade Distribution and Performance}
+    \label{fig:trade_analysis}
+\end{figure}
+
+% Risk Assessment
+\section{Risk Assessment}
+
+\subsection{Drawdown Analysis}
+Maximum drawdown of {{max_dd}}\% occurred during the period {{max_dd_period}}. {{drawdown_analysis_text}}
+
+\subsection{Risk Metrics}
+\begin{itemize}
+    \item \textbf{Volatility:} {{volatility}}\% annualized
+    \item \textbf{VaR (95\%):} {{var_95}}\%
+    \item \textbf{Expected Shortfall:} {{expected_shortfall}}\%
+    \item \textbf{Maximum Consecutive Losses:} {{max_consecutive_losses}}
+\end{itemize}
+
+\subsection{Risk-Adjusted Performance}
+{{risk_adjusted_analysis}}
+
+% Strategic Insights
+\section{Strategic Insights}
+
+\subsection{Market Behavior Analysis}
+{{market_behavior_analysis}}
+
+\subsection{Strategy Effectiveness}
+{{strategy_effectiveness_analysis}}
+
+\subsection{Parameter Sensitivity}
+{{parameter_sensitivity_analysis}}
+
+\subsection{Market Regime Performance}
+\begin{table}[H]
+\centering
+\caption{Performance by Market Regime}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Market Regime & CAGR & Sortino & Max DD \\
+\midrule
+{{regime_performance_rows}}
+\bottomrule
+\end{tabular}
+\end{table}
+
+% Statistical Validation
+\section{Statistical Validation}
+
+\subsection{Significance Testing}
+{{statistical_significance_text}}
+
+\subsection{Realism Assessment}
+\begin{itemize}
+    \item \textbf{Lookahead Bias:} {{lookahead_status}}
+    \item \textbf{Liquidity Validation:} {{liquidity_status}}
+    \item \textbf{Execution Realism:} {{execution_status}}
+    \item \textbf{Accounting Integrity:} {{accounting_status}}
+\end{itemize}
+
+\subsection{Confidence Intervals}
+\begin{table}[H]
+\centering
+\caption{95\% Confidence Intervals for Key Metrics}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Metric & Lower Bound & Upper Bound \\
+\midrule
+CAGR & {{cagr_ci_lower}}\% & {{cagr_ci_upper}}\% \\
+Sortino Ratio & {{sortino_ci_lower}} & {{sortino_ci_upper}} \\
+Win Rate & {{winrate_ci_lower}}\% & {{winrate_ci_upper}}\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% Per-Symbol Analysis
+\section{Per-Symbol Analysis}
+
+{{per_symbol_analysis_section}}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\textwidth]{{{symbol_chart_1_path}}}
+        \caption{{{symbol_1_name}} Performance}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\textwidth]{{{symbol_chart_2_path}}}
+        \caption{{{symbol_2_name}} Performance}
+    \end{subfigure}
+    \caption{Top Performing Symbols}
+\end{figure}
+
+% Conclusions and Recommendations
+\section{Conclusions and Recommendations}
+
+\subsection{Overall Assessment}
+{{overall_assessment}}
+
+\subsection{Optimization Opportunities}
+\begin{enumerate}
+{{optimization_recommendations}}
+\end{enumerate}
+
+\subsection{Implementation Considerations}
+{{implementation_considerations}}
+
+\subsection{Next Steps}
+{{next_steps_recommendations}}
+
+% Appendix
+\section{Appendix}
+
+\subsection{Technical Configuration}
+\begin{table}[H]
+\centering
+\caption{Technical Configuration}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Component & Version/Details \\
+\midrule
+Engine Version & {{engine_version}} \\
+Strategy Version & {{strategy_version}} \\
+Data Source & {{data_source}} \\
+Config Hash & \texttt{{{config_hash}}} \\
+Run ID & \texttt{{{run_id}}} \\
+Analysis Date & {{analysis_date}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Methodology Notes}
+{{methodology_notes}}
+
+\end{document}

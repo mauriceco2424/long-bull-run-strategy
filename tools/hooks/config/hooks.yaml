@@ -8,42 +8,85 @@ global:
   lock_timeout: 300  # 5 minutes for registry locks
   log_level: INFO
 
-# Minimal Core Hooks (A) - Essential for pipeline integrity
+# Core Hooks for New 8-Command Workflow
 core:
+  # New workflow hooks
+  before_validate_setup:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 30
+    description: "Pre-validate system requirements and dependencies"
+    
+  before_validate_strategy:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 30
+    description: "Check strategy template accessibility"
+    
+  after_validate_strategy:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "Validate strategy template completeness and parameter schema"
+    
+  before_build_engine:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "Validate strategy template and system readiness for engine build"
+    
+  after_build_engine:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "Auto-generate parameter_config.md template and validate engine build"
+    
+  before_run:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "Validate parameter_config.md completeness and resource availability"
+    
   before_analyzer_run:
     enabled: true
     blocking: true
     priority: P0
     timeout: 60
-    description: "Guard resources & preconditions"
+    description: "Guard resources & preconditions for analysis"
     
   after_analyzer_run:
     enabled: true
     blocking: true
     priority: P0
     timeout: 60
-    description: "Artifact sanity & integrity"
+    description: "Validate artifacts, metrics, and visualization quality"
     
   before_evaluator:
     enabled: true
     blocking: true
     priority: P0
     timeout: 60
-    description: "Ensure evaluator readiness, check red flags"
+    description: "Ensure analyzer outputs ready for evaluation"
     
   after_evaluator:
     enabled: true
     blocking: true
     priority: P1
-    timeout: 60
-    description: "Act on evaluator decision"
+    timeout: 120
+    description: "Validate LaTeX PDF generation and evaluation completion"
     
   before_registry_append:
     enabled: true
     blocking: true
     priority: P0
     timeout: 60
-    description: "CSV/lock integrity"
+    description: "CSV/lock integrity for run registry"
     
   after_registry_append:
     enabled: true
@@ -51,6 +94,40 @@ core:
     priority: P2
     timeout: 10
     description: "Observability and notifications"
+
+# Auto-enforcement hooks (new workflow features)
+auto_enforcement:
+  auto_sync_docs:
+    enabled: true
+    blocking: false
+    priority: P2
+    timeout: 30
+    description: "Automatically sync docs when EMR/SMR changes detected"
+    trigger: "on_ecn_sdcn_creation"
+    
+  auto_generate_parameter_config:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 60
+    description: "Auto-generate parameter_config.md after engine build"
+    trigger: "after_build_engine"
+    
+  progress_bar_enforcement:
+    enabled: true
+    blocking: false
+    priority: P2
+    timeout: 5
+    description: "Validate unified progress bar standards"
+    trigger: "before_long_operation"
+    
+  parameter_config_validation:
+    enabled: true
+    blocking: true
+    priority: P0
+    timeout: 30
+    description: "Validate parameter_config.md completeness"
+    trigger: "before_run"
 
 # Observability hooks
 observability:
@@ -67,6 +144,20 @@ observability:
     priority: P2
     timeout: 10
     description: "Track anomalies in registry"
+    
+  on_latex_compilation_error:
+    enabled: true
+    blocking: false
+    priority: P2
+    timeout: 10
+    description: "Log LaTeX compilation issues"
+    
+  on_parameter_validation_failure:
+    enabled: true
+    blocking: false
+    priority: P1
+    timeout: 10
+    description: "Log parameter validation failures"
 
 # Lock configuration
 locks:

@@ -1,15 +1,15 @@
-# Analyze Trading Strategy Run
+# Analyze Trading Run Results
 
 ---
-description: Process existing run data into canonical outputs
-argument-hint: [run_id or config_path universe_id date_range]
+description: Process run data into comprehensive metrics and professional visualizations
+argument-hint: [run_id]
 model: claude-3-5-sonnet-20241022
 ---
 
-I need to use the **trading-analyzer** agent to process backtest data into canonical artifacts and visualizations.
+I need to use the **trading-analyzer** agent to process the backtest data into comprehensive analysis artifacts including metrics calculation and professional visualizations.
 
-## Run Specification
-$ARGUMENTS
+## Run Analysis Parameters
+- **Run ID**: $ARGUMENTS (defaults to most recent run if not specified)
 
 ## Analysis Tasks
 
@@ -69,34 +69,60 @@ Create figures in `/data/runs/{run_id}/figs/`:
   - Shaded spans for open trades
   - Monthly event bar with ticks and labels
 
-### 4. Validation Protocol
-Run comprehensive validators (block on failure):
+### 4. **Embedded Validation & Quality Checks**
+- **No Lookahead Validation**: Verify all features use data ≤ t for actions at t+1
+- **Accounting Identity**: Confirm `Equity_{t+1} = Equity_t + realizedPnL - fees`
+- **Sanity Thresholds**: Flag extreme ratios (Sortino >3, zero drawdown periods)
+- **Data Quality**: UTC timestamps, no duplicates, non-negative prices/volumes
+- **Execution Realism**: Validate trade execution feasibility and liquidity
 
-1. **No-Lookahead Check**: Features use data ≤ t, actions at next-bar open
-2. **Accounting Identity**: `Equity_{t+1} = Equity_t + realizedPnL - fees`
-3. **Sanity Thresholds**: Flag extreme ratios (high Sortino, zero DD)
-4. **Data Quality**: Verify timestamps, duplicates, missing-bar compliance
+### 5. **Anomaly Detection & Reporting**
+- Identify unusual patterns or suspicious performance metrics
+- Flag potential overfitting indicators
+- Detect data quality issues or missing information
+- Generate anomaly report with severity classifications
+- Escalate critical issues to appropriate agents
 
-### 5. Registry Update
+### 6. **Professional Visualization Standards**
+- **Publication-ready quality**: High-resolution PNG and SVG formats
+- **Professional formatting**: Clear labels, legends, and captions
+- **Consistent styling**: Standard color schemes and typography
+- **Figure descriptions**: Auto-generated captions explaining each visualization
+- **Ready for PDF inclusion**: Proper sizing and quality for reports
+
+### 7. **Registry Update & Progress Reporting**
 - Use lockfile protocol (`/docs/runs/.registry.lock`)
 - Check for stale locks (>5min) and proceed with warning
 - Atomically append run to `/docs/runs/run_registry.csv`
-- Include validation status and anomaly flags
+- **Unified progress bar**: `Analyzing run... ████████░░░░ 75% (~1 min remaining)`
+- **Clear phases**: validation → metrics → visualization → quality checks
+- **ETA integration**: Based on data size and processing complexity
 
-### 6. Progress Reporting
-- Update `progress.json` every 30 seconds during long phases
-- Include percent complete, current phase, ETA, current symbol
-
-### 7. Resource Management
+### 8. **Resource Management & Output Organization**
 - Monitor RAM usage, fail if drops below 2GB
-- Clean up partial artifacts on failure
 - Generate SHA256 checksums for data integrity
+- Save all outputs to `/data/runs/{run_id}/analysis/`:
+  - Enhanced metrics.json with expanded statistics
+  - Professional visualizations in `/figs/` directory
+  - Validation reports and quality check results
+  - Analysis summary with key findings
 
 ## Expected Outputs
-- Complete artifact set in `/data/runs/{run_id}/`
-- Validation report with pass/fail status
-- Updated run registry entry
-- High-quality visualizations following best practices
-- Progress tracking and resource usage reports
+- **Enhanced metrics.json** with comprehensive performance statistics
+- **Professional visualization suite** ready for report inclusion:
+  - Main equity chart with trade markers and statistics panel
+  - Position monitoring subplot with clear timeline
+  - Per-symbol OHLCV charts with event overlays
+- **Validation report** confirming data integrity and realism
+- **Anomaly detection report** with any concerns flagged
+- **Analysis summary** highlighting key findings and insights
+- **Ready for evaluation** with `/evaluate-run`
 
-The analysis will focus on data integrity, comprehensive metrics generation, and professional visualizations suitable for strategy evaluation.
+## Success Criteria
+- All validation checks pass without critical errors
+- Professional visualizations generated successfully
+- Comprehensive metrics calculated and validated
+- No critical anomalies detected in analysis
+- All artifacts ready for evaluator consumption
+
+Please use the trading-analyzer agent to perform comprehensive data analysis with embedded validation and professional visualization generation.
