@@ -36,7 +36,7 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 ## Roles
 
 **Common Agents:**
-* **Orchestrator**: plan/route; keep **EMR/SMR** authoritative; **ECL/SCL** append-only; block runs until docs fresh
+* **Orchestrator**: **ALWAYS ACTIVE** - coordinate ALL commands; plan/route; keep **EMR/SMR** authoritative; **ECL/SCL** append-only; block runs until docs fresh; **handle handoffs from ALL specialist agents for documentation updates**
 * **Builder**: implement/optimize engine; hardware-aware session initialization; unit/smoke/perf tests; emit **ECN** (+ benchmarks with hardware profile); **MUST include FilterGateManager, optimized DataProcessor, and ReferenceEngine in generated engines for automatic speed optimization**
 
 **Single-Run Agents:**
@@ -49,22 +49,28 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 
 ## Handoffs & gates
 
+**Command Orchestration Pattern:**
+ALL slash commands follow: **User → Orchestrator → Specialist Agent → Orchestrator → Documentation Update**
+
 **Common Handoffs:**
-* Builder → Orchestrator: **ECN + benchmarks** (with hardware profile) → Orchestrator updates **EMR** & appends **ECL**
+* **`/build-engine`**: Orchestrator → Builder → **ECN + benchmarks** → Orchestrator updates **EMR** & appends **ECL**
+* **`/validate-setup`**: Orchestrator → validation logic → documentation updates as needed
+* **`/validate-strategy`**: Orchestrator → validation logic → SMR updates if needed
 
 **Single-Run Handoffs:**
-* Single-Analyzer → Orchestrator: processed artifacts + run_registry row
-* Single-Analyzer → Single-Evaluator: analysis artifacts ready for evaluation
-* Single-Evaluator → Orchestrator: **SER** (and **SDCN** if spec changed) → Orchestrator updates **SMR** & appends **SCL**
+* **`/run`**: Orchestrator → Single-Analyzer → processed artifacts + run_registry row → Orchestrator
+* **`/analyze-single-run`**: Orchestrator → Single-Analyzer → analysis artifacts → Single-Evaluator handoff → Orchestrator  
+* **`/evaluate-single-run`**: Orchestrator → Single-Evaluator → **SER** (and **SDCN** if spec changed) → Orchestrator updates **SMR** & appends **SCL**
 
 **Optimization Handoffs:**
-* Optimizer → Optimization-Evaluator: parameter performance matrices + robustness analysis
-* Optimization-Evaluator → Orchestrator: **Optimization Evaluation Report** → Orchestrator updates documentation
+* **`/run-optimization`**: Orchestrator → Optimizer → optimization data → Orchestrator
+* **`/evaluate-optimization`**: Orchestrator → Optimization-Evaluator → **Optimization Report** → Orchestrator updates documentation
 
 **Gates:**
-* **Gate**: no new runs until EMR/SMR in sync with latest changelogs
-* **Single-Run Gate**: single-analyzer must complete before single-evaluator
-* **Optimization Gate**: optimizer must complete before optimization-evaluator
+* **Documentation Gate**: Orchestrator blocks ALL commands until EMR/SMR in sync with latest changelogs
+* **Single-Run Gate**: `/analyze-single-run` must complete before `/evaluate-single-run`
+* **Optimization Gate**: `/run-optimization` must complete before `/evaluate-optimization`
+* **Handoff Gate**: ALL agents must complete handoff to Orchestrator for documentation updates
 
 ## Data & ingestion
 
