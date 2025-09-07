@@ -54,7 +54,7 @@ class OptimizationEngine:
         Args:
             optimization_config_path: Path to optimization configuration file
         """
-        self.logger = self._setup_logging()
+        self.logger = setup_logging(__name__)
         
         # Load optimization configuration
         self.config = self._load_optimization_config(optimization_config_path)
@@ -62,7 +62,7 @@ class OptimizationEngine:
         # Initialize optimization infrastructure
         self.filter_gate_manager = FilterGateManager()
         self.reference_engine = ReferenceEngine()
-        self.progress_tracker = ProgressTracker()
+        self.progress_tracker = QuietProgressTracker(self.logger)
         
         # Data components (shared across parameter sets)
         self.data_fetcher = DataFetcher(self.config)
@@ -88,7 +88,7 @@ class OptimizationEngine:
             'filter_cache_hits': 0
         }
         
-        self.logger.info(f"OptimizationEngine initialized: {self.optimization_id}")
+        # Silent initialization
     
     def execute_parameter_sweep(self) -> Dict[str, Any]:
         """
@@ -493,19 +493,13 @@ class OptimizationEngine:
         
         return stats
     
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for optimization engine."""
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        )
-        return logging.getLogger(__name__)
+    # Remove custom logging setup - use centralized setup_logging
 
 
 if __name__ == "__main__":
     """Direct execution for testing."""
     engine = OptimizationEngine()
     results = engine.execute_parameter_sweep()
-    print(f"Optimization completed: {results['optimization_id']}")
-    print(f"Best performance: {results['best_performance']}")
-    print(f"Best parameters: {results['best_parameters']}")
+    # Concise final result output
+    print(f"✓ {results['optimization_id']}: {results['best_performance']:.4f}")
+    print(f"  Best params: {results['best_parameters']}")

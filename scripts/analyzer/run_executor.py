@@ -18,6 +18,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'engine'))
 from backtest import BacktestEngine
 from utils.config_parser import ConfigParser
 from utils.progress_tracker import ProgressTracker
+from utils.logging_config import setup_logging, QuietProgressTracker
 
 
 class RunExecutor:
@@ -39,11 +40,11 @@ class RunExecutor:
             config_path: Path to parameter configuration file
         """
         self.config_path = config_path
-        self.logger = self._setup_logging()
+        self.logger = setup_logging(__name__)
         
         # Initialize components
         self.config_parser = ConfigParser()
-        self.progress_tracker = ProgressTracker()
+        self.progress_tracker = QuietProgressTracker(self.logger)
         
         # Generate run ID
         self.run_id = self._generate_run_id()
@@ -57,7 +58,7 @@ class RunExecutor:
             Run results dictionary
         """
         try:
-            self.logger.info(f"Starting backtest run: {self.run_id}")
+            # SILENT START - no initial message
             
             # Start progress tracking
             self.progress_tracker.start_operation("Running backtest", total_phases=4)
@@ -84,10 +85,12 @@ class RunExecutor:
             self._update_registry(results)
             self.progress_tracker.complete_phase()
             
-            # Complete operation
-            self.progress_tracker.complete_operation()
+            # Complete operation - show success message
+            self.progress_tracker.complete_operation(show_success=True)
             
-            self.logger.info(f"Backtest run completed successfully: {self.run_id}")
+            # Final status only (no verbose logging)
+            if not self.logger.isEnabledFor(logging.ERROR):
+                print(f"✓ Run {self.run_id} completed successfully")
             
             return {
                 'run_id': self.run_id,
@@ -97,7 +100,8 @@ class RunExecutor:
             }
             
         except Exception as e:
-            self.logger.error(f"Backtest run failed: {str(e)}")
+            # Always report failures regardless of quiet mode
+            self.progress_tracker.report_failure(str(e))
             
             # Mark run as failed
             self._mark_run_failed(str(e))
@@ -123,7 +127,7 @@ class RunExecutor:
             error_msg = "Configuration validation errors: " + "; ".join(errors)
             raise ValueError(error_msg)
         
-        self.logger.info("Configuration validated successfully")
+        # Configuration validated - silent unless error
         return config
     
     def _prepare_run_directory(self) -> None:
@@ -131,7 +135,7 @@ class RunExecutor:
         os.makedirs(self.run_dir, exist_ok=True)
         os.makedirs(os.path.join(self.run_dir, "figures"), exist_ok=True)
         
-        self.logger.debug(f"Run directory prepared: {self.run_dir}")
+        # Run directory prepared - silent
     
     def _generate_artifacts(self, results: Dict[str, Any]) -> None:
         """Generate run artifacts."""
@@ -148,7 +152,7 @@ class RunExecutor:
         # Generate CSV files
         self._generate_csv_files(results)
         
-        self.logger.info(f"Artifacts generated in {self.run_dir}")
+        # Artifacts generated - silent
     
     def _create_manifest(self, results: Dict[str, Any]) -> Dict[str, Any]:
         """Create run manifest."""
@@ -237,7 +241,7 @@ class RunExecutor:
             registry_df = pd.DataFrame([registry_entry])
         
         registry_df.to_csv(registry_file, index=False)
-        self.logger.info(f"Registry updated: {registry_file}")
+        # Registry updated - silent
     
     def _mark_run_failed(self, error_message: str) -> None:
         """Mark run as failed."""
@@ -257,6 +261,7 @@ class RunExecutor:
                 json.dump(failure_manifest, f, indent=2, default=str)
                 
         except Exception as e:
+            # Always show critical failures
             self.logger.error(f"Failed to mark run as failed: {str(e)}")
     
     def _generate_run_id(self) -> str:
@@ -264,13 +269,7 @@ class RunExecutor:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         return f"run_{timestamp}"
     
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for run executor."""
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        )
-        return logging.getLogger(__name__)
+    # Remove custom logging setup - use centralized setup_logging
 
 
 if __name__ == "__main__":
@@ -282,9 +281,8 @@ if __name__ == "__main__":
     executor = RunExecutor(config_path)
     result = executor.execute_run()
     
-    print(f"Run completed with status: {result['status']}")
+    # Final result output
     if result['status'] == 'success':
-        print(f"Run ID: {result['run_id']}")
-        print(f"Final equity: ${result['results']['final_equity']:,.2f}")
+        print(f"✓ {result['run_id']}: ${result['results']['final_equity']:,.2f}")
     else:
-        print(f"Error: {result['error']}")
+        print(f"✗ {result['run_id']}: {result['error']}")

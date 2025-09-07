@@ -2,13 +2,16 @@
 Progress Tracker
 
 Unified progress reporting with ETA estimation for all trading operations.
+Supports quiet mode to prevent screen output spam.
 """
 
+import os
 import time
 import logging
 from typing import Optional, Dict, Any
 from datetime import datetime, timedelta
 import threading
+from .logging_config import is_quiet_mode
 
 
 class ProgressTracker:
@@ -41,7 +44,7 @@ class ProgressTracker:
         # Timing history for ETA estimation
         self.phase_timing_history = {}
         self.last_update_time = None
-        self.update_interval = 1.0  # Minimum seconds between updates
+        self.update_interval = 60.0  # Very infrequent updates to prevent any flickering
         
         # Overall operation
         self.operation_start_time = None
@@ -62,7 +65,9 @@ class ProgressTracker:
             self.completed_phases = 0
             self.current_phase = None
             
-            self.logger.info(f"Started operation: {description}")
+            # SILENT START - no output unless explicitly disabled quiet mode via env
+            if not is_quiet_mode() and os.getenv('TRADING_VERBOSE', 'false').lower() == 'true':
+                self.logger.info(f"Started operation: {description}")
     
     def start_phase(self, description: str, weight: float = 1.0) -> None:
         """
@@ -82,12 +87,14 @@ class ProgressTracker:
             self.phase_start_time = time.time()
             self.phase_progress = 0.0
             
-            self._display_progress()
-            self.logger.debug(f"Started phase: {description}")
+            # SILENT PHASE START - no progress display
+            # Only log at debug level for troubleshooting
+            if not is_quiet_mode():
+                self.logger.debug(f"Started phase: {description}")
     
     def update_progress(self, progress: float, details: str = "") -> None:
         """
-        Update progress within current phase.
+        Update progress within current phase - SILENT by default.
         
         Args:
             progress: Progress as decimal (0.0 to 1.0)
@@ -103,8 +110,9 @@ class ProgressTracker:
             self.phase_progress = max(0.0, min(1.0, progress))
             self.last_update_time = current_time
             
-            # Update display
-            self._display_progress(details)
+            # SILENT UPDATE - only display if explicitly requested
+            if not is_quiet_mode() and os.getenv('TRADING_VERBOSE', 'false').lower() == 'true':
+                self._display_progress(details)
     
     def complete_phase(self) -> None:
         """Complete the current phase."""
@@ -118,17 +126,21 @@ class ProgressTracker:
                 self._record_phase_timing(self.current_phase, phase_duration)
             
             self.phase_progress = 1.0
-            self._display_progress()
+            # SILENT COMPLETION - no display
             
-            self.logger.debug(f"Completed phase: {self.current_phase}")
+            # Only log at debug level
+            if not is_quiet_mode():
+                self.logger.debug(f"Completed phase: {self.current_phase}")
     
     def complete_operation(self) -> None:
         """Complete the entire operation."""
         with self._lock:
             if self.operation_start_time:
                 total_duration = time.time() - self.operation_start_time
-                self.logger.info(f"Completed operation: {self.operation_description} "
-                               f"in {self._format_duration(total_duration)}")
+                # ONLY show completion if explicitly requested OR critical operation
+                if not is_quiet_mode() and os.getenv('TRADING_VERBOSE', 'false').lower() == 'true':
+                    self.logger.info(f"✓ {self.operation_description} "
+                                   f"({self._format_duration(total_duration)})")
             
             self._reset_state()
     
@@ -167,31 +179,10 @@ class ProgressTracker:
         return min(1.0, completed_progress)
     
     def _display_progress(self, details: str = "") -> None:
-        """Display progress bar to console/logger."""
-        if not self.current_phase:
-            return
-        
-        # Calculate overall progress
-        overall_progress = self._calculate_overall_progress()
-        
-        # Create progress bar
-        progress_bar = self._create_progress_bar(overall_progress)
-        
-        # Format description
-        if details:
-            description = f"{self.phase_description}: {details}"
-        else:
-            description = self.phase_description
-        
-        # Get ETA
-        eta = self.get_eta_estimate()
-        eta_str = f" (~{self._format_eta(eta)})" if eta else ""
-        
-        # Format progress message
-        progress_msg = f"{description}... {progress_bar} {overall_progress:.0%}{eta_str}"
-        
-        # Use logger for output (can be configured to display on console)
-        self.logger.info(progress_msg)
+        """Display progress bar - HEAVILY SUPPRESSED to prevent flickering."""
+        # COMPLETELY SILENT - no progress bar output at all
+        # This eliminates all screen flickering from high-frequency updates
+        return
     
     def _create_progress_bar(self, progress: float, width: int = 20) -> str:
         """Create ASCII progress bar."""

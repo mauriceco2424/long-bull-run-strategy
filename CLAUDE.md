@@ -20,6 +20,7 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 * `/docs/**` is authoritative; changelogs are append-only
 * **Progress bar requirement**: All Python scripts MUST implement unified progress reporting with ETA
 * **Universal Speed Optimization**: All agents MUST leverage FilterGateManager, DataProcessor optimization, and ReferenceEngine for maximum speed (see docs/guides/OPTIMIZATION_GUIDE.md)
+* **Quiet Mode**: Use `python scripts/quiet_mode.py on` to suppress progress output and prevent screen flickering during long operations
 
 ## Workflow (dual-path: single-run + optimization)
 

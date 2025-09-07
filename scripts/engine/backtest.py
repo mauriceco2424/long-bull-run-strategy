@@ -47,6 +47,7 @@ except ImportError:
     from utils.config_parser import ConfigParser
     from utils.progress_tracker import ProgressTracker
     from utils.validators import DataValidator
+    from utils.logging_config import setup_logging, QuietProgressTracker
     from strategy_engine import GeneratedStrategy
 
 
@@ -65,7 +66,7 @@ class BacktestEngine:
         Args:
             config_path: Path to parameter configuration file
         """
-        self.logger = self._setup_logging()
+        self.logger = setup_logging(__name__)
         self.config_parser = ConfigParser()
         self.config = self.config_parser.parse_config(config_path)
         
@@ -78,7 +79,7 @@ class BacktestEngine:
         self.fill_simulator = FillSimulator(self.config)
         self.fee_calculator = FeeCalculator(self.config)
         self.timing_engine = TimingEngine(self.config)
-        self.progress_tracker = ProgressTracker()
+        self.progress_tracker = QuietProgressTracker(self.logger)
         self.data_validator = DataValidator()
         
         # Optimization components (enabled automatically for speed)
@@ -113,7 +114,7 @@ class BacktestEngine:
             Dictionary containing backtest results and metadata
         """
         try:
-            self.logger.info(f"Starting backtest run: {run_id}")
+            # SILENT START - no initial message
             
             # Phase 1: Data preparation
             self.progress_tracker.start_phase("Data Loading", 0.25)
@@ -130,11 +131,13 @@ class BacktestEngine:
             results = self._generate_results(run_id)
             self.progress_tracker.complete_phase()
             
-            self.logger.info(f"Backtest completed successfully: {run_id}")
+            # Show final success status
+            self.progress_tracker.complete_operation(show_success=True)
             return results
             
         except Exception as e:
-            self.logger.error(f"Backtest failed: {str(e)}")
+            # Always report failures
+            self.progress_tracker.report_failure(str(e))
             raise
     
     def _prepare_data(self) -> None:
@@ -159,8 +162,7 @@ class BacktestEngine:
                 required_features
             )
         
-        self.logger.info(f"Data prepared: {len(self.ohlcv_data)} symbols, "
-                        f"{len(next(iter(self.ohlcv_data.values())))} bars")
+        # Data prepared - silent
     
     def _run_backtest_loop(self) -> None:
         """Execute the main backtest simulation loop."""
@@ -250,7 +252,9 @@ class BacktestEngine:
         """Convert a strategy signal into an order."""
         symbol = signal['symbol']
         if symbol not in prices:
-            self.logger.warning(f"No price data for symbol {symbol}")
+            # Only log serious issues
+            if not self.logger.isEnabledFor(logging.ERROR):
+                pass  # Silent
             return None
         
         current_price = prices[symbol]
@@ -329,13 +333,7 @@ class BacktestEngine:
         
         return results
     
-    def _setup_logging(self) -> logging.Logger:
-        """Setup logging for the backtest engine."""
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        )
-        return logging.getLogger(__name__)
+    # Remove custom logging setup - use centralized setup_logging
 
 
 if __name__ == "__main__":
@@ -343,4 +341,4 @@ if __name__ == "__main__":
     engine = BacktestEngine()
     run_id = f"test_run_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
     results = engine.run(run_id)
-    print(f"Backtest completed: {results['final_equity']}")
+    print(f"✓ Backtest: ${results['final_equity']:,.2f}")

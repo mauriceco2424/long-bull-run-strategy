@@ -181,6 +181,7 @@ class GeneratedStrategy(StrategyInterface):
         
         if errors:
             for error in errors:
+                # Always show parameter validation errors - these are critical
                 print(f"Parameter validation error: {error}")
             return False
         
