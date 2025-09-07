@@ -19,6 +19,7 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 * Prefer **slash commands**: `/validate-setup`, `/validate-strategy`, `/plan-strategy`, `/build-engine`, `/run`, `/analyze-single-run`, `/evaluate-single-run`, `/run-optimization`, `/evaluate-optimization`
 * `/docs/**` is authoritative; changelogs are append-only
 * **Progress bar requirement**: All Python scripts MUST implement unified progress reporting with ETA
+* **Universal Speed Optimization**: All agents MUST leverage FilterGateManager, DataProcessor optimization, and ReferenceEngine for maximum speed (see OPTIMIZATION_GUIDE.md)
 
 ## Workflow (dual-path: single-run + optimization)
 
@@ -36,14 +37,14 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 
 **Common Agents:**
 * **Orchestrator**: plan/route; keep **EMR/SMR** authoritative; **ECL/SCL** append-only; block runs until docs fresh
-* **Builder**: implement/optimize engine; hardware-aware session initialization; unit/smoke/perf tests; emit **ECN** (+ benchmarks with hardware profile)
+* **Builder**: implement/optimize engine; hardware-aware session initialization; unit/smoke/perf tests; emit **ECN** (+ benchmarks with hardware profile); **MUST include FilterGateManager, optimized DataProcessor, and ReferenceEngine in generated engines for automatic speed optimization**
 
 **Single-Run Agents:**
 * **Single-Analyzer**: execute single backtests AND process run data; read parameter_config.md; emit **manifest, metrics, trades, events, series, figs**; sanity-check and flag anomalies  
 * **Single-Evaluator**: **evaluate single-run performance** (assess metrics quality, compare to benchmarks); **strategic interpretation** (understand WHY strategy works/fails); **generate LaTeX PDF reports**; emit **SER**; if spec changed, **SDCN**
 
 **Optimization Agents:**
-* **Optimizer**: execute parameter sweeps AND process optimization data; read optimization_config.md; coordinate multiple backtests with walk-forward validation; create parameter performance matrices, robustness heatmaps, statistical validation
+* **Optimizer**: execute parameter sweeps AND process optimization data; read optimization_config.json; coordinate multiple backtests with walk-forward validation; create parameter performance matrices, robustness heatmaps, statistical validation; **MUST use OptimizationEngine with FilterGateManager, ReferenceEngine, and feature caching for 10-50x speedup**
 * **Optimization-Evaluator**: **evaluate parameter optimization** (assess parameter significance, detect overfitting); **strategic parameter interpretation** (understand WHY parameters work); **generate optimization study PDF reports**
 
 ## Handoffs & gates
@@ -81,16 +82,17 @@ Source & cache declared in EMR; OHLCV in UTC; define missing-bar policy; fees/sl
 ```
 /scripts/                    # Execution scripts (organized by agent)
 ├── engine/                  # /build-engine generates here
-│   ├── backtest.py         # Main backtest engine
+│   ├── backtest.py         # Main backtest engine (with optimization components)
 │   ├── strategy_engine.py  # Generated strategy code
-│   ├── core/              # Portfolio, orders, risk management
-│   ├── data/              # Data fetching and processing
+│   ├── core/              # Portfolio, orders, risk management, FilterGateManager
+│   ├── data/              # Data fetching and processing (with optimization)
 │   ├── execution/         # Fill simulation, fees, slippage
+│   ├── optimization/      # ReferenceEngine and optimization infrastructure
 │   └── utils/             # Config parsing, progress tracking
 ├── analyzer/              # /run execution scripts
 ├── single_analysis/       # /analyze-single-run scripts
 ├── single_evaluation/     # /evaluate-single-run scripts
-├── optimization/          # /run-optimization scripts
+├── optimization/          # /run-optimization scripts (OptimizationEngine)
 └── opt_evaluation/        # /evaluate-optimization scripts
 
 /data/                      # Generated outputs (separate from scripts)

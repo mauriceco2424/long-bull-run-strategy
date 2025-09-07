@@ -19,7 +19,8 @@
       "WebSearch",
       "Bash(claude agents list)",
       "Bash(claude agents --help)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git config:*)"
     ],
     "deny": [],
     "ask": []
