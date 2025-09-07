@@ -15,7 +15,7 @@ That's it! The command automatically:
 
 ## Prerequisites
 
-1. **Update SMR.md**: Edit `docs/SMR.md` following `docs/STRAT_TEMPLATE.md` format
+1. **Update SMR.md**: Edit `docs/SMR.md` following `docs/guides/STRAT_TEMPLATE.md` format
 2. **Set Strategy Name**: Change `**Name**: <Strategy Name>` to your actual strategy name
 
 ## Examples
@@ -72,7 +72,7 @@ That's it! The command automatically:
 ## Requirements
 
 - Must be run in a directory containing the trading_bot_skeleton content
-- `docs/SMR.md` must exist and follow `docs/STRAT_TEMPLATE.md` format
+- `docs/SMR.md` must exist and follow `docs/guides/STRAT_TEMPLATE.md` format
 - Strategy name in SMR.md should not be the placeholder `<Strategy Name>`
 
 ## Automatic Features
@@ -84,4 +84,4 @@ That's it! The command automatically:
 
 This command is designed to be run immediately after:
 1. Cloning skeleton content into a directory
-2. Editing `docs/SMR.md` with your strategy specification following `docs/STRAT_TEMPLATE.md`
+2. Editing `docs/SMR.md` with your strategy specification following `docs/guides/STRAT_TEMPLATE.md`

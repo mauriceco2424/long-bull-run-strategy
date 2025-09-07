@@ -19,7 +19,7 @@ A production-ready framework for building, backtesting, and optimizing trading s
    ```
 
 3. **Define Your Strategy**:
-   Edit `docs/SMR.md` following the `docs/STRAT_TEMPLATE.md` format.
+   Edit `docs/SMR.md` following the `docs/guides/STRAT_TEMPLATE.md` format.
    **Key**: Update the `**Name**: <Strategy Name>` field with your actual strategy name.
 
 4. **Initialize Your Strategy Project**:
@@ -202,6 +202,19 @@ Extend agent capabilities by modifying `.claude/agents/` configurations.
 - **Memory efficient**: Configurable caching with resource profiling
 - **Hardware-aware**: Auto-configures based on system capabilities
 - **Incremental computation**: Monotone gate shortcuts and universe reduction for faster iterations
+
+## 📖 Documentation Guide
+
+All user guides and documentation are organized in `docs/guides/`:
+
+| Document | Purpose |
+|----------|---------|
+| 📋 **[STRAT_TEMPLATE.md](docs/guides/STRAT_TEMPLATE.md)** | Strategy specification template - **Use this to define your strategy** |
+| 🎮 **[Command-User-Guide.md](docs/guides/Command-User-Guide.md)** | Complete command reference and usage examples |
+| ⚡ **[OPTIMIZATION_GUIDE.md](docs/guides/OPTIMIZATION_GUIDE.md)** | Speed optimization system (10-50x parameter sweep acceleration) |
+| 📊 **[VISUALIZATION_BEST_PRACTICES.md](docs/guides/VISUALIZATION_BEST_PRACTICES.md)** | Professional chart and report generation standards |
+
+**Quick Start**: Begin with `docs/guides/STRAT_TEMPLATE.md` to define your strategy, then use the commands in `docs/guides/Command-User-Guide.md`.
 
 ## 🤝 Contributing
 

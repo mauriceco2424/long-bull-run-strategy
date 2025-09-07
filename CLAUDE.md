@@ -19,7 +19,7 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 * Prefer **slash commands**: `/initialize`, `/validate-setup`, `/validate-strategy`, `/plan-strategy`, `/build-engine`, `/run`, `/analyze-single-run`, `/evaluate-single-run`, `/run-optimization`, `/evaluate-optimization`
 * `/docs/**` is authoritative; changelogs are append-only
 * **Progress bar requirement**: All Python scripts MUST implement unified progress reporting with ETA
-* **Universal Speed Optimization**: All agents MUST leverage FilterGateManager, DataProcessor optimization, and ReferenceEngine for maximum speed (see OPTIMIZATION_GUIDE.md)
+* **Universal Speed Optimization**: All agents MUST leverage FilterGateManager, DataProcessor optimization, and ReferenceEngine for maximum speed (see docs/guides/OPTIMIZATION_GUIDE.md)
 
 ## Workflow (dual-path: single-run + optimization)
 

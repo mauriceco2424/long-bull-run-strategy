@@ -65,7 +65,7 @@ class StrategyInitializer:
             raise FileNotFoundError(
                 f"SMR.md not found at {smr_path}. "
                 "Please ensure you have the strategy specification file in docs/SMR.md "
-                "following the STRAT_TEMPLATE.md format."
+                "following the docs/guides/STRAT_TEMPLATE.md format."
             )
         
         try:
@@ -90,7 +90,7 @@ class StrategyInitializer:
             raise ValueError(
                 "Strategy name not found or still template placeholder in SMR.md. "
                 "Please update the **Name**: field in docs/SMR.md with your actual strategy name. "
-                "Follow the STRAT_TEMPLATE.md format."
+                "Follow the docs/guides/STRAT_TEMPLATE.md format."
             )
             
         except Exception as e:
