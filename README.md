@@ -8,8 +8,8 @@ A production-ready framework for building, backtesting, and optimizing trading s
 
 1. **Create New Project Directory**:
    ```bash
-   mkdir my-rsi-momentum-strategy
-   cd my-rsi-momentum-strategy
+   mkdir new_strat
+   cd new_strat
    ```
 
 2. **Clone Skeleton Content** (not the folder):
@@ -19,23 +19,25 @@ A production-ready framework for building, backtesting, and optimizing trading s
    ```
 
 3. **Define Your Strategy**:
-   Edit `docs/SMR.md` with your specific strategy details (RSI levels, timeframes, etc.)
+   Edit `docs/SMR.md` following the `docs/STRAT_TEMPLATE.md` format.
+   **Key**: Update the `**Name**: <Strategy Name>` field with your actual strategy name.
 
 4. **Initialize Your Strategy Project**:
    ```bash
-   /initialize-strategy "RSI Momentum Strategy" "rsi-momentum-strategy"
+   /initialize
    ```
-   This will:
-   - Rename all skeleton references to your strategy name
-   - Update workspace file: `rsi-momentum-strategy.code-workspace`
-   - Create new GitHub repository
-   - Update README and documentation with your strategy name
+   This automatically:
+   - Reads strategy name from `docs/SMR.md`
+   - Renames folder `new_strat` → `your-strategy-name`
+   - Updates workspace file: `your-strategy-name.code-workspace`
+   - Updates all files with your strategy name
+   - Creates clean git repository
 
 5. **Setup Dependencies and Validation**:
    ```bash
-   pip install -r requirements.txt
    /validate-setup
    ```
+   (This automatically runs `pip install -r requirements.txt` if dependencies are missing)
 
 6. **Build and Test Your Strategy**:
    ```bash
@@ -43,13 +45,6 @@ A production-ready framework for building, backtesting, and optimizing trading s
    /run && /analyze-single-run && /evaluate-single-run
    ```
 
-### **Alternative: Direct Clone (Legacy)**
-If you prefer the old method:
-```bash
-git clone https://github.com/mauriceco2424/trading_bot_skeleton.git
-cd trading_bot_skeleton
-# Then manually customize names and create new repo
-```
 
 ## 📋 What This Skeleton Provides
 

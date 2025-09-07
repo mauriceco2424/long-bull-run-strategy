@@ -10,7 +10,7 @@ import json
 import shutil
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 import argparse
 import logging
 from datetime import datetime
@@ -22,29 +22,91 @@ logger = logging.getLogger(__name__)
 class StrategyInitializer:
     """
     Automates the transformation from skeleton to specific strategy project.
+    Reads strategy name from SMR.md and derives all naming automatically.
     """
     
-    def __init__(self, strategy_display_name: str, strategy_repo_name: str):
+    def __init__(self, strategy_display_name: Optional[str] = None, strategy_repo_name: Optional[str] = None):
         """
         Initialize strategy transformation.
         
         Args:
-            strategy_display_name: Human-readable name (e.g., "RSI Momentum Strategy")
-            strategy_repo_name: Repository name (e.g., "rsi-momentum-strategy")
+            strategy_display_name: Optional override for strategy name (normally read from SMR.md)
+            strategy_repo_name: Optional override for repo name (normally auto-generated)
         """
-        self.strategy_display_name = strategy_display_name
-        self.strategy_repo_name = strategy_repo_name
-        self.strategy_class_name = self._to_class_name(strategy_display_name)
-        self.strategy_var_name = self._to_variable_name(strategy_display_name)
-        
         self.root_path = Path.cwd()
         self.transformations_applied = []
+        
+        # Read strategy name from SMR.md if not provided
+        if strategy_display_name is None:
+            self.strategy_display_name = self._read_strategy_name_from_smr()
+        else:
+            self.strategy_display_name = strategy_display_name
+            
+        # Auto-generate repo name if not provided
+        if strategy_repo_name is None:
+            self.strategy_repo_name = self._to_repo_name(self.strategy_display_name)
+        else:
+            self.strategy_repo_name = strategy_repo_name
+            
+        self.strategy_class_name = self._to_class_name(self.strategy_display_name)
+        self.strategy_var_name = self._to_variable_name(self.strategy_display_name)
         
         logger.info(f"Initializing strategy transformation:")
         logger.info(f"  Display Name: {self.strategy_display_name}")
         logger.info(f"  Repo Name: {self.strategy_repo_name}")
         logger.info(f"  Class Name: {self.strategy_class_name}")
         logger.info(f"  Variable Name: {self.strategy_var_name}")
+    
+    def _read_strategy_name_from_smr(self) -> str:
+        """Read strategy name from SMR.md file."""
+        smr_path = self.root_path / "docs" / "SMR.md"
+        
+        if not smr_path.exists():
+            raise FileNotFoundError(
+                f"SMR.md not found at {smr_path}. "
+                "Please ensure you have the strategy specification file in docs/SMR.md "
+                "following the STRAT_TEMPLATE.md format."
+            )
+        
+        try:
+            content = smr_path.read_text(encoding='utf-8')
+            
+            # Look for pattern: **Name**: `<Strategy Name>`
+            name_match = re.search(r'\*\*Name\*\*:\s*`([^`]+)`', content)
+            if name_match:
+                strategy_name = name_match.group(1)
+                if strategy_name and strategy_name != "<Strategy Name>":
+                    logger.info(f"Found strategy name in SMR.md: {strategy_name}")
+                    return strategy_name
+            
+            # Alternative pattern: **Name**: Strategy Name (without backticks)
+            alt_match = re.search(r'\*\*Name\*\*:\s*([^\n]+)', content)
+            if alt_match:
+                strategy_name = alt_match.group(1).strip()
+                if strategy_name and not strategy_name.startswith('<') and not strategy_name.startswith('`'):
+                    logger.info(f"Found strategy name in SMR.md: {strategy_name}")
+                    return strategy_name
+                    
+            raise ValueError(
+                "Strategy name not found or still template placeholder in SMR.md. "
+                "Please update the **Name**: field in docs/SMR.md with your actual strategy name. "
+                "Follow the STRAT_TEMPLATE.md format."
+            )
+            
+        except Exception as e:
+            logger.error(f"Error reading SMR.md: {str(e)}")
+            raise
+    
+    def _to_repo_name(self, name: str) -> str:
+        """Convert display name to repository name format (kebab-case)."""
+        # Remove special characters and convert to lowercase
+        clean_name = re.sub(r'[^\w\s-]', '', name.lower())
+        # Replace spaces and underscores with hyphens
+        repo_name = re.sub(r'[\s_]+', '-', clean_name)
+        # Remove multiple consecutive hyphens
+        repo_name = re.sub(r'-+', '-', repo_name)
+        # Remove leading/trailing hyphens
+        return repo_name.strip('-')
     
     def _to_class_name(self, name: str) -> str:
         """Convert display name to ClassName format."""
@@ -73,10 +135,13 @@ class StrategyInitializer:
             # 4. Update documentation files
             self._update_documentation()
             
-            # 5. Initialize git repository
+            # 5. Rename parent folder if needed
+            self._rename_parent_folder()
+            
+            # 6. Initialize git repository
             self._initialize_git_repository()
             
-            # 6. Generate transformation report
+            # 7. Generate transformation report
             self._generate_transformation_report()
             
             logger.info("✅ Strategy transformation completed successfully!")
@@ -215,6 +280,38 @@ class StrategyInitializer:
             emr_path.write_text(content, encoding='utf-8')
             self.transformations_applied.append("Updated EMR.md with strategy name")
     
+    def _rename_parent_folder(self) -> None:
+        """Rename parent folder to match strategy repo name."""
+        current_folder_name = self.root_path.name
+        target_folder_name = self.strategy_repo_name
+        
+        # Skip if folder names already match or we're not in a generic folder
+        if (current_folder_name == target_folder_name or 
+            current_folder_name in ["trading_bot_skeleton", "new_strat", "temp", "strategy"]):
+            
+            if current_folder_name != target_folder_name:
+                parent_dir = self.root_path.parent
+                new_folder_path = parent_dir / target_folder_name
+                
+                # Check if target folder already exists
+                if new_folder_path.exists():
+                    logger.warning(f"Target folder {target_folder_name} already exists. Skipping folder rename.")
+                    return
+                
+                try:
+                    # Rename the folder
+                    self.root_path.rename(new_folder_path)
+                    self.root_path = new_folder_path  # Update our working directory
+                    self.transformations_applied.append(f"Renamed folder: {current_folder_name} → {target_folder_name}")
+                    logger.info(f"✅ Renamed folder: {current_folder_name} → {target_folder_name}")
+                    
+                except (OSError, PermissionError) as e:
+                    logger.warning(f"Could not rename folder: {str(e)}")
+                    logger.info(f"You can manually rename {current_folder_name} to {target_folder_name}")
+        else:
+            logger.info(f"Keeping current folder name: {current_folder_name}")
+            self.transformations_applied.append(f"Kept folder name: {current_folder_name}")
+    
     def _initialize_git_repository(self) -> None:
         """Initialize new git repository and remove skeleton references."""
         import subprocess
@@ -282,20 +379,35 @@ Co-Authored-By: Claude <noreply@anthropic.com>"""
 def main():
     """Main entry point for strategy initialization."""
     parser = argparse.ArgumentParser(
-        description="Initialize a new strategy project from trading_bot_skeleton"
+        description="Initialize a new strategy project from trading_bot_skeleton. "
+        "Reads strategy name from docs/SMR.md by default."
     )
     parser.add_argument(
-        "strategy_display_name",
-        help="Human-readable strategy name (e.g., 'RSI Momentum Strategy')"
+        "strategy_display_name", 
+        nargs='?',
+        help="Optional: Override strategy name (normally read from SMR.md)"
     )
     parser.add_argument(
         "strategy_repo_name", 
-        help="Repository name (e.g., 'rsi-momentum-strategy')"
+        nargs='?',
+        help="Optional: Override repository name (normally auto-generated)"
+    )
+    parser.add_argument(
+        "--from-smr", 
+        action="store_true", 
+        default=True,
+        help="Read strategy name from SMR.md (default behavior)"
     )
     
     args = parser.parse_args()
     
-    initializer = StrategyInitializer(args.strategy_display_name, args.strategy_repo_name)
+    # If no arguments provided, read from SMR.md
+    if args.strategy_display_name is None and args.strategy_repo_name is None:
+        logger.info("No arguments provided. Reading strategy name from docs/SMR.md...")
+        initializer = StrategyInitializer()
+    else:
+        initializer = StrategyInitializer(args.strategy_display_name, args.strategy_repo_name)
+        
     initializer.execute_transformation()
 
 

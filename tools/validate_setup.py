@@ -57,7 +57,7 @@ class FrameworkValidator:
         print(f"{Colors.YELLOW}[WARN] {message}{Colors.END}")
         
     def validate_python_dependencies(self) -> ValidationResult:
-        """Check that required Python packages can be imported"""
+        """Check that required Python packages can be imported, auto-install if missing"""
         self.log("Validating Python dependencies...")
         
         required_packages = [
@@ -73,11 +73,61 @@ class FrameworkValidator:
                 missing_packages.append(package)
                 
         if missing_packages:
-            return ValidationResult(
-                False, 
-                f"Missing Python packages: {', '.join(missing_packages)}",
-                "Run: pip install -r requirements.txt"
-            )
+            self.warning(f"Missing Python packages: {', '.join(missing_packages)}")
+            
+            # Check if requirements.txt exists
+            requirements_file = self.root_dir / "requirements.txt"
+            if requirements_file.exists():
+                self.log("Attempting to install missing dependencies automatically...")
+                
+                try:
+                    import subprocess
+                    result = subprocess.run(
+                        [sys.executable, "-m", "pip", "install", "-r", str(requirements_file)],
+                        capture_output=True,
+                        text=True,
+                        timeout=300  # 5 minute timeout
+                    )
+                    
+                    if result.returncode == 0:
+                        self.success("Successfully installed dependencies from requirements.txt")
+                        
+                        # Re-check missing packages
+                        still_missing = []
+                        for package in missing_packages:
+                            try:
+                                importlib.import_module(package)
+                            except ImportError:
+                                still_missing.append(package)
+                        
+                        if still_missing:
+                            return ValidationResult(
+                                False,
+                                f"Some packages still missing after installation: {', '.join(still_missing)}",
+                                "Manual installation may be required"
+                            )
+                        else:
+                            return ValidationResult(True, "All required Python packages available (auto-installed)")
+                            
+                    else:
+                        return ValidationResult(
+                            False,
+                            f"Failed to install dependencies automatically: {result.stderr}",
+                            "Run manually: pip install -r requirements.txt"
+                        )
+                        
+                except (subprocess.TimeoutExpired, Exception) as e:
+                    return ValidationResult(
+                        False,
+                        f"Auto-installation failed: {str(e)}",
+                        "Run manually: pip install -r requirements.txt"
+                    )
+            else:
+                return ValidationResult(
+                    False,
+                    f"Missing Python packages: {', '.join(missing_packages)}",
+                    "requirements.txt not found - manual installation required"
+                )
         
         return ValidationResult(True, "All required Python packages available")
     
