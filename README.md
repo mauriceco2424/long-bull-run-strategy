@@ -12,17 +12,26 @@ A production-ready framework for building, backtesting, and optimizing trading s
    cd new_strat
    ```
 
-2. **Clone Skeleton Content** (not the folder):
+2. **Clone Skeleton Content** (contents only, not the folder):
    ```bash
-   git clone https://github.com/mauriceco2424/trading_bot_skeleton.git .
-   rm -rf .git
+   git clone https://github.com/mauriceco2424/trading_bot_skeleton.git temp_skeleton
+   mv temp_skeleton/* .
+   mv temp_skeleton/.* . 2>/dev/null || true
+   rm -rf temp_skeleton
    ```
 
 3. **Define Your Strategy**:
    Edit `docs/SMR.md` following the `docs/guides/STRAT_TEMPLATE.md` format.
    **Key**: Update the `**Name**: <Strategy Name>` field with your actual strategy name.
 
-4. **Initialize Your Strategy Project**:
+4. **Setup Your Git Repository**:
+   ```bash
+   git init
+   git remote add origin https://github.com/your-username/your-strategy-repo.git
+   ```
+   **Important**: Replace `your-username/your-strategy-repo` with your actual GitHub repository.
+
+5. **Initialize Your Strategy Project**:
    ```bash
    /initialize
    ```
@@ -33,13 +42,13 @@ A production-ready framework for building, backtesting, and optimizing trading s
    - Updates all files with your strategy name
    - Creates clean git repository
 
-5. **Setup Dependencies and Validation**:
+6. **Setup Dependencies and Validation**:
    ```bash
    /validate-setup
    ```
    (This automatically runs `pip install -r requirements.txt` if dependencies are missing)
 
-6. **Build and Test Your Strategy**:
+7. **Build and Test Your Strategy**:
    ```bash
    /validate-strategy && /plan-strategy && /build-engine
    /run && /analyze-single-run && /evaluate-single-run
