@@ -76,13 +76,38 @@ Source & cache declared in EMR; OHLCV in UTC; define missing-bar policy; fees/sl
 
 ## File layout
 
+**Clean Script vs Data Separation:**
+
 ```
-/docs/ EMR.md SMR.md ECL.md SCL.md
-/docs/runs/run_registry.csv
-/docs/notices/{ECN|SER|SDCN}/
-/docs/research/{analyzer|evaluator}/<topic>-<YYYYMMDD>.md
-/data/sandbox/{run_id}/
-/data/runs/{run_id}/  (manifest.json, metrics.json, trades.csv, events.csv, series.csv, figs/)
+/scripts/                    # Execution scripts (organized by agent)
+├── engine/                  # /build-engine generates here
+│   ├── backtest.py         # Main backtest engine
+│   ├── strategy_engine.py  # Generated strategy code
+│   ├── core/              # Portfolio, orders, risk management
+│   ├── data/              # Data fetching and processing
+│   ├── execution/         # Fill simulation, fees, slippage
+│   └── utils/             # Config parsing, progress tracking
+├── analyzer/              # /run execution scripts
+├── single_analysis/       # /analyze-single-run scripts
+├── single_evaluation/     # /evaluate-single-run scripts
+├── optimization/          # /run-optimization scripts
+└── opt_evaluation/        # /evaluate-optimization scripts
+
+/data/                      # Generated outputs (separate from scripts)
+├── runs/{run_id}/         # Single backtest outputs
+│   ├── manifest.json
+│   ├── metrics.json
+│   ├── trades.csv, events.csv, series.csv
+│   └── figures/
+├── optimization/{study_id}/  # Parameter optimization outputs
+├── reports/               # Generated PDF reports
+└── cache/                 # Data fetching cache
+
+/docs/                     # Documentation and registries
+├── EMR.md SMR.md ECL.md SCL.md
+├── runs/run_registry.csv
+├── notices/{ECN|SER|SDCN}/
+└── research/
 ```
 
 ## Guardrails
