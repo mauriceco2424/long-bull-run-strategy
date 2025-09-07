@@ -4,24 +4,52 @@ A production-ready framework for building, backtesting, and optimizing trading s
 
 ## 🚀 Quick Start
 
-1. **Clone and Setup**:
+### **New Strategy Project Initialization**
+
+1. **Create New Project Directory**:
    ```bash
-   git clone https://github.com/mauriceco2424/trading_bot_skeleton.git
-   cd trading_bot_skeleton
-   pip install -r requirements.txt
-   python tools/validate_setup.py
+   mkdir my-rsi-momentum-strategy
+   cd my-rsi-momentum-strategy
    ```
 
-2. **Create Your Strategy**:
-   Write a strategy specification (.md file) with your trading rules, entry/exit logic, and parameters.
-
-3. **Build and Test**:
+2. **Clone Skeleton Content** (not the folder):
    ```bash
-   /validate-setup && /validate-strategy && /plan-strategy && /build-engine
+   git clone https://github.com/mauriceco2424/trading_bot_skeleton.git .
+   rm -rf .git
+   ```
+
+3. **Define Your Strategy**:
+   Edit `docs/SMR.md` with your specific strategy details (RSI levels, timeframes, etc.)
+
+4. **Initialize Your Strategy Project**:
+   ```bash
+   /initialize-strategy "RSI Momentum Strategy" "rsi-momentum-strategy"
+   ```
+   This will:
+   - Rename all skeleton references to your strategy name
+   - Update workspace file: `rsi-momentum-strategy.code-workspace`
+   - Create new GitHub repository
+   - Update README and documentation with your strategy name
+
+5. **Setup Dependencies and Validation**:
+   ```bash
+   pip install -r requirements.txt
+   /validate-setup
+   ```
+
+6. **Build and Test Your Strategy**:
+   ```bash
+   /validate-strategy && /plan-strategy && /build-engine
    /run && /analyze-single-run && /evaluate-single-run
    ```
-   
-   The `/build-engine` command will generate a complete execution engine in `scripts/engine/` with data fetching, realistic execution simulation, and strategy-specific code.
+
+### **Alternative: Direct Clone (Legacy)**
+If you prefer the old method:
+```bash
+git clone https://github.com/mauriceco2424/trading_bot_skeleton.git
+cd trading_bot_skeleton
+# Then manually customize names and create new repo
+```
 
 ## 📋 What This Skeleton Provides
 
