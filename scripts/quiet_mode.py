@@ -27,7 +27,7 @@ def load_quiet_mode():
     if STATE_FILE.exists():
         with open(STATE_FILE, 'r') as f:
             return json.load(f).get("enabled", False)
-    return False
+    return False  # Default is non-quiet mode (shows progress bars)
 
 def enable_quiet_mode():
     """Enable quiet mode - agents will be almost completely silent."""

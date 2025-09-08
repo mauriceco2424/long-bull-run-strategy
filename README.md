@@ -233,6 +233,18 @@ This is a skeleton framework. Customize for your specific needs:
 - Modify agents for specialized strategies
 - Add custom validation rules
 
+## 🔧 Troubleshooting
+
+### **Screen Flickering Issues**
+If you experience screen flickering during agent operations (especially on Windows), set Git Bash as your default terminal in VS Code:
+
+1. **In VS Code**: Open Command Palette (Ctrl+Shift+P)
+2. Type: "Terminal: Select Default Profile"
+3. Choose: "Git Bash" to set it as your default terminal
+4. Restart your terminal
+
+This resolves flickering issues caused by terminal output buffering and provides a smoother experience with Claude Code agents.
+
 ## 📝 License
 
 MIT License - Use freely for your trading strategy development.

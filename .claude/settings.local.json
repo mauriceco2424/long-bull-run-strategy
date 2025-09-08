@@ -20,7 +20,11 @@
       "Bash(claude agents list)",
       "Bash(claude agents --help)",
       "Bash(find:*)",
-      "Bash(git config:*)"
+      "Bash(git config:*)",
+      "Read(//c/Users/bruker/AppData/Roaming/Code/User/**)",
+      "Bash(touch:*)",
+      "Bash(rm:*)",
+      "Bash(where git)"
     ],
     "deny": [],
     "ask": []
