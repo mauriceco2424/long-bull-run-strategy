@@ -219,11 +219,10 @@ All user guides and documentation are organized in `docs/guides/`:
 | Document | Purpose |
 |----------|---------|
 | 📋 **[STRAT_TEMPLATE.md](docs/guides/STRAT_TEMPLATE.md)** | Strategy specification template - **Use this to define your strategy** |
-| 🎮 **[Command-User-Guide.md](docs/guides/Command-User-Guide.md)** | Complete command reference and usage examples |
-| ⚡ **[OPTIMIZATION_GUIDE.md](docs/guides/OPTIMIZATION_GUIDE.md)** | Speed optimization system (10-50x parameter sweep acceleration) |
+| 📖 **[User-Guide.md](docs/guides/User-Guide.md)** | Complete user manual with command reference, optimization benefits, and best practices |
 | 📊 **[VISUALIZATION_BEST_PRACTICES.md](docs/guides/VISUALIZATION_BEST_PRACTICES.md)** | Professional chart and report generation standards |
 
-**Quick Start**: Begin with `docs/guides/STRAT_TEMPLATE.md` to define your strategy, then use the commands in `docs/guides/Command-User-Guide.md`.
+**Quick Start**: Begin with `docs/guides/STRAT_TEMPLATE.md` to define your strategy, then follow the complete workflow in `docs/guides/User-Guide.md`.
 
 ## 🤝 Contributing
 

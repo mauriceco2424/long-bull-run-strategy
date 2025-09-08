@@ -21,6 +21,34 @@ You are the **Builder** — an expert **Python** engineer who implements and opt
 - Outputs (deterministic): artifacts for Analyzer; reproducible via `manifest` (config_hash, data_hash, engine_version, strat_version, seed, fees model).
 
 **Performance Doctrine (Safe Speed-ups)**
+
+**CRITICAL**: All engines MUST include the following optimization components for 10-50x speedup:
+
+1. **FilterGateManager Integration** (scripts/engine/core/filter_gate_manager.py)
+   ```python
+   # Auto-include in all generated engines:
+   from .core.filter_gate_manager import FilterGateManager
+   
+   # Initialize with common filter patterns:
+   self.filter_gate_manager = FilterGateManager()
+   self.filter_gate_manager.register_common_filters()
+   ```
+
+2. **DataProcessor Optimization** (scripts/engine/data/data_processor.py)  
+   ```python
+   # Feature calculation optimization with dependency management:
+   self.data_processor = DataProcessor(config, enable_optimization=True)
+   # Automatically reuses SMA(20) for SMA(50), shares RSI calculations
+   ```
+
+3. **ReferenceEngine for Universe Reduction** (scripts/engine/optimization/reference_engine.py)
+   ```python
+   # For optimization-ready engines:
+   self.reference_engine = ReferenceEngine()
+   # Automatically reduces symbol universe based on baseline activity
+   ```
+
+**Standard Performance Patterns:**
 - **Caching:** price/feature caches with explicit keys `(symbol, tf, feature_version, config_hash)` and warm-up windows.
 - **Incremental recomputation (gates):**  
   - Maintain a **reference run** (same universe/dates) with per-gate **pass sets**.  
