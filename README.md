@@ -206,7 +206,7 @@ Extend agent capabilities by modifying `.claude/agents/` configurations.
 
 ## 📈 Performance
 
-- **Universal Speed Optimization**: 10-50x speedup for parameter sweeps through FilterGateManager, feature caching, and reference run optimization
+- **Universal Speed Optimization**: Significant speedup for parameter sweeps through FilterGateManager, feature caching, and reference run optimization
 - **Strategy-Agnostic**: Speed optimizations work with ANY trading strategy automatically
 - **Memory efficient**: Configurable caching with resource profiling
 - **Hardware-aware**: Auto-configures based on system capabilities
@@ -219,8 +219,7 @@ All user guides and documentation are organized in `docs/guides/`:
 | Document | Purpose |
 |----------|---------|
 | 📋 **[STRAT_TEMPLATE.md](docs/guides/STRAT_TEMPLATE.md)** | Strategy specification template - **Use this to define your strategy** |
-| 📖 **[User-Guide.md](docs/guides/User-Guide.md)** | Complete user manual with command reference, optimization benefits, and best practices |
-| 📊 **[VISUALIZATION_BEST_PRACTICES.md](docs/guides/VISUALIZATION_BEST_PRACTICES.md)** | Professional chart and report generation standards |
+| 📖 **[User-Guide.md](docs/guides/User-Guide.md)** | Complete user manual with commands, optimization benefits, visualization system, and best practices |
 
 **Quick Start**: Begin with `docs/guides/STRAT_TEMPLATE.md` to define your strategy, then follow the complete workflow in `docs/guides/User-Guide.md`.
 

@@ -36,12 +36,12 @@ You are the **Trading Single-Run Analyzer** — you EXECUTE single backtests and
 8) Atomically append run to `/docs/runs/run_registry.csv` (use lockfile `/docs/runs/.registry.lock` with 5min timeout; check mtime staleness).
 
 **Professional Visualization Standards (Publication-Ready Quality)**
-- **High Resolution**: 300+ DPI for print quality, both PNG and SVG formats
+- **Vector + Raster Output**: PDF (vector) for LaTeX + PNG (300+ DPI) for web/presentations
 - **Professional Formatting**: Clean layouts, readable fonts, proper legends and axis labels  
 - **Color Accessibility**: Colorblind-friendly palettes throughout
 - **Consistent Styling**: Unified theme across all charts and figures
-- **Figure Captions**: Auto-generated descriptive captions for each visualization
-- **PDF-Ready**: Proper sizing and quality for LaTeX report inclusion
+- **Research-Based Design**: No dual-axis confusion, clear visual hierarchy (see .claude/docs/visualization-standards.md)
+- **Smart Time Scaling**: Auto-adjust axis spacing based on strategy duration
 
 **Default Visualization Architecture (Research-Based Best Practices)**:
 *Stacked panel approach - no dual-axis confusion, clean visual hierarchy*

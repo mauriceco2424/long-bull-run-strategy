@@ -384,7 +384,7 @@ Each command has a single, clear purpose with automatic quality enforcement and 
 ## Optimization Benefits for Users
 
 ### **Automatic Speed Optimizations**
-The framework includes advanced optimization infrastructure that provides **10-50x speedup** for parameter sweeps automatically:
+The framework includes advanced optimization infrastructure that provides **significant speedup** for parameter sweeps automatically:
 
 - **Universal Application**: Optimizations work with ANY trading strategy without modification
 - **Automatic Integration**: Speed benefits are enabled by default - no configuration needed
@@ -399,7 +399,7 @@ The framework includes advanced optimization infrastructure that provides **10-5
 ### **Performance Expectations**
 - **Without Optimization**: 100 parameter combinations = 100x single run time
 - **With Optimization**: 100 parameter combinations = 5-10x single run time
-- **Best Case**: 50x speedup for strategies with restrictive parameter ranges
+- **Best Case**: Substantial speedup for strategies with restrictive parameter ranges
 
 ### **User Configuration**
 Most optimizations are automatic, but you can control some aspects in your strategy configuration:
@@ -412,6 +412,34 @@ Most optimizations are automatic, but you can control some aspects in your strat
 - **Strategies with threshold filters**: RSI levels, volume filters, price filters
 - **Large symbol universes**: More symbols = bigger optimization impact
 - **Multiple parameter dimensions**: Testing RSI period AND volume threshold together
+
+## Professional Visualization System
+
+### **Publication-Quality Charts**
+All strategy analyses automatically generate **professional visualizations** suitable for stakeholders and reports:
+
+- **3-Panel Layout**: Equity curve (main), drawdown analysis, and trade activity summary
+- **Smart Time Scaling**: Automatically adjusts time axis spacing based on strategy duration
+- **Dual Format Output**: Vector PDF for reports + high-resolution PNG for web/presentations
+- **Colorblind-Friendly**: Professional color palettes accessible to all viewers
+
+### **What You Get Automatically**
+- **Main Performance Chart**: Clean equity curve with benchmark comparison
+- **Drawdown Analysis**: Visual representation of maximum drawdown periods
+- **Trade Activity**: Summary charts showing trade frequency and patterns
+- **Per-Symbol Analysis**: Optional detailed charts for individual trading symbols
+
+### **Template Configuration Options**
+You can specify visualization preferences in your strategy template:
+- **Visualization Level**: Basic (default) | Enhanced (per-symbol) | Advanced (custom)
+- **Benchmark Comparison**: SPY, QQQ, BTC, or custom benchmark
+- **Display Options**: Trade markers, time period shading, symbol-specific analysis
+
+### **Professional Quality Standards**
+- **LaTeX Integration**: Vector PDF charts for scientific-quality reports
+- **High-Resolution Output**: 300+ DPI for presentations and printing  
+- **Research-Based Design**: No misleading dual-axis charts, clear visual hierarchy
+- **Consistent Styling**: Professional typography and layout throughout
 
 ---
 

@@ -4,7 +4,7 @@ This guide explains how the universal speed optimization system works and how ag
 
 ## Overview
 
-The trading framework includes advanced optimization infrastructure that provides **10-50x speedup** for parameter sweeps while maintaining accuracy. These optimizations are **strategy-agnostic** and work with any trading strategy.
+The trading framework includes advanced optimization infrastructure that provides **significant speedup** for parameter sweeps while maintaining accuracy. These optimizations are **strategy-agnostic** and work with any trading strategy.
 
 ## Core Optimization Components
 
@@ -46,7 +46,7 @@ manager.register_filter(
 )
 ```
 
-**Speed Benefit**: 5-10x speedup for strategies with restrictive parameter sets.
+**Speed Benefit**: Significant speedup for strategies with restrictive parameter sets.
 
 ### 2. DataProcessor - Feature Calculation Optimization
 
@@ -72,7 +72,7 @@ features = processor.calculate_features(ohlcv_data, ["rsi_14", "sma_20", "sma_50
 # - RSI periods share delta calculations
 ```
 
-**Speed Benefit**: 2-3x speedup overall through calculation sharing.
+**Speed Benefit**: Notable speedup overall through calculation sharing.
 
 ### 3. ReferenceEngine - Baseline Optimization
 
@@ -102,7 +102,7 @@ optimized_symbols, metadata = engine.get_optimized_universe(
 # Returns subset of symbols that were active in reference run
 ```
 
-**Speed Benefit**: 3-5x speedup for parameter sweeps with focused symbol activity.
+**Speed Benefit**: Substantial speedup for parameter sweeps with focused symbol activity.
 
 ## Agent Integration Patterns
 
@@ -191,11 +191,11 @@ results = engine.execute_parameter_sweep()
 - No filter result reuse
 
 ### With Optimization (New System)
-- 100 parameter combinations = 5-10x single run time
-- **Filter Gates**: 5-10x speedup for restrictive parameters
-- **Feature Caching**: 2-3x speedup through calculation sharing
-- **Universe Reduction**: 3-5x speedup for focused strategies
-- **Combined Effect**: 10-50x total speedup
+- 100 parameter combinations = substantially faster than single run time
+- **Filter Gates**: Significant speedup for restrictive parameters
+- **Feature Caching**: Notable speedup through calculation sharing
+- **Universe Reduction**: Substantial speedup for focused strategies
+- **Combined Effect**: Major performance improvement
 
 ## Configuration Options
 
