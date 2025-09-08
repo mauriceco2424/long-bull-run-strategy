@@ -4,6 +4,10 @@ A production-ready framework for building, backtesting, and optimizing trading s
 
 ## 🚀 Quick Start
 
+### **Prerequisites**
+- **Git Bash** (required for automated GitHub integration)
+- **GitHub CLI** installed (`gh auth login` completed)
+
 ### **New Strategy Project Initialization**
 
 1. **Create New Project Directory**:
@@ -24,35 +28,129 @@ A production-ready framework for building, backtesting, and optimizing trading s
    Edit `docs/SMR.md` following the `docs/guides/STRAT_TEMPLATE.md` format.
    **Key**: Update the `**Name**: <Strategy Name>` field with your actual strategy name.
 
-4. **Setup Your Git Repository**:
-   ```bash
-   git init
-   git remote add origin https://github.com/your-username/your-strategy-repo.git
-   ```
-   **Important**: Replace `your-username/your-strategy-repo` with your actual GitHub repository.
-
-5. **Initialize Your Strategy Project**:
+4. **Initialize Your Strategy Project**:
    ```bash
    /initialize
    ```
-   This automatically:
-   - Reads strategy name from `docs/SMR.md`
-   - Renames folder `new_strat` → `your-strategy-name`
-   - Updates workspace file: `your-strategy-name.code-workspace`
+   This **automatically**:
+   - Reads strategy name from `docs/SMR.md` (e.g., "RSI Momentum Strategy")
+   - Creates GitHub repository: `rsi-momentum-strategy`
+   - Renames folder `new_strat` → `rsi-momentum-strategy`  
+   - Updates workspace file: `rsi-momentum-strategy.code-workspace`
    - Updates all files with your strategy name
-   - Creates clean git repository
+   - Sets up clean git repository with remote origin
+   - Makes initial commit and pushes to GitHub
 
-6. **Setup Dependencies and Validation**:
+   **No manual GitHub repo creation needed!**
+
+5. **Setup Dependencies and Validation**:
    ```bash
    /validate-setup
    ```
    (This automatically runs `pip install -r requirements.txt` if dependencies are missing)
 
-7. **Build and Test Your Strategy**:
+6. **Build and Test Your Strategy**:
    ```bash
    /validate-strategy && /plan-strategy && /build-engine
    /run && /analyze-single-run && /evaluate-single-run
    ```
+
+## 🌿 Git Branching Workflow
+
+### **Professional Development Workflow**
+
+The framework supports professional Git branching for safe strategy development:
+
+#### **Branch Strategy**
+- **`main`**: Production-ready, tested strategy versions
+- **`develop`**: Integration branch for combining features
+- **`feature/[strategy-change]`**: Individual improvements or experiments
+
+#### **Typical Development Cycle**
+
+1. **Start New Feature/Experiment**:
+   ```bash
+   git checkout develop
+   git pull origin develop
+   git checkout -b feature/improve-rsi-thresholds
+   ```
+
+2. **Develop and Test Locally**:
+   ```bash
+   # Make changes to strategy parameters or logic
+   /run && /analyze-single-run && /evaluate-single-run
+   
+   # Commit improvements
+   git add .
+   git commit -m "Optimize RSI thresholds for better Sortino ratio"
+   ```
+
+3. **Push Feature Branch**:
+   ```bash
+   git push -u origin feature/improve-rsi-thresholds
+   ```
+
+4. **Create Pull Request** (when ready to merge):
+   ```bash
+   gh pr create --base develop --title "Optimize RSI thresholds" --body "
+   ## Changes
+   - Improved RSI oversold threshold from 30 to 25
+   - Added volume confirmation filter
+   
+   ## Performance
+   - Sortino ratio: 2.1 → 2.4
+   - Max drawdown: 15% → 12%
+   
+   ## Testing
+   - [x] Backtested on 3-year dataset
+   - [x] Walk-forward validation passed
+   - [x] All hooks and validators pass
+   "
+   ```
+
+5. **Merge to Production** (after testing):
+   ```bash
+   # Switch to main and merge develop
+   git checkout main
+   git pull origin main
+   git merge develop
+   git push origin main
+   
+   # Tag stable versions
+   git tag v1.2.0 -m "RSI threshold optimization release"
+   git push --tags
+   ```
+
+#### **Branch Protection Setup**
+Configure branch protection in your GitHub repository:
+- Require pull request reviews before merging to `main`
+- Require status checks (backtests) to pass
+- Dismiss stale reviews when new commits are pushed
+
+### **Strategy Development Best Practices**
+
+#### **Feature Branch Naming**
+- `feature/optimize-entry-logic`
+- `feature/add-volume-filter`
+- `experiment/test-momentum-signals`
+- `bugfix/fix-position-sizing`
+
+#### **Commit Messages**
+- Clear, descriptive commits
+- Include performance impact when relevant
+- Reference backtest results in commit descriptions
+
+#### **When to Merge**
+✅ **Merge when**:
+- Backtest performance improves key metrics
+- All validation hooks pass
+- Walk-forward analysis confirms robustness
+- Code review completed (if working in team)
+
+❌ **Don't merge when**:
+- Untested changes
+- Performance degrades without clear reason
+- Validation failures or overfitting detected
 
 
 ## 📋 What This Skeleton Provides
@@ -242,6 +340,16 @@ If you experience screen flickering during agent operations (especially on Windo
 4. Restart your terminal
 
 This resolves flickering issues caused by terminal output buffering and provides a smoother experience with Claude Code agents.
+
+### **GitHub CLI Setup**
+For automated repository creation, ensure GitHub CLI is properly configured:
+
+1. **Install GitHub CLI**: Download from https://cli.github.com/ or use `winget install GitHub.cli`
+2. **Authenticate**: Run `gh auth login` and follow the prompts
+3. **Verify**: Test with `gh auth status` to confirm authentication
+4. **Permissions**: Ensure your GitHub token has repository creation permissions
+
+**Note**: The `/initialize` command requires Git Bash and authenticated GitHub CLI to automatically create and configure your strategy repository.
 
 ## 📝 License
 
