@@ -15,11 +15,11 @@ $ARGUMENTS
 
 ### 1. **Development Plan Creation**
 - Create comprehensive plan in `cloud/tasks/<task_id>.md` with:
-  - Goals and KPIs with measurable success criteria
+  - Goals and KPIs focused on development milestones
   - Clear owners (Builder/Analyzer/Evaluator assignments)
   - Dependencies and prerequisites
   - Quality gates and checkpoints
-  - Milestones with timelines
+  - Milestones and checkpoints
   - Priority classification (P0/P1/P2/P3)
   - Ordered DAG of development tickets with inputs/outputs
 
@@ -64,7 +64,7 @@ $ARGUMENTS
 - Comprehensive development plan in `cloud/tasks/<task_id>.md`
 - State tracking file in `cloud/state/<task_id>.json`
 - Clear go/no-go decision for proceeding to `/build-engine`
-- Development timeline with milestones
+- Development milestones and checkpoints
 - Risk assessment with mitigation strategies
 - Next steps with assigned owners
 

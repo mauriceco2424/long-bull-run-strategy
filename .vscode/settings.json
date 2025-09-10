@@ -1,0 +1,65 @@
+{
+  "terminal.integrated.gpuAcceleration": "off",
+  "terminal.integrated.scrollback": 1000,
+  "terminal.integrated.smoothScrolling": false,
+  "terminal.integrated.windowsEnableConpty": false,
+
+  "python.defaultInterpreterPath": "python",
+  "python.analysis.typeCheckingMode": "basic",
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+
+  "python.formatting.provider": "black",
+  "black-formatter.args": ["--line-length", "100"],
+  "ruff.lint.args": ["--extend-select", "I"],
+
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit"
+  },
+
+  "editor.tabSize": 4,
+  "editor.wordWrap": "on",
+  "editor.renderWhitespace": "selection",
+  "editor.minimap.enabled": false,
+  "files.autoSave": "onFocusChange",
+
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+  "git.pruneOnFetch": true,
+
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.profiles.windows": {
+    "Git Bash": {
+      "source": "Git Bash",
+      "icon": "terminal-bash"
+    },
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    }
+  },
+
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.wordWrap": "bounded",
+    "editor.rulers": [100]
+  },
+
+  "jupyter.askForKernelRestart": false,
+  "jupyter.enableCellCodeLens": true,
+  "jupyter.textOutputLimit": 500000,
+
+  "workbench.editor.enablePreview": false,
+  "workbench.startupEditor": "none"
+}

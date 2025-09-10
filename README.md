@@ -8,6 +8,7 @@ A production-ready framework for building, backtesting, and optimizing trading s
 - **Git Bash** (required for automated GitHub integration)
 - **GitHub CLI** installed (`gh auth login` completed)
 - **MiKTeX** (recommended for professional PDF reports): Install MiKTeX and add executable path (e.g., `C:\Users\{username}\AppData\Local\Programs\MiKTeX\miktex\bin\x64`) to system PATH. Optional - HTML reports available as fallback, but LaTeX enables enhanced formatting for scientific publications.
+- **VS Code** (recommended): The workspace includes optimized settings for trading development that automatically reduce screen flickering and improve Python development experience.
 
 ### **New Strategy Project Initialization**
 
@@ -52,6 +53,10 @@ A production-ready framework for building, backtesting, and optimizing trading s
    # Open the renamed workspace file in VS Code/Cursor
    code {strategy-name}.code-workspace
    ```
+   **Note**: VS Code will automatically apply optimized workspace settings including:
+   - Terminal flicker reduction for smooth Claude Code operations
+   - Python development tools (Black formatter, pytest integration)
+   - Git workflow enhancements for streamlined version control
 
 7. **Setup Dependencies and Validation**:
    ```bash
@@ -155,6 +160,8 @@ gh pr create --base develop --title "Improve entry logic"
 ├── .claude/                    # Claude Code configuration
 │   ├── agents/                # 6 specialized agents
 │   └── commands/              # 9 streamlined commands
+├── .vscode/                   # VS Code workspace settings
+│   └── settings.json          # Optimized development configuration
 ├── docs/                      # Authoritative documentation
 │   ├── runs/                  # Run registry and results
 │   └── schemas/               # JSON schemas
