@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 2,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1757495808892,
@@ -16,6 +16,10 @@
                 {
                     "date": 1757496299994,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n    ```\r\n    This **automatically**:\r\n    - Reads strategy name from `docs/SMR.md` (e.g., \"RSI Momentum Strategy\")\r\n    - Creates GitHub repository: `your-strategy`\r\n-   - Renames folder `skeleton` → `your-strategy`  \r\n+   - Renames folder `trading_bot_skeleton` → `your-strategy`  \r\n    - Updates workspace file: `your-strategy.code-workspace`\r\n    - Updates all files with your strategy name\r\n    - Sets up clean git repository with remote origin\r\n    - Makes initial commit and pushes to GitHub\r\n"
+                },
+                {
+                    "date": 1757499115588,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -24,8 +24,9 @@\n    Edit `docs/SMR.md` following the `docs/guides/STRAT_TEMPLATE.md` format.\r\n    **Key**: Update the `**Name**: <Strategy Name>` field with your actual strategy name.\r\n \r\n 4. **Initialize Your Strategy Project**:\r\n+   Activate claude\r\n    ```bash\r\n    /initialize\r\n    ```\r\n    This **automatically**:\r\n"
                 }
             ],
             "date": 1757495808892,

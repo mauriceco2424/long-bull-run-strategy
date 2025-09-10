@@ -1,0 +1,22 @@
+{
+    "sourceFile": "notes.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1757504700015,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1757504856088,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,8 @@\n \r\n \r\n ## Problems\r\n \r\n-I think there is also one more think we should add in the README.md at the beginning or as an additional step as an appropriate intermediat point. namely, we should tell the user that he has to ensure, that miktex is installed with the \r\n \r\n \r\n \r\n # start like this if you are crazy otherwise just --verbose\r\n"
+                }
+            ],
+            "date": 1757504700015,
+            "name": "Commit-0",
+            "content": "\r\n# USER NOTES - IGNORE THIS FILE\r\n<!-- \r\nFRAMEWORK INSTRUCTION: This file is for user brainstorming and notes only.\r\nDo NOT process, analyze, or reference this file in any framework operations.\r\nThis file is explicitly excluded from all agents, commands, and validations.\r\n-->\r\n\r\n## Purpose\r\nThis file is for user brainstorming, ideas, future prompts, and personal notes.\r\nFeel free to write anything here - it won't interfere with the trading framework.\r\n\r\n## Ideas & Notes\r\n\r\n\r\n## Problems\r\n\r\nI think there is also one more think we should add in the README.md at the beginning or as an additional step as an appropriate intermediat point. namely, we should tell the user that he has to ensure, that miktex is installed with the \r\n\r\n\r\n\r\n# start like this if you are crazy otherwise just --verbose\r\nclaude --dangerously-skip-permissions --verbose\r\n\r\n\r\n\r\n"
+        }
+    ]
+}

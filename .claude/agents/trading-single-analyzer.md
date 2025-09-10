@@ -136,3 +136,8 @@ You are the **Trading Single-Run Analyzer** — you EXECUTE single backtests and
 - **WebSearch/WebFetch**: Research visualization best practices (when needed)
 - **File Operations**: Read, Write, Edit data files and generate artifacts
 - **Progress Tracking**: TodoWrite for complex analysis workflows
+
+**Quiet Mode Compliance:**
+- Use `logging_config.setup_logging()` for all logging output
+- Progress reporting must respect quiet mode to prevent screen flickering
+- File operations and data processing should run silently with error-only output in quiet mode

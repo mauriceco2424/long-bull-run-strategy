@@ -1,6 +1,6 @@
 # Initialize
 
-Transform the trading_bot_skeleton into a specific strategy project with **automated GitHub repository creation**, proper naming, and file customization. **Automatically reads strategy name from SMR.md**.
+Transform the trading_bot_skeleton into a specific strategy project with **automated GitHub repository creation**, content customization, and Git setup. **Automatically reads strategy name from SMR.md**. Does NOT rename the folder - user handles that manually for reliability.
 
 ## Usage
 
@@ -12,8 +12,10 @@ That's it! The command automatically:
 1. Reads strategy name from `docs/SMR.md` 
 2. Generates repository name (e.g., "RSI Momentum Strategy" → "rsi-momentum-strategy")
 3. **Creates GitHub repository automatically** using GitHub CLI
-4. Transforms all files and folders accordingly
+4. Transforms all file contents with strategy names
 5. Pushes initial commit to GitHub
+
+**Note**: Folder renaming is done manually after initialization for reliability across all platforms.
 
 ## Prerequisites
 
@@ -31,7 +33,13 @@ That's it! The command automatically:
 # 2. Run initialization
 /initialize
 
-# Done! Everything is automatically named and configured
+# 3. Manually rename folder (more reliable than automatic)
+cd ..
+mv trading_bot_skeleton rsi-momentum-strategy
+cd rsi-momentum-strategy
+
+# 4. Open renamed workspace
+code rsi-momentum-strategy.code-workspace
 ```
 
 ## Optional Override
@@ -42,14 +50,16 @@ That's it! The command automatically:
 
 ## What This Command Does
 
-1. **Rename Files**: Updates workspace file to match strategy name
-2. **Update Content**: Replaces all skeleton references with strategy names
-3. **Customize Documentation**: Updates README, SMR.md, EMR.md with strategy info
+1. **Update Content**: Replaces all skeleton references with strategy names
+2. **Customize Documentation**: Updates README, SMR.md, EMR.md with strategy info  
+3. **Rename Workspace File**: Updates workspace file to match strategy name
 4. **Create GitHub Repository**: Automatically creates repo using `gh repo create`
 5. **Setup Git Branching**: Creates `main` and `develop` branches with proper structure
 6. **Branch Protection**: Configures branch protection rules for safe development
 7. **Initial Commit**: Pushes skeleton to both `main` and `develop` branches
 8. **Generate Report**: Creates transformation report with next steps
+
+**Not included**: Folder renaming (done manually for cross-platform reliability)
 
 ## Parameters
 
@@ -69,11 +79,17 @@ That's it! The command automatically:
 
 ## Next Steps After Initialization
 
-**No manual GitHub setup needed!** The repository is created with professional branching.
-
-**Start Development on Feature Branch**:
+**1. Manual Folder Renaming** (for reliability):
 ```bash
-# Create your first feature branch
+cd ..
+mv trading_bot_skeleton your-strategy-name
+cd your-strategy-name
+code your-strategy-name.code-workspace
+```
+
+**2. Start Development on Feature Branch**:
+```bash
+# Create your first feature branch  
 git checkout develop
 git checkout -b feature/initial-parameters
 
@@ -101,7 +117,7 @@ gh pr create --base develop --title "Initial strategy implementation"
 - **GitHub Repository Creation**: Uses `gh repo create` to automatically create the repository
 - **Professional Git Setup**: Creates `main` + `develop` branches with protection rules
 - **Branch Protection**: Configures GitHub to require PRs for `main` branch changes
-- **Folder Renaming**: Renames `new_strat` or similar generic folders to strategy name
+- **Content Transformation**: Updates all file contents with strategy names (folder renaming done manually)
 - **Smart Name Generation**: Converts "RSI Momentum Strategy" → "rsi-momentum-strategy" 
 - **Template Detection**: Validates SMR.md follows proper format
 - **Complete Git Integration**: Creates repository, sets remote, pushes to both branches

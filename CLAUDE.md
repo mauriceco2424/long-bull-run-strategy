@@ -9,7 +9,7 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 ## Development Commands
 
 **Core commands:**
-- `python scripts/quiet_mode.py [on|off|status]` - Control agent output verbosity (default: shows progress)
+- `python scripts/quiet_mode.py [on|off|status]` - Control agent output verbosity (default: quiet mode to prevent screen flickering)
 - `pip install -r requirements.txt` - Install Python dependencies (pandas, numpy, matplotlib, scipy, etc.)
 - `python scripts/initialization/initialize_strategy.py` - Transform skeleton to specific strategy project
 - `pytest` - Run test suite (if tests exist)
@@ -26,11 +26,11 @@ Framework to **build, evaluate, and iteratively optimize trading strategies** (b
 ## Always do this
 
 * Start in **PLAN mode**; keep `cloud/tasks/<task>.md` with **goals, owners, deps, gates, milestones**
-* Prefer **slash commands**: `/initialize`, `/validate-setup`, `/validate-strategy`, `/plan-strategy`, `/build-engine`, `/run`, `/analyze-single-run`, `/evaluate-single-run`, `/run-optimization`, `/evaluate-optimization`
+* Prefer **slash commands**: `/initialize` (skeleton setup), `/validate-setup`, `/validate-strategy`, `/plan-strategy`, `/build-engine`, `/run`, `/analyze-single-run`, `/evaluate-single-run`, `/run-optimization`, `/evaluate-optimization`
 * `/docs/**` is authoritative; changelogs are append-only
 * **Progress bar requirement**: All Python scripts MUST implement unified progress reporting with ETA
 * **Universal Speed Optimization**: All agents MUST leverage FilterGateManager, DataProcessor optimization, and ReferenceEngine for maximum speed (see .claude/docs/optimization-patterns.md)
-* **Quiet Mode**: Use `python scripts/quiet_mode.py on` to suppress progress output and prevent screen flickering during long operations
+* **Quiet Mode**: Default mode suppresses detailed output to prevent screen flickering. Use `python scripts/quiet_mode.py off` to enable detailed progress output for debugging
 
 ## Workflow (dual-path: single-run + optimization)
 

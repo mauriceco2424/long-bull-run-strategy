@@ -13,10 +13,16 @@ from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 import argparse
 import logging
+
+# Import quiet output utilities
+import sys
+sys.path.append(str(Path(__file__).parent.parent / "engine" / "utils"))
+from quiet_output import git_quiet, quiet_print, QuietContext
+from logging_config import setup_logging
 from datetime import datetime
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Setup logging with quiet mode awareness
+logger = setup_logging(__name__)
 
 
 class StrategyInitializer:
@@ -284,6 +290,15 @@ class StrategyInitializer:
                 content
             )
             
+            # Add skeleton version reference after description
+            from datetime import datetime
+            version_line = f"\n> **Built with**: Trading Bot Skeleton v{self.skeleton_version} | **Initialized**: {datetime.now().strftime('%Y-%m-%d')}\n"
+            content = re.sub(
+                r"(A production-ready .* capabilities\.)\n",
+                r"\1" + version_line + "\n",
+                content
+            )
+            
             # Update quick start examples
             content = content.replace(
                 'mkdir my-rsi-momentum-strategy',
@@ -346,12 +361,10 @@ class StrategyInitializer:
     
     def _initialize_git_repository(self) -> None:
         """Initialize new git repository and remove skeleton references."""
-        import subprocess
-        
         try:
-            # Initialize new repository
-            subprocess.run(["git", "init"], cwd=self.root_path, check=True, capture_output=True)
-            subprocess.run(["git", "add", "."], cwd=self.root_path, check=True, capture_output=True)
+            # Initialize new repository using quiet operations
+            git_quiet("init", cwd=self.root_path)
+            git_quiet("add", ".", cwd=self.root_path)
             
             commit_message = f"""Initialize {self.strategy_display_name} from skeleton
 
@@ -364,16 +377,14 @@ Automated transformation from trading_bot_skeleton to {self.strategy_repo_name}
 
 Co-Authored-By: Claude <noreply@anthropic.com>"""
             
-            subprocess.run([
-                "git", "commit", "-m", commit_message
-            ], cwd=self.root_path, check=True, capture_output=True)
+            git_quiet("commit", "-m", commit_message, cwd=self.root_path)
             
             self.transformations_applied.append("Initialized new git repository")
             logger.info("✅ Initialized new git repository")
             logger.info(f"📋 Create GitHub repository: https://github.com/new (name: {self.strategy_repo_name})")
             logger.info(f"📤 Then run: git remote add origin https://github.com/YOUR_USERNAME/{self.strategy_repo_name}.git && git push -u origin master")
             
-        except subprocess.CalledProcessError as e:
+        except Exception as e:
             logger.warning(f"Git initialization failed: {e}")
             self.transformations_applied.append(f"Git initialization failed: {e}")
     
@@ -519,7 +530,7 @@ time.sleep(1)
 init_dir = Path("{init_dir}")
 if init_dir.exists():
     shutil.rmtree(init_dir)
-    print("🗑️  Removed: scripts/initialization/")
+    quiet_print("🗑️  Removed: scripts/initialization/")
 
 # Remove this cleanup script
 cleanup_script = Path(__file__)
