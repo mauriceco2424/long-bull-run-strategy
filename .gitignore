@@ -34,7 +34,6 @@ tools/hooks/logs/*
 *.log
 
 # IDE and editor files
-.vscode/
 .idea/
 *.swp
 *.swo
