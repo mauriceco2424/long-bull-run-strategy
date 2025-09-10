@@ -10,18 +10,14 @@ A production-ready framework for building, backtesting, and optimizing trading s
 
 ### **New Strategy Project Initialization**
 
-1. **Create New Project Directory**:
-   ```bash
-   mkdir new_strat
-   cd new_strat
-   ```
+1. **Development Environment Setup**:
+   > ⚠️ **Important**: Run steps 2-4 in **command prompt/terminal** (not VS Code/Cursor) to avoid file locking issues during folder/workspace renaming. After `/initialize` completes, open the renamed workspace file in your IDE.
 
-2. **Clone Skeleton Content** (contents only, not the folder):
+2. **Clone Skeleton**:
+   cd into the folder where you want to setup your strat
    ```bash
-   git clone https://github.com/mauriceco2424/trading_bot_skeleton.git temp_skeleton
-   mv temp_skeleton/* .
-   mv temp_skeleton/.* . 2>/dev/null || true
-   rm -rf temp_skeleton
+   git clone https://github.com/mauriceco2424/trading_bot_skeleton.git
+   cd trading_bot_skeleton
    ```
 
 3. **Define Your Strategy**:
@@ -34,22 +30,28 @@ A production-ready framework for building, backtesting, and optimizing trading s
    ```
    This **automatically**:
    - Reads strategy name from `docs/SMR.md` (e.g., "RSI Momentum Strategy")
-   - Creates GitHub repository: `rsi-momentum-strategy`
-   - Renames folder `new_strat` → `rsi-momentum-strategy`  
-   - Updates workspace file: `rsi-momentum-strategy.code-workspace`
+   - Creates GitHub repository: `your-strategy`
+   - Renames folder `trading_bot_skeleton` → `your-strategy`  
+   - Updates workspace file: `your-strategy.code-workspace`
    - Updates all files with your strategy name
    - Sets up clean git repository with remote origin
    - Makes initial commit and pushes to GitHub
 
    **No manual GitHub repo creation needed!**
 
-5. **Setup Dependencies and Validation**:
+5. **Open Your Strategy in IDE**:
+   ```bash
+   # Open the renamed workspace file in VS Code/Cursor
+   code {strategy-name}.code-workspace
+   ```
+
+6. **Setup Dependencies and Validation**:
    ```bash
    /validate-setup
    ```
    (This automatically runs `pip install -r requirements.txt` if dependencies are missing)
 
-6. **Build and Test Your Strategy**:
+7. **Build and Test Your Strategy**:
    ```bash
    /validate-strategy && /plan-strategy && /build-engine
    /run && /analyze-single-run && /evaluate-single-run
@@ -57,100 +59,34 @@ A production-ready framework for building, backtesting, and optimizing trading s
 
 ## 🌿 Git Branching Workflow
 
-### **Professional Development Workflow**
+The framework automatically sets up professional Git branching for safe strategy development:
 
-The framework supports professional Git branching for safe strategy development:
-
-#### **Branch Strategy**
-- **`main`**: Production-ready, tested strategy versions
+### **Branch Strategy**
+- **`main`**: Production-ready, tested strategy versions  
 - **`develop`**: Integration branch for combining features
-- **`feature/[strategy-change]`**: Individual improvements or experiments
+- **`feature/[change-description]`**: Individual improvements or experiments
 
-#### **Typical Development Cycle**
+### **Development Workflow**
+```bash
+# Create feature branch from develop
+git checkout develop && git checkout -b feature/improve-entry-logic
 
-1. **Start New Feature/Experiment**:
-   ```bash
-   git checkout develop
-   git pull origin develop
-   git checkout -b feature/improve-rsi-thresholds
-   ```
+# Develop and test your changes
+/run && /analyze-single-run && /evaluate-single-run
 
-2. **Develop and Test Locally**:
-   ```bash
-   # Make changes to strategy parameters or logic
-   /run && /analyze-single-run && /evaluate-single-run
-   
-   # Commit improvements
-   git add .
-   git commit -m "Optimize RSI thresholds for better Sortino ratio"
-   ```
+# Create pull request when ready
+gh pr create --base develop --title "Improve entry logic"
+```
 
-3. **Push Feature Branch**:
-   ```bash
-   git push -u origin feature/improve-rsi-thresholds
-   ```
-
-4. **Create Pull Request** (when ready to merge):
-   ```bash
-   gh pr create --base develop --title "Optimize RSI thresholds" --body "
-   ## Changes
-   - Improved RSI oversold threshold from 30 to 25
-   - Added volume confirmation filter
-   
-   ## Performance
-   - Sortino ratio: 2.1 → 2.4
-   - Max drawdown: 15% → 12%
-   
-   ## Testing
-   - [x] Backtested on 3-year dataset
-   - [x] Walk-forward validation passed
-   - [x] All hooks and validators pass
-   "
-   ```
-
-5. **Merge to Production** (after testing):
-   ```bash
-   # Switch to main and merge develop
-   git checkout main
-   git pull origin main
-   git merge develop
-   git push origin main
-   
-   # Tag stable versions
-   git tag v1.2.0 -m "RSI threshold optimization release"
-   git push --tags
-   ```
-
-#### **Branch Protection Setup**
-Configure branch protection in your GitHub repository:
-- Require pull request reviews before merging to `main`
-- Require status checks (backtests) to pass
-- Dismiss stale reviews when new commits are pushed
-
-### **Strategy Development Best Practices**
-
-#### **Feature Branch Naming**
-- `feature/optimize-entry-logic`
-- `feature/add-volume-filter`
+### **Branch Naming Conventions**
+- `feature/optimize-rsi-thresholds`
+- `feature/add-volume-filter` 
 - `experiment/test-momentum-signals`
 - `bugfix/fix-position-sizing`
 
-#### **Commit Messages**
-- Clear, descriptive commits
-- Include performance impact when relevant
-- Reference backtest results in commit descriptions
-
-#### **When to Merge**
-✅ **Merge when**:
-- Backtest performance improves key metrics
-- All validation hooks pass
-- Walk-forward analysis confirms robustness
-- Code review completed (if working in team)
-
-❌ **Don't merge when**:
-- Untested changes
-- Performance degrades without clear reason
-- Validation failures or overfitting detected
+### **Merge Guidelines**
+✅ **Merge when**: Performance improves, all validation hooks pass, robustness confirmed  
+❌ **Don't merge**: Untested changes, performance degrades, validation failures
 
 
 ## 📋 What This Skeleton Provides

@@ -6,6 +6,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Framework to **build, evaluate, and iteratively optimize trading strategies** (backtest engine now, bot engine later). Goals: **realistic, live-executable strats**, **profitable in backtests**, and **optimizable**.
 
+## Development Commands
+
+**Core commands:**
+- `python scripts/quiet_mode.py [on|off|status]` - Control agent output verbosity (default: shows progress)
+- `pip install -r requirements.txt` - Install Python dependencies (pandas, numpy, matplotlib, scipy, etc.)
+- `python scripts/initialization/initialize_strategy.py` - Transform skeleton to specific strategy project
+- `pytest` - Run test suite (if tests exist)
+
+**Key dependencies:** pandas, numpy, matplotlib, seaborn, plotly, scipy, scikit-learn, ccxt (crypto), tqdm (progress), numba (optimization)
+
 ## Abbreviations
 
 * **EMR**: Engine Master Report (engine spec)
