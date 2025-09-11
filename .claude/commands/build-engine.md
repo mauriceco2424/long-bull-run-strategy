@@ -2,16 +2,27 @@
 
 ---
 description: Build and optimize trading engine from strategy specification
-argument-hint: 
-model: claude-3-5-sonnet-20241022
+argument-hint: [--test]
+model: opus
 ---
 
 I need to use the **trading-builder** agent to implement and optimize the trading engine based on the validated strategy specification.
 
+**Strategy Source Selection:**
+- **Default**: Builds engine from `docs/SMR.md` (main strategy)
+- **Test Mode**: If `--test` flag provided, builds engine from `docs/test/test_SMR.md` (test strategy)
+
 ## Engine Building Tasks
 
-### 1. **Strategy Implementation**
-- Implement engine logic exactly per SMR (Strategy Master Report) specifications
+### 1. **Complexity-Aware Strategy Implementation**
+- **Read complexity assessment** from `/validate-strategy` and `/plan-strategy` outputs
+- **Complexity-Aware Building Modes**:
+  - **SIMPLE**: Template-based engine generation, standard testing (target: 90s)
+  - **MODERATE**: Full engine building with comprehensive validation (current behavior, target: 150s)
+  - **COMPLEX**: Enhanced validation, extended testing, performance profiling (target: 240s)
+  - **ADVANCED**: Comprehensive validation, stress testing, optimization analysis (target: 300s+)
+- **Strategy Source**: Use test strategy if `--test` flag provided, otherwise main strategy
+- Implement engine logic exactly per strategy specification with complexity-appropriate thoroughness
 - Translate strategy template logic into executable engine code
 - Implement entry logic with specified markers, parameters, and conditions
 - Implement exit logic with precedence rules and conflict handling
@@ -26,11 +37,15 @@ I need to use the **trading-builder** agent to implement and optimize the tradin
   - Incremental recomputation for efficiency
 - Report optimized settings (workers, chunk sizes, cache allocation)
 
-### 3. **Quality Assurance & Testing**
-- Run comprehensive unit tests for rule semantics
+### 3. **Complexity-Aware Quality Assurance & Testing**
+- **Simple Strategies**: Standard unit tests, basic integration testing
+- **Moderate Strategies**: Comprehensive testing suite (current behavior)
+- **Complex Strategies**: Enhanced testing with performance profiling and extended validation
+- **Advanced Strategies**: Full stress testing, optimization analysis, and comprehensive validation
+- Run unit tests for rule semantics (scope adjusted by complexity)
 - Execute golden-set parity tests for correctness
 - Verify deterministic behavior with seeded tests
-- Run small-universe integration tests
+- Run integration tests (universe size scaled by complexity level)
 - Execute performance benchmarks with regression detection
 - Validate accounting identity and guardrail compliance
 
@@ -59,21 +74,43 @@ I need to use the **trading-builder** agent to implement and optimize the tradin
 - Implement sanity checks and anomaly detection
 - Flag impossible fills or unrealistic execution assumptions
 
+### 7. **Universal Quality Gate - Accounting Identity Gate (MANDATORY)**
+
+Before any agent completes its phase:
+
+**VERIFY**: `Equity_final = Equity_initial + Sum(realized_PnL) + Sum(unrealized_PnL) - Sum(fees)`
+
+**CROSS-CHECK**: Visual equity curve direction matches reported return sign
+
+**RED FLAGS** (Immediate escalation):
+- Positive metrics with declining equity chart
+- Large unrealized losses not reflected in total return
+- Final equity calculation doesn't reconcile with reported performance
+- Open positions at period end without proper mark-to-market
+
+If any red flag detected → Set run status to "FAILED - ACCOUNTING ERROR" and escalate.
+
 ## Expected Outputs
-- **Implemented and optimized engine code**
+- **Implemented and optimized engine code** (complexity-appropriate thoroughness)
 - **Auto-generated `parameter_config.md` template** ready for user configuration
+- **Complexity assessment integration** showing strategy level and time targets achieved
 - ECN with hardware-profiled benchmarks
-- Comprehensive test results and validation reports
+- Test results and validation reports (scope adjusted by complexity)
 - Parameter validation schema for runtime checking
 - Performance optimization report
 - Engine ready for backtesting with `/run` command
 
-## Success Criteria
-- All unit tests pass with 100% success rate
+## Success Criteria  
+- **Complexity-appropriate quality gates met**:
+  - Simple: Standard unit tests pass, basic validation complete
+  - Moderate: Comprehensive testing suite passes (100% success rate)
+  - Complex: Enhanced testing with performance profiling passes
+  - Advanced: Full stress testing and optimization analysis complete
 - Golden-set parity tests show identical results
-- Performance benchmarks meet or exceed baseline standards
+- Performance benchmarks meet complexity-adjusted standards
 - Parameter configuration template generated successfully
 - Engine implements all strategy template requirements accurately
 - No lookahead bias or unrealistic assumptions detected
+- **Time targets achieved** for complexity level (90s/150s/240s/300s+)
 
 Please use the trading-builder agent to implement, test, and optimize the engine while auto-generating the parameter configuration template for the next phase.

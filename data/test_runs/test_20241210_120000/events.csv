@@ -1,0 +1,6 @@
+timestamp,event_type,description
+2024-01-07,rebalance,Portfolio rebalanced
+2024-01-21,risk_limit,Risk limit triggered
+2024-02-04,rebalance,Portfolio rebalanced
+2024-02-18,signal_generated,RSI signal generated
+2024-03-03,rebalance,Portfolio rebalanced

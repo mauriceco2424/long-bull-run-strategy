@@ -2,14 +2,54 @@
 
 ---
 description: Evaluate performance, interpret strategy behavior, and generate PDF report
-argument-hint: [run_id]
-model: claude-3-5-sonnet-20241022
+argument-hint: [run_id] [--test]
+model: opus
 ---
 
 I need to use the **trading-single-evaluator** agent to perform comprehensive performance evaluation, strategic interpretation, and generate a professional LaTeX PDF report.
 
+**Data Source Selection:**
+- **Default**: Evaluates run from `data/runs/` (main strategy runs)
+- **Test Mode**: If `--test` flag provided, evaluates run from `data/test_runs/` (test strategy runs)
+
 ## Run Evaluation Parameters
 - **Run ID**: $ARGUMENTS (defaults to most recent run if not specified)
+
+## CRITICAL VALIDATION REQUIREMENTS (MANDATORY)
+
+### Pre-Evaluation Visual Validation
+Before any performance assessment, the evaluator MUST:
+
+1. **Read and analyze main_analysis.png/pdf**:
+   - Visually inspect equity curve progression from start to end
+   - Note if equity trends up/down/sideways over the period
+   - Identify any major drawdown periods or recovery phases
+
+2. **Cross-validate metrics vs visualization**:
+   - If metrics.json shows positive return but equity chart declines → HALT
+   - If metrics.json shows negative return but equity chart rises → HALT  
+   - If significant discrepancy detected → Set status to "FAILED - Accounting Error"
+
+3. **Open position verification**:
+   - Check bottom panel for open positions at period end
+   - If >5 open positions at end → Flag as "Incomplete Period"
+   - If >20% capital in open trades → Mandate unrealized P&L disclosure
+
+### Accounting Reconciliation (MANDATORY)
+Before accepting any performance metrics:
+- Verify: `final_equity ≈ initial_capital × (1 + total_return)`
+- Cross-check: series.csv final value vs metrics.json calculation
+- If mismatch >1% → ESCALATE to Builder with "Accounting Error" flag
+
+### HALT CONDITIONS (Do not proceed with evaluation):
+- Equity chart shows decline but metrics claim positive returns
+- >10 open positions at period end without unrealized P&L adjustment
+- Final equity in series.csv ≠ reported total return calculation
+- Any inconsistency between visual data and numerical metrics
+
+When halting: Report "EVALUATION FAILED - ACCOUNTING DISCREPANCY" and escalate to Builder.
+
+Only proceed with strategic interpretation if all validation checks pass.
 
 ## Performance Evaluation & Strategic Analysis Tasks
 

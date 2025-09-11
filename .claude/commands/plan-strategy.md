@@ -2,23 +2,33 @@
 
 ---
 description: Create comprehensive project plan and coordinate development cycle
-argument-hint: [strategy_description]
-model: claude-3-5-sonnet-20241022
+argument-hint: [strategy_description] [--test]
+model: opus
 ---
 
 I need to use the **trading-orchestrator** agent to plan and coordinate a new trading strategy development cycle based on the validated strategy template.
+
+**Strategy Source Selection:**
+- **Default**: Plans development for `docs/SMR.md` (main strategy)
+- **Test Mode**: If `--test` flag provided, plans development for `docs/test/test_SMR.md` (test strategy)
 
 ## Strategy Description
 $ARGUMENTS
 
 ## Project Planning Tasks
 
-### 1. **Development Plan Creation**
-- Create comprehensive plan in `cloud/tasks/<task_id>.md` with:
+### 1. **Complexity-Aware Development Plan Creation**
+- **Read complexity assessment** from `/validate-strategy` output to determine planning depth
+- **Complexity-Aware Planning Modes**:
+  - **SIMPLE**: Streamlined template-based planning (research focus: implementation, target: 60s)
+  - **MODERATE**: Standard comprehensive planning (current behavior, target: 90s) 
+  - **COMPLEX**: Enhanced planning (extra research phase, risk analysis, target: 120s)
+  - **ADVANCED**: Full comprehensive planning (extensive research, multiple validation rounds, target: 180s+)
+- Create plan in `cloud/tasks/<task_id>.md` with complexity-appropriate depth:
   - Goals and KPIs focused on development milestones
   - Clear owners (Builder/Analyzer/Evaluator assignments)
-  - Dependencies and prerequisites
-  - Quality gates and checkpoints
+  - Dependencies and prerequisites  
+  - Quality gates and checkpoints (complexity-adjusted)
   - Milestones and checkpoints
   - Priority classification (P0/P1/P2/P3)
   - Ordered DAG of development tickets with inputs/outputs
@@ -26,6 +36,7 @@ $ARGUMENTS
 ### 2. **Prerequisites Verification**
 - Confirm strategy template validation passed
 - Check that all quality gates are ready
+- **Strategy Source**: Use test strategy if `--test` flag provided, otherwise main strategy
 - Verify EMR/SMR documentation is fresh and in sync
   - Latest ECN applied to EMR
   - Latest SDCN applied to SMR
@@ -54,10 +65,14 @@ $ARGUMENTS
 - Set up quality gate checkpoints between phases
 - Coordinate agent assignments and responsibilities
 
-### 6. **Risk Assessment & Contingency**
-- Identify potential development risks and blockers
-- Plan fallback strategies for common failure modes
-- Set up monitoring and alert systems
+### 6. **Complexity-Aware Risk Assessment & Research**
+- **Simple Strategies**: Focus on implementation risks and basic validation
+- **Moderate Strategies**: Standard risk assessment with common failure modes
+- **Complex Strategies**: Enhanced risk analysis with additional research phase on advanced patterns
+- **Advanced Strategies**: Comprehensive risk modeling with extensive research and multiple validation rounds
+- Identify complexity-appropriate development risks and blockers
+- Plan fallback strategies for failure modes specific to complexity level
+- Set up monitoring and alert systems scaled to strategy sophistication
 - Define escalation procedures for critical issues
 
 ## Expected Outputs

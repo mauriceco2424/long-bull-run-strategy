@@ -1,0 +1,44 @@
+{
+  "run_id": "test_20241210_120000",
+  "timestamp": "2025-09-10T17:28:24.711256",
+  "status": "COMPLETED",
+  "visual_validation": {
+    "initial_capital": 100000.0,
+    "final_equity": 100000.0,
+    "reported_return": 0.0,
+    "actual_return": 0.0,
+    "discrepancy": 0.0,
+    "open_positions": 0,
+    "unrealized_pnl": 0.0
+  },
+  "accounting_validation": {
+    "expected_final": 100000.0,
+    "actual_final": 100000.0,
+    "error": 0.0,
+    "error_pct": 0.0,
+    "series_final": 100000.0,
+    "series_error": 0.0,
+    "reported_pnl": 0.0,
+    "calculated_pnl": 0.0,
+    "pnl_error": 0.0
+  },
+  "performance_evaluation": {
+    "rating": "NEUTRAL",
+    "summary": "Flat performance with minimal activity",
+    "strengths": [
+      "Excellent drawdown control"
+    ],
+    "weaknesses": [
+      "No alpha generation"
+    ],
+    "insights": [
+      "Strategy shows no edge in current configuration",
+      "Low trading activity suggests overly restrictive entry conditions"
+    ]
+  },
+  "halt_reasons": [],
+  "recommendations": [
+    "Consider parameter optimization to improve entry/exit conditions",
+    "Review strategy logic for potential improvements"
+  ]
+}

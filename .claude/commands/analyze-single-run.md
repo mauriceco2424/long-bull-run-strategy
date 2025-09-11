@@ -2,11 +2,15 @@
 
 ---
 description: Process run data into comprehensive metrics and professional visualizations
-argument-hint: [run_id]
-model: claude-3-5-sonnet-20241022
+argument-hint: [run_id] [--test]
+model: opus
 ---
 
 I need to use the **trading-single-analyzer** agent to process the backtest data into comprehensive analysis artifacts including metrics calculation and professional visualizations.
+
+**Data Source Selection:**
+- **Default**: Analyzes run from `data/runs/` (main strategy runs)
+- **Test Mode**: If `--test` flag provided, analyzes run from `data/test_runs/` (test strategy runs)
 
 ## Run Analysis Parameters
 - **Run ID**: $ARGUMENTS (defaults to most recent run if not specified)
@@ -18,7 +22,27 @@ I need to use the **trading-single-analyzer** agent to process the backtest data
 - **Missing Bar Policy**: Ensure missing-bar policy is respected
 - **Data Integrity**: Check for non-negative prices/volumes, monotonic timestamps
 
-### 2. Artifact Generation
+### 2. **Enhanced Data Validation & Artifact Generation**
+
+#### Mandatory Quality Checks (Before completion):
+1. **Equity Reconciliation**:
+   - Calculate: actual_return = (final_equity - initial_equity) / initial_equity
+   - Include unrealized P&L for any open positions at period end
+   - Verify: reported metrics match actual equity progression
+
+2. **Open Position Handling**:
+   - If trades open at period end → Mark-to-market at closing prices
+   - Include unrealized P&L in final return calculation
+   - Add prominent warning: "X positions remain open with $Y unrealized P&L"
+
+3. **Cross-Validation Matrix**:
+   - series.csv final equity vs metrics.json calculation
+   - Visual equity trend vs numerical return direction
+   - If ANY mismatch → Flag for manual review before registry update
+
+**CRITICAL**: Never complete analysis phase with unresolved accounting discrepancies.
+
+### 3. Artifact Generation
 Create canonical outputs in `/data/runs/{run_id}/`:
 
 - **`manifest.json`**: Run metadata including:
@@ -46,7 +70,7 @@ Create canonical outputs in `/data/runs/{run_id}/`:
   - Daily equity, monitored_count, open_trades_count
   - Optional cash, gross_exposure
 
-### 3. Professional Visualization Generation (Research-Based Best Practices)
+### 4. Professional Visualization Generation (Research-Based Best Practices)
 Create publication-quality figures in `/data/runs/{run_id}/figs/`:
 
 **Default 3-Panel Layout** (always generated):
@@ -79,14 +103,14 @@ Create publication-quality figures in `/data/runs/{run_id}/figs/`:
 - **Trade Period Visualization**: Shaded spans for open positions
 - **Professional Quality**: 300+ DPI, colorblind-friendly, SVG + PNG formats
 
-### 4. **Embedded Validation & Quality Checks**
+### 5. **Embedded Validation & Quality Checks**
 - **No Lookahead Validation**: Verify all features use data ≤ t for actions at t+1
 - **Accounting Identity**: Confirm `Equity_{t+1} = Equity_t + realizedPnL - fees`
 - **Sanity Thresholds**: Flag extreme ratios (Sortino >3, zero drawdown periods)
 - **Data Quality**: UTC timestamps, no duplicates, non-negative prices/volumes
 - **Execution Realism**: Validate trade execution feasibility and liquidity
 
-### 5. **Anomaly Detection & Reporting**
+### 6. **Anomaly Detection & Reporting**
 - Identify unusual patterns or suspicious performance metrics
 - Flag potential overfitting indicators
 - Detect data quality issues or missing information
