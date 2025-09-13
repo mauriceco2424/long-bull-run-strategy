@@ -1,0 +1,95 @@
+{
+  "study_id": "test_study",
+  "evaluation_timestamp": "2025-09-13T13:53:13.742489",
+  "best_parameters": {
+    "rsi_period": 14,
+    "oversold_threshold": 32.5,
+    "overbought_threshold": 67.5
+  },
+  "best_performance": {
+    "total_return": 0.4595700724619044,
+    "sharpe_ratio": 0.9167129296047616,
+    "max_drawdown": 0.17917129296047615,
+    "total_trades": 70,
+    "win_rate": 0.4529444770105044
+  },
+  "parameter_significance": {
+    "rsi_period": {
+      "correlation": -0.047935853011757304,
+      "p_value": 0.5602194160059097,
+      "significant": "False"
+    },
+    "oversold_threshold": {
+      "correlation": -0.0788663794320092,
+      "p_value": 0.33739409215567795,
+      "significant": "False"
+    },
+    "overbought_threshold": {
+      "correlation": -0.0779100325062787,
+      "p_value": 0.34330348294471635,
+      "significant": "False"
+    }
+  },
+  "overfitting_assessment": {
+    "risk_level": "MEDIUM",
+    "risk_factors": [
+      "Unstable parameters: rsi_period, oversold_threshold, overbought_threshold"
+    ],
+    "indicators": {
+      "num_parameters": 3,
+      "avg_trades": 69.35333333333334,
+      "avg_degradation": 12.503124385435589,
+      "parameter_stability": {
+        "rsi_period": 0.8822975572854299,
+        "oversold_threshold": 1.0610267563910807,
+        "overbought_threshold": 1.1259140907203087
+      }
+    }
+  },
+  "robustness_analysis": {
+    "parameter_metrics": {
+      "rsi_period": {
+        "mean_in_top": 14.0,
+        "std_in_top": 3.0237157840738176,
+        "coefficient_of_variation": 0.21597969886241555,
+        "robust": "False"
+      },
+      "oversold_threshold": {
+        "mean_in_top": 28.833333333333332,
+        "std_in_top": 3.763863263545405,
+        "coefficient_of_variation": 0.13053861029637243,
+        "robust": "True"
+      },
+      "overbought_threshold": {
+        "mean_in_top": 71.16666666666667,
+        "std_in_top": 3.9940431835899006,
+        "coefficient_of_variation": 0.056122386654659025,
+        "robust": "True"
+      }
+    },
+    "performance_consistency": 0.931170471004686,
+    "robust_parameters": [
+      "oversold_threshold",
+      "overbought_threshold"
+    ]
+  },
+  "strategic_insights": {
+    "parameter_interpretation": {
+      "rsi_period": "Standard momentum period, balanced approach",
+      "oversold_threshold": "Conservative entry, waiting for stronger oversold conditions",
+      "overbought_threshold": "Quick exits, capturing shorter moves"
+    },
+    "strategy_characteristics": [
+      "Balanced",
+      "Conservative entries",
+      "Mean-reversion exits"
+    ],
+    "market_conditions": []
+  },
+  "recommendations": {
+    "deployment_readiness": "CONDITIONAL",
+    "action_items": [],
+    "parameter_adjustments": [],
+    "risk_warnings": []
+  }
+}

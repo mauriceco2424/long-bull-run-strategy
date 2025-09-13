@@ -1,0 +1,51 @@
+{
+  "timestamp": "2025-09-13T14:00:26.929240",
+  "tests": {
+    "File Structure": {
+      "passed": true,
+      "execution_time": 0.0,
+      "timestamp": "2025-09-13T14:00:26.929240"
+    },
+    "Python Imports": {
+      "passed": true,
+      "execution_time": 6.706517219543457,
+      "timestamp": "2025-09-13T14:00:33.635757"
+    },
+    "Configuration Parser": {
+      "passed": false,
+      "execution_time": 0.1809678077697754,
+      "timestamp": "2025-09-13T14:00:33.816725"
+    },
+    "Quiet Mode": {
+      "passed": true,
+      "execution_time": 0.20229196548461914,
+      "timestamp": "2025-09-13T14:00:34.019017"
+    },
+    "Basic Engine": {
+      "passed": false,
+      "execution_time": 0.778815507888794,
+      "timestamp": "2025-09-13T14:00:34.797832"
+    },
+    "Comprehensive Backtest": {
+      "passed": false,
+      "execution_time": 8.314130544662476,
+      "timestamp": "2025-09-13T14:00:43.111963"
+    },
+    "Single Analysis": {
+      "passed": true,
+      "execution_time": 15.309065580368042,
+      "timestamp": "2025-09-13T14:00:58.421029"
+    },
+    "Optimization Framework": {
+      "passed": false,
+      "execution_time": 0.9937806129455566,
+      "timestamp": "2025-09-13T14:00:59.414809"
+    }
+  },
+  "summary": {
+    "total_tests": 8,
+    "passed": 4,
+    "failed": 4,
+    "success_rate": "50.0%"
+  }
+}

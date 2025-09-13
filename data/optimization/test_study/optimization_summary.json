@@ -1,0 +1,315 @@
+{
+  "study_name": "RSI Mean Reversion Parameter Sweep Test",
+  "timestamp": "2025-09-13T14:01:47.314148",
+  "total_combinations": 150,
+  "execution_time_seconds": 0.0009999275207519531,
+  "best_parameters": {
+    "rsi_period": 20,
+    "oversold_threshold": 25.0,
+    "overbought_threshold": 65.0
+  },
+  "best_performance": {
+    "total_return": 0.4052263382202407,
+    "sharpe_ratio": 0.9102263382202406,
+    "max_drawdown": 0.16602263382202406,
+    "total_trades": 49,
+    "win_rate": 0.4829293769595374
+  },
+  "walk_forward_results": [
+    {
+      "parameters": {
+        "rsi_period": 20,
+        "oversold_threshold": 25.0,
+        "overbought_threshold": 65.0
+      },
+      "windows": [
+        {
+          "window": 0,
+          "training": {
+            "total_return": 0.22578071976734648,
+            "sharpe_ratio": 0.7307807197673464,
+            "max_drawdown": 0.14807807197673464,
+            "total_trades": 50,
+            "win_rate": 0.44745015013408435
+          },
+          "validation": {
+            "total_return": 0.15528937391531594,
+            "sharpe_ratio": 0.5759121864755761,
+            "max_drawdown": 0.14724562512052045,
+            "total_trades": 50,
+            "win_rate": 0.4238626559633191
+          }
+        },
+        {
+          "window": 1,
+          "training": {
+            "total_return": 0.32523398579943347,
+            "sharpe_ratio": 0.8302339857994334,
+            "max_drawdown": 0.15802339857994332,
+            "total_trades": 51,
+            "win_rate": 0.5051379404506848
+          },
+          "validation": {
+            "total_return": 0.16492446014335457,
+            "sharpe_ratio": 0.5850119901353904,
+            "max_drawdown": 0.1461750599840717,
+            "total_trades": 51,
+            "win_rate": 0.49516826991689555
+          }
+        },
+        {
+          "window": 2,
+          "training": {
+            "total_return": 0.1637167335880278,
+            "sharpe_ratio": 0.6687167335880277,
+            "max_drawdown": 0.1481283266411972,
+            "total_trades": 47,
+            "win_rate": 0.43890412190993544
+          },
+          "validation": {
+            "total_return": 0.24600300619937707,
+            "sharpe_ratio": 0.6615861725216339,
+            "max_drawdown": 0.15283366735548634,
+            "total_trades": 51,
+            "win_rate": 0.4979297916529686
+          }
+        },
+        {
+          "window": 3,
+          "training": {
+            "total_return": 0.2744676270594617,
+            "sharpe_ratio": 0.7794676270594616,
+            "max_drawdown": 0.15294676270594615,
+            "total_trades": 49,
+            "win_rate": 0.449005653607741
+          },
+          "validation": {
+            "total_return": 0.29633510893957415,
+            "sharpe_ratio": 0.7091220473318199,
+            "max_drawdown": 0.15842612321550822,
+            "total_trades": 46,
+            "win_rate": 0.49645261692117515
+          }
+        },
+        {
+          "window": 4,
+          "training": {
+            "total_return": 0.1356526732901258,
+            "sharpe_ratio": 0.6406526732901258,
+            "max_drawdown": 0.15093473267098742,
+            "total_trades": 50,
+            "win_rate": 0.4757568474664634
+          },
+          "validation": {
+            "total_return": -0.08347830253135934,
+            "sharpe_ratio": 0.35040938094260504,
+            "max_drawdown": 0.1737753669479288,
+            "total_trades": 48,
+            "win_rate": 0.4226452646613708
+          }
+        }
+      ],
+      "degradation": 21.036743870632648
+    },
+    {
+      "parameters": {
+        "rsi_period": 20,
+        "oversold_threshold": 35.0,
+        "overbought_threshold": 75.0
+      },
+      "windows": [
+        {
+          "window": 0,
+          "training": {
+            "total_return": 0.4135050365116185,
+            "sharpe_ratio": 0.9185050365116184,
+            "max_drawdown": 0.16685050365116183,
+            "total_trades": 54,
+            "win_rate": 0.4251785339286775
+          },
+          "validation": {
+            "total_return": 0.3282163721060608,
+            "sharpe_ratio": 0.7392321292112797,
+            "max_drawdown": 0.1619684857895623,
+            "total_trades": 48,
+            "win_rate": 0.4881735903470951
+          }
+        },
+        {
+          "window": 1,
+          "training": {
+            "total_return": 0.18694841509955978,
+            "sharpe_ratio": 0.6919484150995597,
+            "max_drawdown": 0.14580515849004402,
+            "total_trades": 47,
+            "win_rate": 0.45853325403022566
+          },
+          "validation": {
+            "total_return": 0.18545129099124052,
+            "sharpe_ratio": 0.6043984414917272,
+            "max_drawdown": 0.1461056989990267,
+            "total_trades": 53,
+            "win_rate": 0.46285504989067094
+          }
+        },
+        {
+          "window": 2,
+          "training": {
+            "total_return": 0.26423024637417547,
+            "sharpe_ratio": 0.7692302463741754,
+            "max_drawdown": 0.15192302463741753,
+            "total_trades": 52,
+            "win_rate": 0.4659157511379226
+          },
+          "validation": {
+            "total_return": 0.12553654876750506,
+            "sharpe_ratio": 0.5478122960581991,
+            "max_drawdown": 0.1505514945813883,
+            "total_trades": 45,
+            "win_rate": 0.41047169403226536
+          }
+        },
+        {
+          "window": 3,
+          "training": {
+            "total_return": 0.38123086394188055,
+            "sharpe_ratio": 0.8862308639418806,
+            "max_drawdown": 0.16362308639418804,
+            "total_trades": 46,
+            "win_rate": 0.5044223804011405
+          },
+          "validation": {
+            "total_return": 0.09129574513352352,
+            "sharpe_ratio": 0.5154737592927722,
+            "max_drawdown": 0.15435602831849737,
+            "total_trades": 54,
+            "win_rate": 0.46921755802719894
+          }
+        },
+        {
+          "window": 4,
+          "training": {
+            "total_return": 0.16092681481764295,
+            "sharpe_ratio": 0.6659268148176429,
+            "max_drawdown": 0.1484073185182357,
+            "total_trades": 50,
+            "win_rate": 0.43831087817966125
+          },
+          "validation": {
+            "total_return": 0.2658247063111013,
+            "sharpe_ratio": 0.6803066670715955,
+            "max_drawdown": 0.15503607847901124,
+            "total_trades": 54,
+            "win_rate": 0.5016364712602894
+          }
+        }
+      ],
+      "degradation": 21.481489274080324
+    },
+    {
+      "parameters": {
+        "rsi_period": 10,
+        "oversold_threshold": 25.0,
+        "overbought_threshold": 65.0
+      },
+      "windows": [
+        {
+          "window": 0,
+          "training": {
+            "total_return": 0.2771766314639734,
+            "sharpe_ratio": 0.7871766314639734,
+            "max_drawdown": 0.15371766314639734,
+            "total_trades": 97,
+            "win_rate": 0.4800094157645389
+          },
+          "validation": {
+            "total_return": 0.23381629123885025,
+            "sharpe_ratio": 0.6543264972811362,
+            "max_drawdown": 0.1519795879154278,
+            "total_trades": 101,
+            "win_rate": 0.4890957035057493
+          }
+        },
+        {
+          "window": 1,
+          "training": {
+            "total_return": 0.13059202518498392,
+            "sharpe_ratio": 0.6405920251849839,
+            "max_drawdown": 0.1509407974815016,
+            "total_trades": 95,
+            "win_rate": 0.41105702819712825
+          },
+          "validation": {
+            "total_return": 0.16720085759479553,
+            "sharpe_ratio": 0.5914119210617512,
+            "max_drawdown": 0.1454221269339116,
+            "total_trades": 95,
+            "win_rate": 0.47620079665431736
+          }
+        },
+        {
+          "window": 2,
+          "training": {
+            "total_return": 0.24073895960900468,
+            "sharpe_ratio": 0.7507389596090046,
+            "max_drawdown": 0.15007389596090046,
+            "total_trades": 100,
+            "win_rate": 0.4252178746969247
+          },
+          "validation": {
+            "total_return": 0.017779035099145007,
+            "sharpe_ratio": 0.4502913109269702,
+            "max_drawdown": 0.16202455165565055,
+            "total_trades": 102,
+            "win_rate": 0.43337789972191204
+          }
+        },
+        {
+          "window": 3,
+          "training": {
+            "total_return": 0.12706610957452136,
+            "sharpe_ratio": 0.6370661095745213,
+            "max_drawdown": 0.15129338904254785,
+            "total_trades": 96,
+            "win_rate": 0.424024262428476
+          },
+          "validation": {
+            "total_return": 0.23287495521696366,
+            "sharpe_ratio": 0.65343745770491,
+            "max_drawdown": 0.15187499502410706,
+            "total_trades": 104,
+            "win_rate": 0.4220551413637683
+          }
+        },
+        {
+          "window": 4,
+          "training": {
+            "total_return": 0.28544966490447543,
+            "sharpe_ratio": 0.7954496649044753,
+            "max_drawdown": 0.15454496649044752,
+            "total_trades": 96,
+            "win_rate": 0.42318517658375265
+          },
+          "validation": {
+            "total_return": 0.17040638643239842,
+            "sharpe_ratio": 0.5944393649639318,
+            "max_drawdown": 0.14506595706306682,
+            "total_trades": 103,
+            "win_rate": 0.5082556140519413
+          }
+        }
+      ],
+      "degradation": 18.474453544376235
+    }
+  ],
+  "overfitting_indicators": {
+    "num_parameters": 3,
+    "avg_trades": 69.56,
+    "avg_degradation": 20.33089556302974,
+    "parameter_stability": {
+      "rsi_period": 0.9864386572361182,
+      "oversold_threshold": 1.2050554884148406,
+      "overbought_threshold": 1.2398796664602527
+    }
+  }
+}

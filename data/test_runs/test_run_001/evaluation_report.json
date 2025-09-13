@@ -1,0 +1,31 @@
+{
+  "run_id": "test_run_001",
+  "evaluation_date": "2025-09-11T16:40:11.322381",
+  "strategy": "RSI Mean Reversion Test",
+  "period": "2023-01-01 to 2023-06-30",
+  "performance_summary": {
+    "overall_assessment": "POSITIVE",
+    "total_return": "8.5%",
+    "risk_adjusted_return": "Above average (Sharpe > 1.0)",
+    "consistency": "Good (58% win rate)",
+    "risk_management": "Effective (max DD contained to 12.3%)"
+  },
+  "strategic_insights": {
+    "entry_effectiveness": "RSI < 30 provided good entry timing",
+    "exit_optimization": "RSI > 70 exits captured mean reversion well",
+    "stop_loss_impact": "5% stop loss prevented large losses",
+    "market_conditions": "Strategy worked well in test period"
+  },
+  "recommendations": {
+    "parameter_tuning": "Consider testing RSI periods 10-20",
+    "universe_expansion": "Could add more liquid pairs",
+    "risk_adjustment": "Position sizing could be volatility-adjusted",
+    "next_steps": "Ready for parameter optimization phase"
+  },
+  "risk_warnings": [
+    "Limited to 6-month backtest period",
+    "Only 3 symbols tested",
+    "No consideration of market regime changes",
+    "Transaction costs simplified"
+  ]
+}

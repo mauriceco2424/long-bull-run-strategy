@@ -85,3 +85,4 @@ secrets.*
 # Lock files (allow requirements.txt but ignore lock files)
 poetry.lock
 Pipfile.lock
+.config/

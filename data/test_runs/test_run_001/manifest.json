@@ -1,0 +1,15 @@
+{
+  "run_id": "test_run_001",
+  "strategy": "RSI Mean Reversion Test",
+  "start_date": "2023-01-01",
+  "end_date": "2023-06-30",
+  "initial_capital": 10000,
+  "symbols": [
+    "BTCUSDT",
+    "ETHUSDT",
+    "ADAUSDT"
+  ],
+  "timeframe": "1h",
+  "status": "completed",
+  "timestamp": "2025-09-13T14:01:23.885670"
+}

@@ -2,16 +2,21 @@
 
 ---
 description: Execute backtest using parameter configuration file
-argument-hint: 
-model: claude-3-5-sonnet-20241022
+argument-hint: [--test]
+model: opus
 ---
 
-I need to use the **trading-single-analyzer** agent to execute the trading strategy backtest using the configured parameters from `parameter_config.md`.
+I need to use the **trading-single-analyzer** agent to execute the trading strategy backtest using the configured parameters.
+
+**Configuration Source Selection:**
+- **Default**: Uses `parameter_config.md` (main strategy configuration)
+- **Test Mode**: If `--test` flag provided, uses `test_parameter_config.md` (test strategy configuration)
 
 ## Backtest Execution Tasks
 
 ### 1. **Parameter Configuration Validation**
-- Read and validate `parameter_config.md` completeness
+- **Config Source**: Use test parameter config if `--test` flag provided, otherwise main config
+- Read and validate parameter configuration completeness
 - Verify all required parameters have values assigned
 - Check parameter values are within valid ranges (per strategy schema)
 - Validate market/universe and date range specifications

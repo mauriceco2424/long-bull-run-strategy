@@ -1,0 +1,32 @@
+{
+  "b6528edd606f4abfa56094eca00ad403": {
+    "symbol": "BTCUSDT",
+    "start_date": "2023-01-01",
+    "end_date": "2023-06-30",
+    "timeframe": "1h",
+    "cached_at": "2025-09-13T14:01:40.827717",
+    "file_size": 49041,
+    "row_count": 1000,
+    "checksum": "801840e7920a44bfbd39c53d2bd56337"
+  },
+  "72fd63faf6c6fbf08616fcdfcb619a33": {
+    "symbol": "ETHUSDT",
+    "start_date": "2023-01-01",
+    "end_date": "2023-06-30",
+    "timeframe": "1h",
+    "cached_at": "2025-09-13T14:01:41.303940",
+    "file_size": 49041,
+    "row_count": 1000,
+    "checksum": "1cf3920e13a5965e32fa0229cde0fe54"
+  },
+  "2d3ad57f4179b0f1290436d7d527a207": {
+    "symbol": "ADAUSDT",
+    "start_date": "2023-01-01",
+    "end_date": "2023-06-30",
+    "timeframe": "1h",
+    "cached_at": "2025-09-13T14:01:41.789261",
+    "file_size": 49041,
+    "row_count": 1000,
+    "checksum": "2cdd23f6389604492d081c78481275cd"
+  }
+}

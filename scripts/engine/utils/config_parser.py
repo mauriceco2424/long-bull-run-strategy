@@ -113,26 +113,54 @@ class ConfigParser:
         """Parse content of a configuration section."""
         section_data = {}
         
-        # Parse key-value pairs
+        # Parse key-value pairs and YAML lists
         lines = [line.strip() for line in content.split('\n') if line.strip()]
+        current_list_key = None
+        current_list = []
         
         for line in lines:
-            if ':' in line:
+            if line.startswith('- '):
+                # YAML list item
+                if current_list_key:
+                    item = line[2:].strip()  # Remove '- ' prefix
+                    if item and item not in ['TBD', 'TODO', '[REQUIRED]']:
+                        current_list.append(item)
+            elif ':' in line:
+                # Finish current list if any
+                if current_list_key and current_list:
+                    section_data[current_list_key] = current_list
+                    current_list = []
+                    current_list_key = None
+                
                 key, value = line.split(':', 1)
                 key = key.strip()
                 value = value.strip()
                 
                 # Skip empty values or placeholders
                 if not value or value in ['TBD', 'TODO', '[REQUIRED]']:
+                    # Check if this might be a list key
+                    current_list_key = key
                     continue
                 
                 # Convert value to appropriate type
                 section_data[key] = self._convert_value_type(value, key)
+            
+        # Handle final list if any
+        if current_list_key and current_list:
+            section_data[current_list_key] = current_list
         
         return section_data
     
     def _convert_value_type(self, value: str, key: str) -> Any:
         """Convert string value to appropriate Python type."""
+        # If already converted, return as is
+        if not isinstance(value, str):
+            return value
+            
+        # Remove comments (everything after #)
+        if '#' in value:
+            value = value.split('#')[0].strip()
+        
         # Remove quotes if present
         value = value.strip('\'"')
         
@@ -181,6 +209,26 @@ class ConfigParser:
             processed_config['universe'] = config['market_config']
         elif 'universe' in config:
             processed_config['universe'] = config['universe']
+        else:
+            # Extract universe info from strategy_parameters if available
+            strategy_params = config.get('strategy_parameters', {})
+            universe_config = {}
+            
+            # Extract key universe parameters
+            if 'symbols' in strategy_params:
+                symbols_value = strategy_params['symbols']
+                if isinstance(symbols_value, str):
+                    # Parse as comma-separated list
+                    universe_config['symbols'] = [s.strip() for s in symbols_value.split(',')]
+                else:
+                    universe_config['symbols'] = symbols_value
+            if 'timeframe' in strategy_params:
+                universe_config['timeframe'] = self._convert_value_type(strategy_params['timeframe'], 'timeframe')
+            if 'exchange' in strategy_params:
+                universe_config['exchange'] = self._convert_value_type(strategy_params['exchange'], 'exchange')
+            
+            if universe_config:
+                processed_config['universe'] = universe_config
         
         # Date range configuration
         if 'date_range' in config:
@@ -191,6 +239,25 @@ class ConfigParser:
             }
         elif 'backtest' in config:
             processed_config['backtest'] = config['backtest']
+        else:
+            # Extract backtest info from strategy_parameters if available
+            strategy_params = config.get('strategy_parameters', {})
+            backtest_config = {}
+            
+            # Extract key backtest parameters
+            if 'start_date' in strategy_params:
+                backtest_config['start_date'] = self._convert_value_type(strategy_params['start_date'], 'start_date')
+            if 'end_date' in strategy_params:
+                backtest_config['end_date'] = self._convert_value_type(strategy_params['end_date'], 'end_date')
+            if 'initial_capital' in strategy_params:
+                backtest_config['initial_capital'] = self._convert_value_type(strategy_params['initial_capital'], 'initial_capital')
+            
+            # Set defaults if not found
+            if not backtest_config.get('initial_capital'):
+                backtest_config['initial_capital'] = 100000
+            
+            if backtest_config:
+                processed_config['backtest'] = backtest_config
         
         # Risk management
         if 'risk_management' in config:
@@ -202,9 +269,16 @@ class ConfigParser:
         elif 'execution' in config:
             processed_config['execution'] = config['execution']
         
-        # Timeframe
+        # Timeframe - extract from various locations
         if 'timeframe' in config:
             processed_config['timeframe'] = config['timeframe']
+        elif 'universe' in processed_config and 'timeframe' in processed_config['universe']:
+            processed_config['timeframe'] = processed_config['universe']['timeframe']
+        else:
+            # Extract from strategy_parameters
+            strategy_params = config.get('strategy_parameters', {})
+            if 'timeframe' in strategy_params:
+                processed_config['timeframe'] = self._convert_value_type(strategy_params['timeframe'], 'timeframe')
         
         # Add any other sections
         for key, value in config.items():

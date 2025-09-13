@@ -51,13 +51,24 @@ code rsi-momentum-strategy.code-workspace
 ## What This Command Does
 
 1. **Update Content**: Replaces all skeleton references with strategy names
-2. **Customize Documentation**: Updates README, SMR.md, EMR.md with strategy info  
+2. **Customize Documentation**: Updates README, SMR.md, EMR.md with strategy info
 3. **Rename Workspace File**: Updates workspace file to match strategy name
-4. **Create GitHub Repository**: Automatically creates repo using `gh repo create`
-5. **Setup Git Branching**: Creates `main` and `develop` branches with proper structure
-6. **Branch Protection**: Configures branch protection rules for safe development
-7. **Initial Commit**: Pushes skeleton to both `main` and `develop` branches
-8. **Generate Report**: Creates transformation report with next steps
+4. **Clean Skeleton Artifacts**: Removes all test files and skeleton-specific content:
+   - Test configurations (`test_parameter_config.md`, `test_config.json`, `test_optimization_config.json`)
+   - Test scripts (`run_test.py`, `test_optimization_simple.py`, `scripts/create_test_data.py`, `scripts/create_discrepancy_test.py`, `scripts/run_full_test_suite.py`)
+   - Test data directories (`/data/test_runs/`, `/data/test_results/`, `/docs/test/`)
+   - Test analysis scripts (`scripts/single_analysis/analyze_test*.py`, `scripts/single_analysis/detailed_test_report.py`)
+   - Test evaluation scripts (`scripts/single_evaluation/evaluate_test.py`)
+   - Test strategy implementation (`scripts/engine/rsi_mean_reversion_strategy.py`)
+   - Test notices (`docs/notices/SER/SER_test_*.json`)
+   - Skeleton metadata (`SKELETON_VERSION.md`)
+   - Skeleton-specific tasks in `/cloud/tasks/` (including `test_strategy_*.md`)
+   - Test documentation (`docs/TESTING.md` - framework validation guide)
+5. **Create GitHub Repository**: Automatically creates repo using `gh repo create`
+6. **Setup Git Branching**: Creates `main` and `develop` branches with proper structure
+7. **Branch Protection**: Configures branch protection rules for safe development
+8. **Initial Commit**: Pushes clean, production-ready codebase to both branches
+9. **Generate Report**: Creates transformation report with next steps
 
 **Not included**: Folder renaming (done manually for cross-platform reliability)
 
@@ -66,6 +77,19 @@ code rsi-momentum-strategy.code-workspace
 - **Strategy Display Name**: Human-readable name (e.g., "RSI Momentum Strategy")
 - **Repo Name**: GitHub repository name (kebab-case, e.g., "rsi-momentum-strategy")
 
+## Files Preserved After Transformation
+
+The following essential framework components are kept:
+- `.claude/` - All agents and commands for strategy development
+- `scripts/engine/` - Engine framework (Builder will customize for your strategy)
+- `scripts/analyzer/`, `scripts/single_analysis/`, `scripts/single_evaluation/` - Analysis pipeline
+- `scripts/optimization/`, `scripts/opt_evaluation/` - Optimization pipeline
+- `scripts/quiet_mode.py` - Output control utility
+- `tools/` - All tools, hooks, and validators
+- `docs/` - EMR, SMR, SCL, ECL, guides, schemas (test artifacts removed)
+- `configs/` - Configuration templates
+- `requirements.txt`, `.gitignore`, `README.md`, `CLAUDE.md` - Project essentials
+
 ## Output
 
 - **GitHub Repository**: Automatically created with professional branching structure
@@ -73,6 +97,7 @@ code rsi-momentum-strategy.code-workspace
 - **Branch Protection**: Rules configured to prevent direct pushes to `main`
 - Renamed workspace file: `{repo-name}.code-workspace`
 - Updated all file contents with strategy names
+- **Clean codebase**: All skeleton test artifacts removed
 - Clean git repository with remote origin set
 - Initial commit pushed to both branches
 - Transformation report with next steps

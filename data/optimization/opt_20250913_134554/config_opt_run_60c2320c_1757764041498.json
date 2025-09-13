@@ -1,0 +1,15 @@
+{
+  "strategy_parameters": {
+    "rsi_period": 16,
+    "oversold_threshold": 27.5,
+    "overbought_threshold": 75.0
+  },
+  "universe": {},
+  "backtest": {
+    "initial_capital": 100000
+  },
+  "market_config": {},
+  "backtest_configuration": {},
+  "run_configuration": {},
+  "validation_rules": {}
+}

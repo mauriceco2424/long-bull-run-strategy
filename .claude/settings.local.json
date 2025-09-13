@@ -27,7 +27,15 @@
       "Bash(where git)",
       "Bash(git stash:*)",
       "Bash(git fetch:*)",
-      "Bash(git branch:*)"
+      "Bash(git branch:*)",
+      "Read(//c/Users/mauricec/AppData/Roaming/Code/User/**)",
+      "Bash(claude:*)",
+      "Bash(PYTHONPATH=. python -m scripts.engine.backtest --config test_parameter_config.md --test-mode --validate-accounting)",
+      "Bash(grep:*)",
+      "Bash(PYTHONPATH=. python -m scripts.engine.backtest test_parameter_config.md --test-mode --validate-accounting)",
+      "Bash(PYTHONPATH=. python -m scripts.engine.backtest nonexistent_config.md)",
+      "Bash(PYTHONPATH=. python -m scripts.engine.backtest:*)",
+      "Bash(set PYTHONPATH=.)"
     ],
     "deny": [],
     "ask": []
