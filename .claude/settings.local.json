@@ -41,7 +41,10 @@
       "Bash(git rm:*)",
       "Bash(git pull:*)",
       "Bash(gh auth:*)",
-      "Bash(gh repo create:*)"
+      "Bash(gh repo create:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(gh repo view:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []
