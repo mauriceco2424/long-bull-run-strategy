@@ -1,7 +1,7 @@
 """
 Strategy Initialization Script
 
-Transforms the trading_bot_skeleton into a specific strategy project with proper naming,
+Transforms the long-bull-run-strategy into a specific strategy project with proper naming,
 GitHub repository creation, and file customization.
 """
 
@@ -210,8 +210,8 @@ class StrategyInitializer:
         # Define replacement patterns
         replacements = [
             # Generic skeleton references
-            ("trading_bot_skeleton", self.strategy_repo_name),
-            ("Trading Strategy Framework Skeleton", self.strategy_display_name + " Framework"),
+            ("long-bull-run-strategy", self.strategy_repo_name),
+            ("Long Bull Run Strategy Framework", self.strategy_display_name + " Framework"),
             ("trading skeleton", self.strategy_var_name),
             ("Skeleton", self.strategy_class_name),
             ("skeleton", self.strategy_var_name.lower()),
@@ -278,7 +278,7 @@ class StrategyInitializer:
             
             # Update title
             content = re.sub(
-                r"# Trading Strategy Framework Skeleton",
+                r"# Long Bull Run Strategy Framework",
                 f"# {self.strategy_display_name}",
                 content
             )
@@ -292,7 +292,7 @@ class StrategyInitializer:
             
             # Add skeleton version reference after description
             from datetime import datetime
-            version_line = f"\n> **Built with**: Trading Bot Skeleton v{self.skeleton_version} | **Initialized**: {datetime.now().strftime('%Y-%m-%d')}\n"
+            version_line = f"\n> **Built with**: Long Bull Run Strategy v{self.skeleton_version} | **Initialized**: {datetime.now().strftime('%Y-%m-%d')}\n"
             content = re.sub(
                 r"(A production-ready .* capabilities\.)\n",
                 r"\1" + version_line + "\n",
@@ -326,7 +326,7 @@ class StrategyInitializer:
         emr_path = self.root_path / "docs" / "EMR.md"
         if emr_path.exists():
             content = emr_path.read_text(encoding='utf-8')
-            content = content.replace("Trading Bot Skeleton", self.strategy_display_name)
+            content = content.replace("Long Bull Run Strategy", self.strategy_display_name)
             emr_path.write_text(content, encoding='utf-8')
             self.transformations_applied.append("Updated EMR.md with strategy name")
     
@@ -368,7 +368,7 @@ class StrategyInitializer:
             
             commit_message = f"""Initialize {self.strategy_display_name} from skeleton
 
-Automated transformation from trading_bot_skeleton to {self.strategy_repo_name}
+Automated transformation from long-bull-run-strategy to {self.strategy_repo_name}
 - Updated all file references and names
 - Customized documentation and configuration
 - Ready for strategy development
@@ -423,7 +423,7 @@ Co-Authored-By: Claude <noreply@anthropic.com>"""
         from datetime import datetime
         
         framework_info = {
-            "generated_from": f"Trading Bot Skeleton v{self.skeleton_version}",
+            "generated_from": f"Long Bull Run Strategy v{self.skeleton_version}",
             "generation_date": datetime.now().strftime('%Y-%m-%d'),
             "strategy_name": self.strategy_display_name,
             "strategy_repo_name": self.strategy_repo_name,
@@ -440,11 +440,11 @@ Co-Authored-By: Claude <noreply@anthropic.com>"""
         # Create user-friendly markdown file
         framework_content = f"""# Strategy Framework Information
 
-**Generated from**: Trading Bot Skeleton v{self.skeleton_version}  
+**Generated from**: Long Bull Run Strategy v{self.skeleton_version}  
 **Generation Date**: {framework_info['generation_date']}  
 **Strategy Name**: {self.strategy_display_name}
 
-This strategy was created using the Trading Bot Skeleton framework.
+This strategy was created using the Long Bull Run Strategy framework.
 
 ## Framework Capabilities (v{self.skeleton_version})
 - 9-command dual-path workflow (single-run + optimization paths)
@@ -583,7 +583,7 @@ if cleanup_script.exists():
             
             # Update title to strategy name
             content = re.sub(
-                r"# Trading Strategy Framework Skeleton",
+                r"# Long Bull Run Strategy Framework",
                 f"# {self.strategy_display_name}",
                 content
             )
@@ -636,7 +636,7 @@ This is a fully configured trading strategy project. The skeleton transformation
 def main():
     """Main entry point for strategy initialization."""
     parser = argparse.ArgumentParser(
-        description="Initialize a new strategy project from trading_bot_skeleton. "
+        description="Initialize a new strategy project from long-bull-run-strategy. "
         "Reads strategy name from docs/SMR.md by default."
     )
     parser.add_argument(

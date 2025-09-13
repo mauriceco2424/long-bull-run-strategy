@@ -1,6 +1,8 @@
-# Trading Strategy Framework Skeleton
+# Long Bull Run Strategy
 
-A production-ready framework for building, backtesting, and optimizing trading strategies using Claude Code agents and a sophisticated pipeline architecture.
+A production-ready implementation of the Long Bull Run Strategy - capturing bull market momentum in crypto assets using sophisticated filtering, awakening triggers, and position management with take-profit delays.
+
+> **Built with**: Trading Bot Skeleton v1.0.0 | **Initialized**: 2025-09-13
 
 ## 🚀 Quick Start
 
@@ -18,8 +20,8 @@ A production-ready framework for building, backtesting, and optimizing trading s
 2. **Clone Skeleton**:
    cd into the folder where you want to setup your strat
    ```bash
-   git clone https://github.com/mauriceco2424/trading_bot_skeleton.git
-   cd trading_bot_skeleton
+   git clone https://github.com/mauriceco2424/long-bull-run-strategy.git
+   cd long-bull-run-strategy
    ```
 
 3. **Define Your Strategy**:
@@ -44,7 +46,7 @@ A production-ready framework for building, backtesting, and optimizing trading s
 5. **Manually Rename Folder** (for reliability):
    ```bash
    cd ..
-   mv trading_bot_skeleton your-strategy
+   mv long-bull-run-strategy your-strategy
    cd your-strategy
    ```
 

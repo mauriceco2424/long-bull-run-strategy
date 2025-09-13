@@ -1,6 +1,6 @@
 # Initialize
 
-Transform the trading_bot_skeleton into a specific strategy project with **automated GitHub repository creation**, content customization, and Git setup. **Automatically reads strategy name from SMR.md**. Does NOT rename the folder - user handles that manually for reliability.
+Transform the long-bull-run-strategy into a specific strategy project with **automated GitHub repository creation**, content customization, and Git setup. **Automatically reads strategy name from SMR.md**. Does NOT rename the folder - user handles that manually for reliability.
 
 ## Usage
 
@@ -35,7 +35,7 @@ That's it! The command automatically:
 
 # 3. Manually rename folder (more reliable than automatic)
 cd ..
-mv trading_bot_skeleton rsi-momentum-strategy
+mv long-bull-run-strategy rsi-momentum-strategy
 cd rsi-momentum-strategy
 
 # 4. Open renamed workspace
@@ -107,7 +107,7 @@ The following essential framework components are kept:
 **1. Manual Folder Renaming** (for reliability):
 ```bash
 cd ..
-mv trading_bot_skeleton your-strategy-name
+mv long-bull-run-strategy your-strategy-name
 cd your-strategy-name
 code your-strategy-name.code-workspace
 ```
@@ -133,7 +133,7 @@ gh pr create --base develop --title "Initial strategy implementation"
 
 - **Git Bash terminal** (required for GitHub CLI)
 - **GitHub CLI authenticated** (`gh auth login` completed)
-- Must be run in a directory containing the trading_bot_skeleton content
+- Must be run in a directory containing the long-bull-run-strategy content
 - `docs/SMR.md` must exist and follow `docs/guides/STRAT_TEMPLATE.md` format
 - Strategy name in SMR.md should not be the placeholder `<Strategy Name>`
 
