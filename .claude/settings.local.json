@@ -35,7 +35,9 @@
       "Bash(PYTHONPATH=. python -m scripts.engine.backtest test_parameter_config.md --test-mode --validate-accounting)",
       "Bash(PYTHONPATH=. python -m scripts.engine.backtest nonexistent_config.md)",
       "Bash(PYTHONPATH=. python -m scripts.engine.backtest:*)",
-      "Bash(set PYTHONPATH=.)"
+      "Bash(set PYTHONPATH=.)",
+      "Bash(git clone:*)",
+      "Read(//c/bitcoin_trading/**)"
     ],
     "deny": [],
     "ask": []

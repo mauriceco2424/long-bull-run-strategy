@@ -112,43 +112,61 @@ class ConfigParser:
     def _parse_section_content(self, content: str, section_name: str) -> Dict[str, Any]:
         """Parse content of a configuration section."""
         section_data = {}
-        
+
         # Parse key-value pairs and YAML lists
-        lines = [line.strip() for line in content.split('\n') if line.strip()]
+        lines = [line for line in content.split('\n')]
         current_list_key = None
         current_list = []
-        
+
         for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+
+            # Skip subsection headers (### headers)
+            if line.startswith('###'):
+                continue
+
             if line.startswith('- '):
-                # YAML list item
-                if current_list_key:
+                # Handle markdown list items with key-value pairs
+                if '**' in line and ':' in line:
+                    # Extract key-value from markdown format: - **Key**: `value` (description)
+                    match = re.match(r'- \*\*(.+?)\*\*:\s*`?([^`\(]+)`?.*', line)
+                    if match:
+                        key = match.group(1).strip()
+                        value = match.group(2).strip()
+                        # Normalize key name
+                        key = key.replace(' ', '_').lower()
+                        section_data[key] = self._convert_value_type(value, key)
+                elif current_list_key:
+                    # YAML list item
                     item = line[2:].strip()  # Remove '- ' prefix
                     if item and item not in ['TBD', 'TODO', '[REQUIRED]']:
                         current_list.append(item)
-            elif ':' in line:
+            elif ':' in line and not line.startswith('#'):
                 # Finish current list if any
                 if current_list_key and current_list:
                     section_data[current_list_key] = current_list
                     current_list = []
                     current_list_key = None
-                
+
                 key, value = line.split(':', 1)
                 key = key.strip()
                 value = value.strip()
-                
+
                 # Skip empty values or placeholders
                 if not value or value in ['TBD', 'TODO', '[REQUIRED]']:
                     # Check if this might be a list key
                     current_list_key = key
                     continue
-                
+
                 # Convert value to appropriate type
                 section_data[key] = self._convert_value_type(value, key)
-            
+
         # Handle final list if any
         if current_list_key and current_list:
             section_data[current_list_key] = current_list
-        
+
         return section_data
     
     def _convert_value_type(self, value: str, key: str) -> Any:
@@ -239,11 +257,19 @@ class ConfigParser:
             }
         elif 'backtest' in config:
             processed_config['backtest'] = config['backtest']
+        elif 'backtest_configuration' in config:
+            # Handle test_parameter_config.md format
+            backtest_cfg = config['backtest_configuration']
+            processed_config['backtest'] = {
+                'start_date': backtest_cfg.get('start_date'),
+                'end_date': backtest_cfg.get('end_date'),
+                'initial_capital': backtest_cfg.get('initial_capital', 10000)
+            }
         else:
             # Extract backtest info from strategy_parameters if available
             strategy_params = config.get('strategy_parameters', {})
             backtest_config = {}
-            
+
             # Extract key backtest parameters
             if 'start_date' in strategy_params:
                 backtest_config['start_date'] = self._convert_value_type(strategy_params['start_date'], 'start_date')
