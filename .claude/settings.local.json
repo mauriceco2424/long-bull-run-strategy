@@ -37,7 +37,9 @@
       "Bash(PYTHONPATH=. python -m scripts.engine.backtest:*)",
       "Bash(set PYTHONPATH=.)",
       "Bash(git clone:*)",
-      "Read(//c/bitcoin_trading/**)"
+      "Read(//c/bitcoin_trading/**)",
+      "Bash(git rm:*)",
+      "Bash(git pull:*)"
     ],
     "deny": [],
     "ask": []
